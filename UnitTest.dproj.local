@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899-12-30 00:00:00.000.375,D:\用户目录\我的文档\Embarcadero\Studio\Projects\FSCOMMOUTP\Unit1.pas=D:\用户目录\我的文档\Embarcadero\Studio\Projects\FSCOMMOUTP\DACDataAccessor.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.300,D:\用户目录\我的文档\Embarcadero\Studio\Projects\FSCOMMOUTP\Unit1.pas=D:\用户目录\我的文档\Embarcadero\Studio\Projects\FSCOMMOUTP\DBProvider.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.239,=D:\用户目录\我的文档\Embarcadero\Studio\Projects\FSCOMMOUTP\DSCJSON.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.902,D:\用户目录\我的文档\Embarcadero\Studio\Projects\Project1.dproj=D:\用户目录\我的文档\Embarcadero\Studio\Projects\FSCOMMOUTP\UnitTest.dproj</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.452,=D:\用户目录\我的文档\Embarcadero\Studio\Projects\FSCOMMOUTP\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.279,=D:\用户目录\我的文档\Embarcadero\Studio\Projects\FSCOMMOUTP\SevenZIP.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.249,D:\用户目录\我的文档\Embarcadero\Studio\Projects\Unit1.dfm=D:\用户目录\我的文档\Embarcadero\Studio\Projects\FSCOMMOUTP\frmOrderCodeInfoUnit.dfm</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.024,=D:\用户目录\我的文档\Embarcadero\Studio\Projects\FSCOMMOUTP\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.225,=D:\用户目录\我的文档\Embarcadero\Studio\Projects\FSCOMMOUTP\facadeServiceProxyUnit.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.799,=D:\用户目录\我的文档\Embarcadero\Studio\Projects\WebModuleUnit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.564,=D:\用户目录\我的文档\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.249,D:\用户目录\我的文档\Embarcadero\Studio\Projects\Unit1.pas=D:\用户目录\我的文档\Embarcadero\Studio\Projects\FSCOMMOUTP\frmOrderCodeInfoUnit.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.375,D:\用户目录\我的文档\Embarcadero\Studio\Projects\FSCOMMOUTP\Unit1.dfm=D:\用户目录\我的文档\Embarcadero\Studio\Projects\FSCOMMOUTP\DACDataAccessor.dfm</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.300,D:\用户目录\我的文档\Embarcadero\Studio\Projects\FSCOMMOUTP\Unit1.dfm=D:\用户目录\我的文档\Embarcadero\Studio\Projects\FSCOMMOUTP\DBProvider.dfm</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.242,=D:\用户目录\我的文档\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.617,=D:\用户目录\我的文档\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.205,=D:\用户目录\我的文档\Embarcadero\Studio\Projects\FormUnit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.185,=D:\用户目录\我的文档\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.863,=D:\用户目录\我的文档\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+  </Transactions>
+</BorlandProject>
