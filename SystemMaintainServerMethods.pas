@@ -4,7 +4,7 @@ interface
 
 uses
   System.SysUtils, System.Classes, ServerMethods, System.JSON, System.SyncObjs,
-  Generics.Collections, FireDAC.Comp.Client, Qlog;
+  Generics.Collections, FireDAC.Comp.Client, Qlog, DBProvider;
 
 type
   TSysMaintainServer = class(TBaseServerMethods)
@@ -36,7 +36,7 @@ type
     /// 程序结束时单元文件调用，析构类成员
     /// </remarks>
     class procedure ClassFinalize();
-
+    constructor Create(AOwner: TComponent; ADB: TdmDBProvider);
   end;
 
 var
@@ -73,6 +73,12 @@ begin
   TSysMaintainServer.ClassInitFlag := false;
 end;
 
+constructor TSysMaintainServer.Create(AOwner: TComponent; ADB: TdmDBProvider);
+begin
+  inherited ;
+  //Create(AOwner, ADB)
+end;
+
 procedure TSysMaintainServer.DataModuleCreate(Sender: TObject);
 begin
   inherited;
@@ -80,7 +86,7 @@ begin
     TSysMaintainServer.CriticalSection.Enter();
     if Not TSysMaintainServer.ClassInitFlag then
     begin
-      self.LoadSQLLibrary('SystemMaintainServerMethods', 'TSysMaintainServer');
+      self.LoadSQLLibrary('HHIS', 'FIN');
       TSysMaintainServer.ClassInitFlag := true;
     end;
   finally

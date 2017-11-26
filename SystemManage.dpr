@@ -10,18 +10,19 @@ uses
   DACDataAccessor in 'DACDataAccessor.pas' {DataAccessor: TDataModule},
   DBProvider in 'DBProvider.pas' {dmDBProvider: TDataModule},
   ServerMethods in 'ServerMethods.pas' {BaseServerMethods: TDataModule},
-  SystemMaintainServerMethods in 'SystemMaintainServerMethods.pas' {SysMaintainServer: TDataModule};
+  SystemMaintainServerMethods in 'SystemMaintainServerMethods.pas' {SysMaintainServer: TDataModule},
+  HISServerMethods in 'HISServerMethods.pas' {dmHIS: TDataModule},
+  SystemMaintainMainForm in 'SystemMaintainMainForm.pas' {frmSysMaintainPageControl},
+  FinanceOrderMaintainFrame in 'FinanceOrderMaintainFrame.pas' {framFinanceOrderMaintain: TFrame},
+  TestDataModule in 'TestDataModule.pas' {dmTest: TDataModule};
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  Application.CreateForm(TfrmBase, frmBase);
-  Application.CreateForm(TfrmBasePageControl, frmBasePageControl);
-  Application.CreateForm(TDataAccessor, DataAccessor);
-  Application.CreateForm(TdmDBProvider, dmDBProvider);
-  Application.CreateForm(TBaseServerMethods, BaseServerMethods);
-  Application.CreateForm(TSysMaintainServer, SysMaintainServer);
+  Application.CreateForm(TdmHIS, dmHIS);
+  Application.CreateForm(TfrmSysMaintainPageControl, frmSysMaintainPageControl);
+  Application.CreateForm(TdmTest, dmTest);
   Application.Run;
 end.

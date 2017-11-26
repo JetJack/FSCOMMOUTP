@@ -61,8 +61,9 @@ implementation
 
 constructor TBaseServerMethods.Create(AOwner: TComponent; ADB: TdmDBProvider);
 begin
-  inherited Create(AOwner);
   self.DAO := TDataAccessor.Create(AOwner,ADB);
+  inherited create(AOwner);
+
 end;
 
 {

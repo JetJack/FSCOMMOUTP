@@ -22,12 +22,19 @@ object dmSQLLibrary: TdmSQLLibrary
       'Prepare SQL=False'
       'ConnectTimeout=60'
       'Mars_Connection=False')
+    Connected = True
     Left = 48
     Top = 48
   end
   object qryGen: TSQLQuery
     MaxBlobSize = -1
-    Params = <>
+    Params = <
+      item
+        DataType = ftWideString
+        Name = 'SQLID'
+        ParamType = ptInput
+        Value = 1
+      end>
     SQLConnection = System
     Left = 48
     Top = 120

@@ -11,7 +11,7 @@ interface
 
 uses
   System.SysUtils, System.Classes, DBProvider, FireDAC.Stan.Intf, FireDAC.Stan.Option,
-  FireDAC.Stan.Error, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.Stan.Pool, FireDAC.Stan.Error, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.Phys.Intf,
   FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.Client, Data.DB,
   FireDAC.Comp.DataSet, FireDAC.Stan.StorageJSON, FireDAC.Stan.StorageBin, Data.FireDACJSONReflect,
    QLog, DSCJSON, System.JSON, EncdDecd, System.Variants;
@@ -203,6 +203,7 @@ begin
       aQuery.Open();
       //数据集获取数据
       AFDMemTable.Data := aQuery.Data;
+      AFDMemTable.EmptyDataSet();
       AFDMemTable.CopyDataSet(aQuery);
       aQuery.EnableControls();
       Result := true;

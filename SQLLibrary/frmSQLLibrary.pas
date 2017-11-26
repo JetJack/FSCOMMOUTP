@@ -84,6 +84,10 @@ type
     eSQLName: TcxDBTextEdit;
     eCreateor: TcxDBTextEdit;
     cdsSQLCreator: TIntegerField;
+    cdsSQLInfo: TClientDataSet;
+    cdsSQLInfoModuleName: TStringField;
+    cdsSQLInfoClassName: TStringField;
+    cdsSQLInfoProcedureName: TStringField;
     procedure FormCreate(Sender: TObject);
     procedure cdsSQLBeforePost(DataSet: TDataSet);
     procedure cxButton1Click(Sender: TObject);
@@ -148,20 +152,41 @@ begin
     self.cdsSQLIsValid.AsInteger := 1;
     if not self.cdsSQLView.IsEmpty  then
     begin
-      sSQLStr := 'select * from SQLLibrary where SQLID = '
+      {
+      sSQLStr := 'select ModuleName, ClassName, ProcedureName from SQLLibrary where SQLID = '
         + IntToStr(self.cdsSQLViewSQLID.AsInteger);
       self.cdsGen.Close;
       self.cdsGen.CommandText := sSQLStr;
       self.cdsGen.Open;
+      }
+      self.cdsSQLInfo.Close;
+      self.cdsSQLInfo.ParamByName('SQLID').AsInteger := self.cdsSQLViewSQLID.AsInteger;
+      self.cdsSQLInfo.Open();
+      if not self.cdsSQLInfo.IsEmpty then
+      begin
+        self.cdsSQLModuleName.AsString
+          //:= self.cdsGen.FieldByName('ModuleName').AsString;
+          := self.cdsSQLInfoModuleName.AsString;
+        self.cdsSQLClassName.AsString
+          := self.cdsSQLInfoClassName.AsString;
+          //:= self.cdsGen.FieldByName('ClassName').AsString;
+        self.cdsSQLProcedureName.AsString
+          := self.cdsSQLInfoProcedureName.AsString;
+      end;
+      {
       if not self.cdsGen.IsEmpty then
       begin
         self.cdsSQLModuleName.AsString
-          := self.cdsGen.FieldByName('ModuleName').AsString;
+          //:= self.cdsGen.FieldByName('ModuleName').AsString;
+          := self.cdsSQLModuleName.AsString;
         self.cdsSQLClassName.AsString
-          := self.cdsGen.FieldByName('ClassName').AsString;
+          //:= self.cdsGen.FieldByName('ClassName').AsString;
         self.cdsSQLProcedureName.AsString
-          := self.cdsGen.FieldByName('ProcedureName').AsString;
+          //:= self.cdsGen.FieldByName('ProcedureName').AsString;
+          := self.cdsGen.Fields.Fields[2].AsString;
       end;
+      }
+      self.cdsSQLInfo.Close();
     end;
       //self.cdsSQLSQLID.AsInteger := dmSQLLibrary.GetNewSQLID();
       self.cdsSQLCreateTime.AsDateTime := time();

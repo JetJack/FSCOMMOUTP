@@ -90,8 +90,8 @@ procedure TdmSQLLibrary.dspSQLBeforeUpdateRecord(Sender: TObject;
 begin
   if UpdateKind = ukInsert then
   begin
-    //DeltaDS.FieldByName('SQLID').NewValue
-      //:= self.GetNewSQLID();
+    DeltaDS.FieldByName('SQLID').NewValue
+      := self.GetNewSQLID();
     DeltaDS.FieldByName('CreateTime').NewValue
       := now();
   end;
