@@ -12,9 +12,10 @@ type
     procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
+    FUser: TOperator;
   public
     { Public declarations }
-    User: TOperator;
+    property User: TOperator read FUser write FUSer ;
   end;
 
 var

@@ -26,6 +26,8 @@ uses
 
 type
   TfrmSysMaintainPageControl = class(TfrmBasePageControl)
+    cxTabSheet1: TcxTabSheet;
+    Panel1: TPanel;
   private
     { Private declarations }
   public

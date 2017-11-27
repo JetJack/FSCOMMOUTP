@@ -2,20 +2,20 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
   Left = 0
   Top = 0
   Width = 1300
-  Height = 600
+  Height = 517
   TabOrder = 0
   object Panel1: TPanel
     Left = 0
     Top = 0
     Width = 1300
-    Height = 265
+    Height = 225
     Align = alTop
     TabOrder = 0
     object Panel4: TPanel
       Left = 1
       Top = 1
       Width = 1298
-      Height = 64
+      Height = 58
       Align = alTop
       TabOrder = 0
       object cxGroupBox1: TcxGroupBox
@@ -24,7 +24,8 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
         Align = alClient
         Caption = #25910#36153#39033#30446#36807#28388#26465#20214
         TabOrder = 0
-        Height = 62
+        ExplicitHeight = 57
+        Height = 56
         Width = 1296
         object cxLabel1: TcxLabel
           Left = 16
@@ -47,26 +48,27 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     end
     object Panel5: TPanel
       Left = 1
-      Top = 65
+      Top = 59
       Width = 1298
-      Height = 199
+      Height = 165
       Align = alClient
       TabOrder = 1
-      ExplicitHeight = 112
+      ExplicitTop = 65
+      ExplicitHeight = 199
       object cxGroupBox2: TcxGroupBox
         Left = 1
         Top = 1
         Align = alClient
         Caption = #25910#36153#39033#30446#21015#34920
         TabOrder = 0
-        ExplicitHeight = 149
-        Height = 197
+        ExplicitHeight = 197
+        Height = 163
         Width = 1296
         object cxDBTreeListOrder: TcxDBTreeList
           Left = 3
           Top = 15
           Width = 1290
-          Height = 173
+          Height = 139
           Align = alClient
           Bands = <
             item
@@ -77,10 +79,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
           OptionsData.Deleting = False
           RootValue = -1
           TabOrder = 0
-          ExplicitLeft = 152
-          ExplicitTop = 24
-          ExplicitWidth = 250
-          ExplicitHeight = 150
+          ExplicitHeight = 173
           object cxDBTreeList1ORDER_CODE: TcxDBTreeListColumn
             Caption.Text = #39033#30446#20195#30721
             DataBinding.FieldName = 'ORDER_CODE'
@@ -204,24 +203,21 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
   end
   object Panel2: TPanel
     Left = 0
-    Top = 265
+    Top = 225
     Width = 1300
-    Height = 183
+    Height = 148
     Align = alClient
     TabOrder = 1
-    ExplicitTop = 221
-    ExplicitHeight = 259
+    ExplicitTop = 265
+    ExplicitHeight = 183
     object cxGroupBox3: TcxGroupBox
       Left = 1
       Top = 1
       Align = alClient
       Caption = #25910#36153#39033#30446#20449#24687
       TabOrder = 0
-      ExplicitLeft = 472
-      ExplicitTop = 96
-      ExplicitWidth = 185
-      ExplicitHeight = 105
-      Height = 181
+      ExplicitHeight = 181
+      Height = 146
       Width = 1298
       object cxLabel2: TcxLabel
         Left = 8
@@ -582,32 +578,33 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
   end
   object Panel3: TPanel
     Left = 0
-    Top = 448
+    Top = 373
     Width = 1300
-    Height = 152
+    Height = 144
     Align = alBottom
     TabOrder = 2
     object Panel6: TPanel
       Left = 1
       Top = 1
       Width = 608
-      Height = 150
+      Height = 142
       Align = alLeft
       TabOrder = 0
+      ExplicitHeight = 150
       object cxGroupBox4: TcxGroupBox
         Left = 1
         Top = 1
         Align = alClient
         Caption = #33647#21697#25110#26448#26009#39033#30446#23545#24212#24773#20917
         TabOrder = 0
-        ExplicitWidth = 502
-        Height = 148
+        ExplicitHeight = 148
+        Height = 140
         Width = 606
         object cxDBTreeListOrderItem: TcxDBTreeList
           Left = 3
           Top = 15
           Width = 600
-          Height = 124
+          Height = 116
           Align = alClient
           Bands = <
             item
@@ -622,10 +619,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
           ParentFont = False
           RootValue = -1
           TabOrder = 0
-          ExplicitLeft = 64
-          ExplicitTop = 32
-          ExplicitWidth = 250
-          ExplicitHeight = 150
+          ExplicitHeight = 124
           object cxDBTreeListOrderItemTRADE_NAME: TcxDBTreeListColumn
             Caption.Text = #33647#21697'/'#26448#26009#21517#31216
             DataBinding.FieldName = 'TRADE_NAME'
@@ -670,7 +664,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
             Caption.Text = #26377#33647
             DataBinding.FieldName = 'LACK_NAME'
             Width = 51
-            Position.ColIndex = 4
+            Position.ColIndex = 5
             Position.RowIndex = 0
             Position.BandIndex = 0
             Summary.FooterSummaryItems = <>
@@ -680,7 +674,17 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
             Caption.Text = #22312#29992
             DataBinding.FieldName = 'VALID_NAME'
             Width = 44
-            Position.ColIndex = 5
+            Position.ColIndex = 6
+            Position.RowIndex = 0
+            Position.BandIndex = 0
+            Summary.FooterSummaryItems = <>
+            Summary.GroupFooterSummaryItems = <>
+          end
+          object cxDBTreeListOrderItemPRICE: TcxDBTreeListColumn
+            Caption.Text = #21333#20215
+            DataBinding.FieldName = 'PRICE'
+            Width = 60
+            Position.ColIndex = 4
             Position.RowIndex = 0
             Position.BandIndex = 0
             Summary.FooterSummaryItems = <>
@@ -693,30 +697,24 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
       Left = 609
       Top = 1
       Width = 690
-      Height = 150
+      Height = 142
       Align = alClient
       TabOrder = 1
-      ExplicitLeft = 744
-      ExplicitTop = 64
-      ExplicitWidth = 185
-      ExplicitHeight = 41
+      ExplicitHeight = 150
       object cxGroupBox5: TcxGroupBox
         Left = 1
         Top = 1
         Align = alClient
         Caption = #31038#20445#30446#24405#23545#24212#24773#20917
         TabOrder = 0
-        ExplicitLeft = 232
-        ExplicitTop = 120
-        ExplicitWidth = 185
-        ExplicitHeight = 105
-        Height = 148
+        ExplicitHeight = 148
+        Height = 140
         Width = 688
         object cxDBTreeListOrderInsu: TcxDBTreeList
           Left = 3
           Top = 15
           Width = 682
-          Height = 124
+          Height = 116
           Align = alClient
           Bands = <
             item
@@ -725,10 +723,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
           Navigator.Buttons.CustomButtons = <>
           RootValue = -1
           TabOrder = 0
-          ExplicitLeft = 312
-          ExplicitTop = 56
-          ExplicitWidth = 250
-          ExplicitHeight = 150
+          ExplicitHeight = 124
           object cxDBTreeListOrderInsuINSU_INTERFACE: TcxDBTreeListColumn
             Caption.Text = #31038#20445#25509#21475#21517#31216
             DataBinding.FieldName = 'INSU_INTERFACE'
@@ -742,7 +737,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
           object cxDBTreeListOrderInsuINSU_ITEM_NAME: TcxDBTreeListColumn
             Caption.Text = #31038#20445#39033#30446#21517
             DataBinding.FieldName = 'INSU_ITEM_NAME'
-            Width = 100
+            Width = 164
             Position.ColIndex = 1
             Position.RowIndex = 0
             Position.BandIndex = 0
@@ -1004,6 +999,13 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
         DataType = ftTimeStamp
       end>
     IndexDefs = <>
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
     Left = 642
     Top = 178
@@ -1312,7 +1314,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     Left = 721
-    Top = 490
+    Top = 418
     object cdsApplyCODE: TStringField
       FieldName = 'CODE'
     end
@@ -1331,7 +1333,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     Left = 409
-    Top = 482
+    Top = 354
     object cdsValidCODE: TStringField
       FieldName = 'CODE'
     end
@@ -1349,8 +1351,8 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 1001
-    Top = 410
+    Left = 1025
+    Top = 330
     object cdsOperatorID: TIntegerField
       FieldName = 'ID'
     end
@@ -1367,8 +1369,8 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 897
-    Top = 362
+    Left = 905
+    Top = 330
     object cdsMinUnitCODE: TStringField
       FieldName = 'CODE'
     end
@@ -1379,13 +1381,13 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
   end
   object dsClassCode: TDataSource
     DataSet = cdsClassCode
-    Left = 513
-    Top = 490
+    Left = 497
+    Top = 442
   end
   object dsApply: TDataSource
     DataSet = cdsApply
     Left = 769
-    Top = 490
+    Top = 442
   end
   object dsValid: TDataSource
     DataSet = cdsValid
@@ -1399,8 +1401,8 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
   end
   object dsMinUnit: TDataSource
     DataSet = cdsMinUnit
-    Left = 953
-    Top = 369
+    Left = 961
+    Top = 321
   end
   object cdsDept: TFDMemTable
     FetchOptions.AssignedValues = [evMode]
@@ -1410,8 +1412,8 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
-    Left = 449
-    Top = 489
+    Left = 457
+    Top = 353
     object cdsDeptDEPT_CODE: TStringField
       FieldName = 'DEPT_CODE'
       Size = 10
@@ -1499,6 +1501,9 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     object cdsOrderItemLACK_NAME: TWideStringField
       FieldName = 'LACK_NAME'
       Size = 4
+    end
+    object cdsOrderItemPRICE: TBCDField
+      FieldName = 'PRICE'
     end
     object cdsOrderItemVALID_NAME: TWideStringField
       FieldName = 'VALID_NAME'

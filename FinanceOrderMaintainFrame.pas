@@ -202,6 +202,8 @@ type
     cxDBTreeListOrderInsuBASE_MED_TYPE: TcxDBTreeListColumn;
     cxDBTreeListOrderInsuBASE_MED_RATE: TcxDBTreeListColumn;
     cxDBTreeListOrderInsuCOM_OUTP_RATE: TcxDBTreeListColumn;
+    cdsOrderItemPRICE: TBCDField;
+    cxDBTreeListOrderItemPRICE: TcxDBTreeListColumn;
   private
     { Private declarations }
   public

@@ -14,7 +14,8 @@ uses
   HISServerMethods in 'HISServerMethods.pas' {dmHIS: TDataModule},
   SystemMaintainMainForm in 'SystemMaintainMainForm.pas' {frmSysMaintainPageControl},
   FinanceOrderMaintainFrame in 'FinanceOrderMaintainFrame.pas' {framFinanceOrderMaintain: TFrame},
-  TestDataModule in 'TestDataModule.pas' {dmTest: TDataModule};
+  TestDataModule in 'TestDataModule.pas' {dmTest: TDataModule},
+  FinanceOrderMaintainForm in 'FinanceOrderMaintainForm.pas' {frmFinanceOrderMaintain};
 
 {$R *.res}
 
@@ -24,5 +25,6 @@ begin
   Application.CreateForm(TdmHIS, dmHIS);
   Application.CreateForm(TfrmSysMaintainPageControl, frmSysMaintainPageControl);
   Application.CreateForm(TdmTest, dmTest);
+  Application.CreateForm(TfrmFinanceOrderMaintain, frmFinanceOrderMaintain);
   Application.Run;
 end.

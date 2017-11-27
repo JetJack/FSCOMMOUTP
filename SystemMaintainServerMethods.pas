@@ -36,7 +36,35 @@ type
     /// 程序结束时单元文件调用，析构类成员
     /// </remarks>
     class procedure ClassFinalize();
+    /// <summary>获取SQL语句</summary>
+    /// <param name="Key">SQL的查找主键</param>
+    /// <remarks>
+    ///
+    /// </remarks>
+    class function GetSQLString(Key: String): String;
     constructor Create(AOwner: TComponent; ADB: TdmDBProvider);
+    /// <summary>获取收费项目信息</summary>
+    /// <param name="ModeInfo">调用模块信息</param>
+    /// <param name="OrderCode">收费代码</param>
+    /// <remarks>
+    /// OrderCode为空时返回所有收费项目信息
+    /// </remarks>
+    function GetFinanceOrderInfo(ModeInfo,OrderCode:String):WideString;
+    /// <summary>获取收费项目关联的药品/材料信息</summary>
+    /// <param name="ModeInfo">调用模块信息</param>
+    /// <param name="OrderCode">收费的代码</param>
+    /// <remarks>
+    /// OrderCode为空时返回所有收费项目的药品/材料信息
+    /// </remarks>
+    function GetFinanceOrderRelateItem(ModeInfo,OrderCode:String):WideString;
+    /// <summary>获取收费项目关联的社保信息</summary>
+    /// <param name="ModeInfo">调用模块信息</param>
+    /// <param name="OrderCode">收费的代码</param>
+    /// <param name="InsuInterFace">医保接口名称</param>
+    /// <remarks>
+    /// OrderCode为空时返回所有收费项目的社保信息，InsuInterFace为空时返回所有接口信息
+    /// </remarks>
+    function GetFinanceOrderInsuInfo(ModeInfo, OrderCode, InsuInterFace: String):WideString;
   end;
 
 var
@@ -93,6 +121,146 @@ begin
     TSysMaintainServer.CriticalSection.Leave();
   end;
 end;
+
+function TSysMaintainServer.GetFinanceOrderInfo(ModeInfo,
+  OrderCode: String): WideString;
+/// <summary>获取收费项目信息</summary>
+/// <param name="ModeInfo">调用模块信息</param>
+/// <param name="OrderCode">收费代码</param>
+/// <remarks>
+/// OrderCode为空时返回所有收费项目信息
+/// </remarks>
+var _sSQL, _sResult: String;
+    _jo: TJSONObject;
+    _jp:TJSONPair;
+begin
+  try
+    _sSQL := TSysMaintainServer.GetSQLString('HHIS.FIN.COM.FIN_COM_ORDER');
+    _jo := TJSONObject.Create();
+    if _sSQL = '' then
+    begin
+      _jp := TJSONPair.Create('Code', '-1');
+      _jo.AddPair(_jp);
+      _jp := TJSONPair.Create('Message', 'HHIS.FIN.COM.FIN_COM_ORDER'+'没有找到SQL语句');
+      _jo.AddPair(_jp);
+      _sResult := _Jo.ToString;
+    end
+    else
+    begin
+      if OrderCode <> '' then
+       _sSQL := _sSQL + 'WHERE ORDERCODE = ' + QuotedStr(OrderCode)
+      else
+       _sSQL := _sSQL + ' ORDER BY ORDERCODE' ;
+      _sResult := self.DAO.GetAJSONDataSet('TSysMaintainServer.GetFinanceOrderInfo', _sSQL);
+    end;
+  finally
+     Result := _sResult;
+    _jo.Free();
+  end;
+end;
+
+function TSysMaintainServer.GetFinanceOrderInsuInfo(ModeInfo, OrderCode,
+  InsuInterFace: String): WideString;
+/// <summary>获取收费项目关联的社保信息</summary>
+/// <param name="ModeInfo">调用模块信息</param>
+/// <param name="OrderCode">收费的代码</param>
+/// <param name="InsuInterFace">医保接口名称</param>
+/// <remarks>
+/// OrderCode为空时返回所有收费项目的社保信息，InsuInterFace为空时返回所有接口信息
+/// </remarks>
+var _sSQL, _sResult: String;
+    _jo: TJSONObject;
+    _jp:TJSONPair;
+begin
+  try
+    _sSQL := TSysMaintainServer.GetSQLString('SystemMaintainServerMethods.'
+       + 'TSysMaintainServer.GetFinanceOrderInsuInfo.FinanceOrderInsuInfo');
+    _jo := TJSONObject.Create();
+    if _sSQL = '' then
+    begin
+      _jp := TJSONPair.Create('Code', '-1');
+      _jo.AddPair(_jp);
+      _jp := TJSONPair.Create('Message', 'SystemMaintainServerMethods.'
+         + 'TSysMaintainServer.GetFinanceOrderInsuInfo.FinanceOrderInsuInfo'+'没有找到SQL语句');
+      _jo.AddPair(_jp);
+      _sResult := _Jo.ToString;
+    end
+    else
+    begin
+      if OrderCode <> '' then
+       _sSQL := _sSQL + 'AND A.ORDERCODE = ' + QuotedStr(OrderCode) ;
+      if InsuInterFace <> '' then
+        _sSQL := _sSQL + 'AND A.INTERFACE_TYPE = ' + QuotedStr(InsuInterFace) ;
+      _sSQL := _sSQL + ' ORDER BY A.ORDERCODE' ;
+      _sResult := self.DAO.GetAJSONDataSet('TSysMaintainServer.GetFinanceOrderInsuInfo', _sSQL);
+    end;
+  finally
+     Result := _sResult;
+    _jo.Free();
+  end;
+end;
+
+function TSysMaintainServer.GetFinanceOrderRelateItem(ModeInfo,
+  OrderCode: String): WideString;
+/// <summary>获取收费项目关联的药品/材料信息</summary>
+/// <param name="ModeInfo">调用模块信息</param>
+/// <param name="OrderCode">收费的代码</param>
+/// <remarks>
+/// OrderCode为空时返回所有收费项目的药品/材料信息
+/// </remarks>
+var _sSQL, _sResult: String;
+    _jo: TJSONObject;
+    _jp:TJSONPair;
+begin
+  try
+    _sSQL := TSysMaintainServer.GetSQLString('SystemMaintainServerMethods.'
+       + 'TSysMaintainServer.GetFinanceOrderRelateItem.FinanceOrderRelateItem');
+    _jo := TJSONObject.Create();
+    if _sSQL = '' then
+    begin
+      _jp := TJSONPair.Create('Code', '-1');
+      _jo.AddPair(_jp);
+      _jp := TJSONPair.Create('Message', 'SystemMaintainServerMethods.'
+         + 'TSysMaintainServer.GetFinanceOrderRelateItem.FinanceOrderRelateItem'+'没有找到SQL语句');
+      _jo.AddPair(_jp);
+      _sResult := _Jo.ToString;
+    end
+    else
+    begin
+      if OrderCode <> '' then
+       _sSQL := _sSQL + 'WHERE ORDERCODE = ' + QuotedStr(OrderCode)
+      else
+       _sSQL := _sSQL + ' ORDER BY ORDERCODE' ;
+      _sResult := self.DAO.GetAJSONDataSet('TSysMaintainServer.GetFinanceOrderRelateItem', _sSQL);
+    end;
+  finally
+     Result := _sResult;
+    _jo.Free();
+  end;
+end;
+
+class function TSysMaintainServer.GetSQLString(Key: String): String;
+/// <summary>获取SQL语句</summary>
+/// <param name="Key">SQL的查找主键</param>
+/// <remarks>
+///
+/// </remarks>
+var Value: String ;
+begin
+  try
+    TSysMaintainServer.CriticalSection.Enter();
+    if TSysMaintainServer.SQLLibrary.TryGetValue(Key, Value) then
+       Result := Value
+    else
+    begin
+      Result := '';
+      Postlog(llError, Key+'没有找到SQL语句');
+    end;
+  finally
+    TSysMaintainServer.CriticalSection.Leave();
+  end;
+end;
+
 
 procedure TSysMaintainServer.LoadSQLLibrary(ModeName, ClassName: String);
 /// <summary>类初始化</summary>
