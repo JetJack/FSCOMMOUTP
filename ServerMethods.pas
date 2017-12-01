@@ -105,14 +105,15 @@ var i: Integer;
     _ja: TJSONArray;
     _jp: TJSONPair;
     _jo: TJSONObject;
-    _sRunResult, _sSQL, _sErrMessage: WideString;
+    _sRunResult, _sSQL, _sErrMessage, _sProcInfo: WideString;
 begin
   try
     try
+      _sProcInfo := 'call TBaseServerMethods.ExecuteSQLSet ';
       //把SQL语句组转换成TJSONArray
       _ja := TJSONObject.ParseJSONValue(SQLSet) as TJSONArray;
       //开始事务
-      self.DAO.StartTrans(ModeInfo);
+      self.DAO.StartTrans(ModeInfo + _SProcInfo);
       // 逐条运行SQL语句
       for i := 0 to _ja.Count -1 do
       begin
@@ -120,7 +121,7 @@ begin
         self.DAO.ExcSQL(ModeInfo, _sSQL);
       end;
       //提交事务
-      self.DAO.CommitTrans(ModeInfo);
+      self.DAO.CommitTrans(ModeInfo + _sProcInfo);
       _jo := TJSONObject.Create();
       _jp := TJSONPair.Create('Code', '1');
       _jo.AddPair(_jp);
@@ -130,7 +131,7 @@ begin
       on E:Exception do
       begin
         //回滚事务
-        self.DAO.RollbackTrans(ModeInfo);
+        self.DAO.RollbackTrans(ModeInfo + _SProcInfo);
         _sErrMessage := ModeInfo + 'SQL语句运行出错!' + E.Message + '事务已回滚!'  ;
         //记录出错日志
         Postlog(llError, _sErrMessage + #13 + '出错的SQL语句:' + #13 + _sSQL);
@@ -160,13 +161,14 @@ function TBaseServerMethods.GetDictionaryValue(ModeInfo, ASQL, TypeName: String)
 /// <remarks>
 /// 运行时把SQL语句记录到日志文件中
 /// </remarks>
-var sSQL : String;
+var sSQL, sProcInfo : String;
 begin
   try
+    sProcInfo := 'call TBaseServerMethods.GetDictionaryValue';
     sSQL := 'select ' + ASQL + ' from COM_DICTIONARY ' + 'WHERE TYPE = ' + TypeName.QuotedString
       + ' and VALID_STATE = 1 ORDER BY SORT_ID';
     try
-      Result := self.DAO.GetAJSONDataSet(ModeInfo, sSQL);
+      Result := self.DAO.GetAJSONDataSet(ModeInfo + sProcInfo, sSQL);
     except
       on E:Exception do
       begin
@@ -189,13 +191,14 @@ function TBaseServerMethods.GetRecordNum(ModeInfo, TableName, WhereStr: String):
 /// 运行时把SQL语句记录到日志文件中
 /// </remarks>
 var tmp: TFDMemTable;
-    _sSQL : String;
+    _sSQL, _sProcInfo : String;
 begin
   try
     try
       _sSQL := 'SELECT COUNT(*) AS RecNum FROM ' + TableName + ' where ' + WHereStr;
+      _sProcInfo := ' call TBaseServerMethods.GetRecordNum';
       tmp := TFDMemTable.Create(nil);
-      self.DAO.GetADataset(ModeInfo, _sSQL, tmp);
+      self.DAO.GetADataset(ModeInfo + _sProcInfo, _sSQL, tmp);
       tmp.Open();
       Result := tmp.FieldByName('RecNum').AsInteger;
     except

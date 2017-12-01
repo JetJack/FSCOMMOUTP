@@ -39,13 +39,14 @@ type
     /// <summary>获取SQL语句</summary>
     /// <param name="Key">SQL的查找主键</param>
     /// <remarks>
-    ///
+    /// <returns>SQL语句</returns>
     /// </remarks>
     class function GetSQLString(Key: String): String;
     constructor Create(AOwner: TComponent; ADB: TdmDBProvider);
     /// <summary>获取收费项目信息</summary>
     /// <param name="ModeInfo">调用模块信息</param>
     /// <param name="OrderCode">收费代码</param>
+    /// <returns>收费项目信息</returns>
     /// <remarks>
     /// OrderCode为空时返回所有收费项目信息
     /// </remarks>
@@ -53,14 +54,16 @@ type
     /// <summary>获取收费项目关联的药品/材料信息</summary>
     /// <param name="ModeInfo">调用模块信息</param>
     /// <param name="OrderCode">收费的代码</param>
+    /// <returns>收费项目对应的药品/材料记录集</returns>
     /// <remarks>
-    /// OrderCode为空时返回所有收费项目的药品/材料信息
+    /// OrderCode为空时返回所有收费项目对应的药品/材料记录集
     /// </remarks>
     function GetFinanceOrderRelateItem(ModeInfo,OrderCode:String):WideString;
     /// <summary>获取收费项目关联的社保信息</summary>
     /// <param name="ModeInfo">调用模块信息</param>
     /// <param name="OrderCode">收费的代码</param>
     /// <param name="InsuInterFace">医保接口名称</param>
+    /// <returns>收费项目的社保项目对应情况</returns>
     /// <remarks>
     /// OrderCode为空时返回所有收费项目的社保信息，InsuInterFace为空时返回所有接口信息
     /// </remarks>

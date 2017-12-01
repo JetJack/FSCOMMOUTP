@@ -105,8 +105,6 @@ type
     cdsValidNAME: TStringField;
     cdsOrderVALID_NAME: TStringField;
     cdsOperator: TFDMemTable;
-    cdsOperatorID: TIntegerField;
-    cdsOperatorNAME: TStringField;
     cdsOrderOPER_NAME: TStringField;
     cxDBTreeList1ORDER_CODE: TcxDBTreeListColumn;
     cxDBTreeList1ORDER_NAME: TcxDBTreeListColumn;
@@ -204,6 +202,8 @@ type
     cxDBTreeListOrderInsuCOM_OUTP_RATE: TcxDBTreeListColumn;
     cdsOrderItemPRICE: TBCDField;
     cxDBTreeListOrderItemPRICE: TcxDBTreeListColumn;
+    cdsOperatorSALARY_ID: TIntegerField;
+    cdsOperatorEMPL_NAME: TStringField;
   private
     { Private declarations }
   public

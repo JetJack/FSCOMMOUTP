@@ -24,7 +24,6 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
         Align = alClient
         Caption = #25910#36153#39033#30446#36807#28388#26465#20214
         TabOrder = 0
-        ExplicitHeight = 57
         Height = 56
         Width = 1296
         object cxLabel1: TcxLabel
@@ -53,15 +52,12 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
       Height = 165
       Align = alClient
       TabOrder = 1
-      ExplicitTop = 65
-      ExplicitHeight = 199
       object cxGroupBox2: TcxGroupBox
         Left = 1
         Top = 1
         Align = alClient
         Caption = #25910#36153#39033#30446#21015#34920
         TabOrder = 0
-        ExplicitHeight = 197
         Height = 163
         Width = 1296
         object cxDBTreeListOrder: TcxDBTreeList
@@ -79,7 +75,6 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
           OptionsData.Deleting = False
           RootValue = -1
           TabOrder = 0
-          ExplicitHeight = 173
           object cxDBTreeList1ORDER_CODE: TcxDBTreeListColumn
             Caption.Text = #39033#30446#20195#30721
             DataBinding.FieldName = 'ORDER_CODE'
@@ -208,15 +203,12 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     Height = 148
     Align = alClient
     TabOrder = 1
-    ExplicitTop = 265
-    ExplicitHeight = 183
     object cxGroupBox3: TcxGroupBox
       Left = 1
       Top = 1
       Align = alClient
       Caption = #25910#36153#39033#30446#20449#24687
       TabOrder = 0
-      ExplicitHeight = 181
       Height = 146
       Width = 1298
       object cxLabel2: TcxLabel
@@ -590,14 +582,12 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
       Height = 142
       Align = alLeft
       TabOrder = 0
-      ExplicitHeight = 150
       object cxGroupBox4: TcxGroupBox
         Left = 1
         Top = 1
         Align = alClient
         Caption = #33647#21697#25110#26448#26009#39033#30446#23545#24212#24773#20917
         TabOrder = 0
-        ExplicitHeight = 148
         Height = 140
         Width = 606
         object cxDBTreeListOrderItem: TcxDBTreeList
@@ -619,7 +609,6 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
           ParentFont = False
           RootValue = -1
           TabOrder = 0
-          ExplicitHeight = 124
           object cxDBTreeListOrderItemTRADE_NAME: TcxDBTreeListColumn
             Caption.Text = #33647#21697'/'#26448#26009#21517#31216
             DataBinding.FieldName = 'TRADE_NAME'
@@ -700,14 +689,12 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
       Height = 142
       Align = alClient
       TabOrder = 1
-      ExplicitHeight = 150
       object cxGroupBox5: TcxGroupBox
         Left = 1
         Top = 1
         Align = alClient
         Caption = #31038#20445#30446#24405#23545#24212#24773#20917
         TabOrder = 0
-        ExplicitHeight = 148
         Height = 140
         Width = 688
         object cxDBTreeListOrderInsu: TcxDBTreeList
@@ -723,7 +710,6 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
           Navigator.Buttons.CustomButtons = <>
           RootValue = -1
           TabOrder = 0
-          ExplicitHeight = 124
           object cxDBTreeListOrderInsuINSU_INTERFACE: TcxDBTreeListColumn
             Caption.Text = #31038#20445#25509#21475#21517#31216
             DataBinding.FieldName = 'INSU_INTERFACE'
@@ -827,177 +813,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     end
   end
   object cdsOrder: TFDMemTable
-    Active = True
-    FieldDefs = <
-      item
-        Name = 'ORDER_CODE'
-        Attributes = [faRequired]
-        DataType = ftString
-        Size = 20
-      end
-      item
-        Name = 'ORDER_NAME'
-        DataType = ftWideString
-        Size = 100
-      end
-      item
-        Name = 'SPECS'
-        DataType = ftString
-        Size = 50
-      end
-      item
-        Name = 'CLASS_CODE'
-        DataType = ftString
-        Size = 3
-      end
-      item
-        Name = 'FEE_CODE'
-        DataType = ftString
-        Size = 3
-      end
-      item
-        Name = 'SPELL_CODE'
-        DataType = ftString
-        Size = 50
-      end
-      item
-        Name = 'WB_CODE'
-        DataType = ftString
-        Size = 50
-      end
-      item
-        Name = 'INPUT_CDOE'
-        DataType = ftString
-        Size = 50
-      end
-      item
-        Name = 'GB_CODE'
-        DataType = ftString
-        Size = 50
-      end
-      item
-        Name = 'INTERNATIONAL_CODE'
-        DataType = ftString
-        Size = 50
-      end
-      item
-        Name = 'ALIAS_NAME'
-        DataType = ftWideString
-        Size = 100
-      end
-      item
-        Name = 'ALIAS_SPELL'
-        DataType = ftString
-        Size = 50
-      end
-      item
-        Name = 'ALIAS_WB'
-        DataType = ftVarBytes
-        Size = 50
-      end
-      item
-        Name = 'ENGLISH_NAME'
-        DataType = ftString
-        Size = 100
-      end
-      item
-        Name = 'ENGLISH_ALIAS'
-        DataType = ftString
-        Size = 100
-      end
-      item
-        Name = 'ORDER_UNIT'
-        DataType = ftWideString
-        Size = 30
-      end
-      item
-        Name = 'ORDER_PRICE'
-        DataType = ftBCD
-        Precision = 18
-        Size = 4
-      end
-      item
-        Name = 'ORDER_PRICE2'
-        DataType = ftBCD
-        Precision = 18
-        Size = 4
-      end
-      item
-        Name = 'ORDER_PRICE3'
-        DataType = ftBCD
-        Precision = 18
-        Size = 4
-      end
-      item
-        Name = 'ORDER_PRICE4'
-        DataType = ftBCD
-        Precision = 18
-        Size = 4
-      end
-      item
-        Name = 'ORDER_PRICE5'
-        DataType = ftBCD
-        Precision = 18
-        Size = 4
-      end
-      item
-        Name = 'EXEDEPT_CODE'
-        DataType = ftString
-        Size = 10
-      end
-      item
-        Name = 'VALID_STATE'
-        DataType = ftString
-        Size = 1
-      end
-      item
-        Name = 'APPLY_STATE'
-        DataType = ftString
-        Size = 1
-      end
-      item
-        Name = 'ITEM_FLAG'
-        DataType = ftString
-        Size = 1
-      end
-      item
-        Name = 'COMB_FLAG'
-        DataType = ftString
-        Size = 1
-      end
-      item
-        Name = 'SPECIAL_FLAG1'
-        DataType = ftString
-        Size = 1
-      end
-      item
-        Name = 'SPECIAL_FLAG2'
-        DataType = ftString
-        Size = 1
-      end
-      item
-        Name = 'SPECIAL_FLAG3'
-        DataType = ftString
-        Size = 1
-      end
-      item
-        Name = 'SPECIAL_FLAG4'
-        DataType = ftString
-        Size = 1
-      end
-      item
-        Name = 'SPECIAL_FLAG5'
-        DataType = ftString
-        Size = 1
-      end
-      item
-        Name = 'OPER_ID'
-        DataType = ftInteger
-      end
-      item
-        Name = 'OPER_TIME'
-        DataType = ftTimeStamp
-      end>
+    FieldDefs = <>
     IndexDefs = <>
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
@@ -1234,8 +1050,8 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
       FieldKind = fkLookup
       FieldName = 'OPER_NAME'
       LookupDataSet = cdsOperator
-      LookupKeyFields = 'ID'
-      LookupResultField = 'NAME'
+      LookupKeyFields = 'SALARY_ID'
+      LookupResultField = 'EMPL_NAME'
       KeyFields = 'OPER_ID'
       Size = 50
       Lookup = True
@@ -1343,7 +1159,8 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     end
   end
   object cdsOperator: TFDMemTable
-    Active = True
+    FieldDefs = <>
+    IndexDefs = <>
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]
@@ -1351,14 +1168,14 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
+    StoreDefs = True
     Left = 1025
     Top = 330
-    object cdsOperatorID: TIntegerField
-      FieldName = 'ID'
+    object cdsOperatorSALARY_ID: TIntegerField
+      FieldName = 'SALARY_ID'
     end
-    object cdsOperatorNAME: TStringField
-      FieldName = 'NAME'
-      Size = 50
+    object cdsOperatorEMPL_NAME: TStringField
+      FieldName = 'EMPL_NAME'
     end
   end
   object cdsMinUnit: TFDMemTable
