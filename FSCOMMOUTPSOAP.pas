@@ -224,7 +224,7 @@ type
      aac002: String; //	证件号码
      YKC010: String; //	门诊号
      aka130: String; //	就诊类别
-     ykc600: TDatetime; //	就诊诊断
+     ykc600: String; //	就诊诊断
      ake007: TDatetime; //	就诊日期
      YKC011: String; //	科室名称
      ykc613: String; //	主治医生代码
@@ -347,7 +347,7 @@ begin
     TFSCOMMOUTPSOAP.FService := _node.FindNode('Service').Value;
     TFSCOMMOUTPSOAP.FPort := _node.FindNode('Port').Value;
   finally
-    _node.Free();
+    //_node.Free();
     _InterfaceParam.Free();
   end;
 end;
@@ -622,7 +622,9 @@ end;
 
 destructor TFSCOMMOUTPBalance_InParm.Destory;
 begin
-
+  self.OrderList.Clear();
+  self.OrderList.Free();
+  inherited ;
 end;
 
 function TFSCOMMOUTPBalance_InParm.GetInXml: String;
@@ -631,10 +633,59 @@ function TFSCOMMOUTPBalance_InParm.GetInXml: String;
 /// <remarks>
 /// 产生普通门诊结算入参
 /// </remarks>
+var _xml: TNativeXml;
 begin
-  self.OrderList.Clear();
-  self.OrderList.Free();
-  inherited ;
+  try
+    _xml := TNativeXml.Create(nil);
+    _xml.ReadFromString('<?xml version="1.0" encoding="UTF-8" standalone="yes">'
+      + '<input></input>');
+    _xml.Root.WriteString('ckz543', self.ckz543);//医院编号
+    _xml.Root.WriteString('operid', self.aae011);// 操作员ID
+    _xml.Root.WriteString('sessionid', self.sessionid);//SESSIONID
+    _xml.Root.WriteString('acc058', self.aac058);//证件类别
+    _xml.Root.WriteString('aac002', self.aac002);//证件号码
+    _xml.Root.WriteString('YKC010', self.YKC010);//门诊号
+    _xml.Root.WriteString('aka130', self.aka130);//就诊类别
+    _xml.Root.WriteString('ykc600', self.ykc600);//就诊诊断
+    _xml.Root.WriteString('ake007', FormatDatetime('yyyy-mm-dd hh:mi:ss', self.ake007));//就诊日期
+    _xml.Root.WriteString('YKC011', self.YKC011);//科室名称
+    _xml.Root.WriteString('ykc613', self.ykc613);//主治医生代码
+    _xml.Root.WriteString('cfts', self.cfts);//处方天数
+    _xml.Root.WriteString('zyfs', self.zyfs);//中药付数
+    _xml.Root.WriteString('ykc675', self.ykc675);//结算类型
+    _xml.Root.WriteString('aae004', self.aae004);//患者联系人
+    _xml.Root.WriteString('aae005', self.aae005);//患者联系电话
+    _xml.Root.WriteString('ksbm', self.ksbm);//卡识别码
+    _xml.Root.WriteString('sbkxlh', self.sbkxlh);//社保卡序列号
+    _xml.Root.WriteString('qqzfc', self.qqzfc);//请求字符串
+    _xml.Root.WriteString('psamzdh', self.psamzdh);//PSAM卡终端号
+    _xml.Root.WriteString('gmsfhm', self.gmsfhm);//身份证号
+    _xml.Root.WriteString('xm', self.xm);//姓名
+    _xml.Root.WriteString('grbh', self.grbh);//个人编号
+    _xml.Root.WriteString('aae013', self.aae013);//备注
+    _xml.Root.WriteString('skjlid', self.skjlid);//刷卡记录ID
+    _xml.Root.WriteString('akc227', FormatFloat('#.##', self.akc227));//医疗总费用
+    _xml.Root.WriteString('zdbm', self.zdbm);//诊断编码
+    _xml.Root.WriteString('fzd1', self.fzd1);//第一副诊断编码
+    _xml.Root.WriteString('fzd2', self.fzd2);//第二副诊断编码
+    _xml.Root.WriteString('fzd3', self.fzd3);//第三副诊断编码
+    _xml.Root.WriteString('fzd4', self.fzd4);//第四副诊断编码
+    _xml.Root.WriteString('fzd5', self.fzd5);//第五副诊断编码
+    _xml.Root.WriteString('fzd6', self.fzd6);//第六副诊断编码
+    _xml.Root.WriteString('fzd7', self.fzd7);//第七副诊断编码
+    _xml.Root.WriteString('fzd8', self.fzd8);//第八副诊断编码
+    _xml.Root.WriteString('fzd9', self.fzd9);//第九副诊断编码
+    _xml.Root.WriteString('fzd10', self.fzd10);//第十副诊断编码
+    _xml.Root.WriteString('sfhy', self.sfhy);//是否怀孕
+    _xml.Root.WriteString('sfbrq', self.sfbrq);//是否哺乳期
+    _xml.Root.WriteString('sfzry', self.sfzry);//是否转入院
+    _xml.Root.WriteString('cjrbs', self.cjrbs);//残疾人标识
+    _xml.Root.WriteString('ylzd1', self.ylzd1);//预留字段1
+    _xml.Root.WriteString('ylzd2', self.ylzd2);//预留字段2
+    _xml.Root.WriteString('ylzd3', self.ylzd3);//预留字段3
+  finally
+
+  end;
 end;
 
 initialization

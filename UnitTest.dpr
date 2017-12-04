@@ -8,15 +8,14 @@ uses
   DSCJSON in 'DSCJSON.pas',
   SevenZIP in 'SevenZIP.pas',
   facadeServiceProxyUnit in 'facadeServiceProxyUnit.pas',
-  FSCOMMOUTPSOAP in 'FSCOMMOUTPSOAP.pas';
+  FSCOMMOUTPSOAP in 'FSCOMMOUTPSOAP.pas',
+  TestCRWForm in 'TestCRWForm.pas' {frmTestCRW};
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  Application.CreateForm(TfrmOrderCodeInfo, frmOrderCodeInfo);
-  Application.CreateForm(TdmDBProvider, dmDBProvider);
-  Application.CreateForm(TDataAccessor, DataAccessor);
+  Application.CreateForm(TfrmTestCRW, frmTestCRW);
   Application.Run;
 end.
