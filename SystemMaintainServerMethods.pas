@@ -68,6 +68,27 @@ type
     /// OrderCode为空时返回所有收费项目的社保信息，InsuInterFace为空时返回所有接口信息
     /// </remarks>
     function GetFinanceOrderInsuInfo(ModeInfo, OrderCode, InsuInterFace: String):WideString;
+    /// <summary>收费项目维护时获取广东收费项目信息</summary>
+    /// <param name="ModeInfo">调用模块信息</param>
+    /// <returns>广东收费项目信息</returns>
+    /// <remarks>
+    /// 收费项目维护界面使用
+    /// </remarks>
+    function OrderMaintianGetGDServiceItem(ModeInfo: String):WideString;
+    /// <summary>获取科室基本信息</summary>
+    /// <param name="ModeInfo">调用模块信息</param>
+    /// <returns>科室信息</returns>
+    /// <remarks>
+    /// 获取科室基本信息，科室代码和科室名称
+    /// </remarks>
+    function GetDepartmentBase(ModeInfo: String):WideString;
+    /// <summary>获取操作员基本信息</summary>
+    /// <param name="ModeInfo">调用模块信息</param>
+    /// <returns>操作员基本信息</returns>
+    /// <remarks>
+    /// 获取操作员基本信息，操作员ID和操作员名称
+    /// </remarks>
+    function GetOperatorBase(ModeInfo: String): WideString;
   end;
 
 var
@@ -154,7 +175,7 @@ begin
        _sSQL := _sSQL + 'WHERE ORDERCODE = ' + QuotedStr(OrderCode)
       else
        _sSQL := _sSQL + ' ORDER BY ORDERCODE' ;
-      _sResult := self.DAO.GetAJSONDataSet('TSysMaintainServer.GetFinanceOrderInfo', _sSQL);
+      _sResult := self.DAO.GetAJSONDataSet(ModeInfo + ' call TSysMaintainServer.GetFinanceOrderInfo', _sSQL);
     end;
   finally
      Result := _sResult;
@@ -195,7 +216,7 @@ begin
       if InsuInterFace <> '' then
         _sSQL := _sSQL + 'AND A.INTERFACE_TYPE = ' + QuotedStr(InsuInterFace) ;
       _sSQL := _sSQL + ' ORDER BY A.ORDERCODE' ;
-      _sResult := self.DAO.GetAJSONDataSet('TSysMaintainServer.GetFinanceOrderInsuInfo', _sSQL);
+      _sResult := self.DAO.GetAJSONDataSet(ModeInfo + ' call TSysMaintainServer.GetFinanceOrderInsuInfo', _sSQL);
     end;
   finally
      Result := _sResult;
@@ -234,11 +255,27 @@ begin
        _sSQL := _sSQL + 'WHERE ORDERCODE = ' + QuotedStr(OrderCode)
       else
        _sSQL := _sSQL + ' ORDER BY ORDERCODE' ;
-      _sResult := self.DAO.GetAJSONDataSet('TSysMaintainServer.GetFinanceOrderRelateItem', _sSQL);
+      _sResult := self.DAO.GetAJSONDataSet(ModeInfo + ' call TSysMaintainServer.GetFinanceOrderRelateItem', _sSQL);
     end;
   finally
      Result := _sResult;
     _jo.Free();
+  end;
+end;
+
+function TSysMaintainServer.GetOperatorBase(ModeInfo: String): WideString;
+/// <summary>获取操作员基本信息</summary>
+/// <param name="ModeInfo">调用模块信息</param>
+/// <returns>操作员基本信息</returns>
+/// <remarks>
+/// 获取操作员基本信息，操作员ID和操作员名称
+/// </remarks>
+var _sSQL: String;
+begin
+  try
+    _sSQL := 'SELECT  USER_ID, USERNAME from COM_USER ORDER BY USER_ID';
+  finally
+    Result := self.DAO.GetAJSONDataSet(ModeInfo + ' call TSysMaintainServer.GetOperatorBase ', _sSQL);
   end;
 end;
 
@@ -311,6 +348,40 @@ begin
   finally
     _tmp.Free();
     //TSysMaintainServer.CriticalSection.Leave();
+  end;
+end;
+
+function TSysMaintainServer.GetDepartmentBase(
+  ModeInfo: String): WideString;
+/// <summary>获取科室基本信息</summary>
+/// <param name="ModeInfo">调用模块信息</param>
+/// <returns>科室信息</returns>
+/// <remarks>
+/// 获取科室基本信息，科室代码和科室名称
+/// </remarks>
+var _sSQL: String;
+begin
+  try
+    _sSQL := 'SELECT DEPT_CODE, DEPT_NAME FROM COM_DEPARTMENT WHERE VALID_STATE = 1 ORDER BY DEPT_CODE';
+  finally
+    Result := self.DAO.GetAJSONDataSet(ModeInfo + ' call TSysMaintainServer.OrderMaintainGetDepartment ', _sSQL);
+  end;
+end;
+
+function TSysMaintainServer.OrderMaintianGetGDServiceItem(ModeInfo: String): WideString;
+/// <summary>收费项目维护时获取广东收费项目信息</summary>
+/// <param name="ModeInfo">调用模块信息</param>
+/// <returns>广东收费项目信息</returns>
+/// <remarks>
+/// 收费项目维护界面使用
+/// </remarks>
+var _sSQL: String;
+begin
+  try
+    _sSQL := 'SELECT ITEM_CODE, ITEM_NAME, PRICE_UNIT, PRICE FROM COM_GDSERVICE_ITEM WHERE FIN_TYPE <> '
+      + QuotedStr('NA') + ' order by ITEM_CODE' ;
+  finally
+    Result := self.DAO.GetAJSONDataSet(ModeInfo + ' call TSysMaintainServer.OrderMaintianGetGDServiceItem ', _sSQL);
   end;
 end;
 

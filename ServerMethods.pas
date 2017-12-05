@@ -118,7 +118,7 @@ begin
       for i := 0 to _ja.Count -1 do
       begin
         _sSQL := TJSONString(_ja.Get(i)).Value;
-        self.DAO.ExcSQL(ModeInfo, _sSQL);
+        self.DAO.ExcSQL(ModeInfo + _SProcInfo, _sSQL);
       end;
       //提交事务
       self.DAO.CommitTrans(ModeInfo + _sProcInfo);

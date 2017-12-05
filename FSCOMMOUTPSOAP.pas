@@ -272,6 +272,20 @@ type
      function GetInXml(): String;
    end;
 
+   TFSCOMMOUTPRollback_InParam = class(TObject)
+   private
+
+   public
+     ckz543: String; //	医院编号
+     aae011: String;	//经办人
+     sessionid: String; //	医院登陆的sessionid
+     aac001: String; //	医保编号
+     aaz217: String; //	就诊记录号
+     ykc618: String; //	结算业务号
+     aae013: string; // 	取消原因
+     skjlid: string; //	刷卡记录ID
+   end;
+
 implementation
 
 { TCOMMOUTPSOAP }
@@ -634,6 +648,9 @@ function TFSCOMMOUTPBalance_InParm.GetInXml: String;
 /// 产生普通门诊结算入参
 /// </remarks>
 var _xml: TNativeXml;
+    DataSetNode, RowNode: TXmlNode;
+    AOrder: TFSCOMMOUTPOrder_send;
+    i: Integer;
 begin
   try
     _xml := TNativeXml.Create(nil);
@@ -683,7 +700,40 @@ begin
     _xml.Root.WriteString('ylzd1', self.ylzd1);//预留字段1
     _xml.Root.WriteString('ylzd2', self.ylzd2);//预留字段2
     _xml.Root.WriteString('ylzd3', self.ylzd3);//预留字段3
+    DatasetNode := _xml.NodeNew('dataset');
+    for i := 0 to self.OrderList.Count - 1 do
+    begin
+      RowNode := _xml.NodeNew('row') ;
+      AOrder := self.OrderList.Items[i];
+      RowNode.WriteString('akc220', AOrder.akc220);//处方号
+      RowNode.WriteString('ykc610', AOrder.ykc610); //项目顺序号
+      RowNode.WriteString('aae030', FormatDatetime('yyyy-mm-dd',AOrder.aae030)); //费用开始日期
+      RowNode.WriteString('aae031', FormatDatetime('yyyy-mm-dd',AOrder.aae031)); //费用终止日期
+      RowNode.WriteString('aka111', AOrder.aka111);//大类代码
+      RowNode.WriteString('akc222y', AOrder.akc222y); //项目代码项
+      RowNode.WriteString('akc223y', AOrder.akc223y); //项目名称
+      RowNode.WriteString('cke522', AOrder.cke522); //使用情况
+      RowNode.WriteString('akc225', FormatFloat('#.##', AOrder.akc225));  //单价
+      RowNode.WriteString('akc226', FormatFloat('#.##',AOrder.akc226)); //数量
+      RowNode.WriteString('akc227', FormatFloat('#.##',AOrder.akc227)); //费用总额
+      RowNode.WriteString('akc229', AOrder.akc229);//限制用药标记
+      RowNode.WriteString('ykc613', AOrder.ykc613); //处方医生代码
+      RowNode.WriteString('ykc011', AOrder.ykc011); //科室名称
+      RowNode.WriteString('jjdw', AOrder.jjdw); //计价单位
+      RowNode.WriteString('gytj', AOrder.gytj); //给药途径
+      RowNode.WriteString('yl', FormatFloat('#.##',AOrder.yl));  //剂量数量
+      RowNode.WriteString('yldw', AOrder.yldw); //剂量单位
+      RowNode.WriteString('pc', AOrder.pc);  //频次
+      RowNode.WriteString('ypgg', AOrder.ypgg); //药品规格
+      RowNode.WriteString('ylzd4', AOrder.ylzd4);  //预留字段4
+      RowNode.WriteString('ylzd5', AOrder.ylzd5); //预留字段5
+      RowNode.WriteString('ylzd6', AOrder.ylzd6);//预留字段6
+      DataSetNode.NodeAdd(RowNode);
+    end;
+    _xml.Root.NodeAdd(DatasetNode);
+    Result := _xml.WriteToString();
   finally
+    _xml.Free();
 
   end;
 end;
