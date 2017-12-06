@@ -188,8 +188,8 @@ type
    private
 
    public
-     akc220: String;
-     ykc610: String;
+     akc220: String;  //处方号
+     ykc610: String;  //项目序号
      aae030: Tdatetime; //	费用开始日期
      aae031: TDatetime;//	费用终止日期
      aka111: String;//	大类代码  （结算项目分类）
