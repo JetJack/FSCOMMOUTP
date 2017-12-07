@@ -123,6 +123,7 @@ object frmTestCommoutp: TfrmTestCommoutp
         Height = 25
         Caption = #20135#29983#20837#21442
         TabOrder = 2
+        OnClick = Button2Click
       end
       object Button3: TButton
         Left = 149
@@ -131,6 +132,7 @@ object frmTestCommoutp: TfrmTestCommoutp
         Height = 25
         Caption = #35843#29992
         TabOrder = 3
+        OnClick = Button3Click
       end
     end
     object rgCardType: TRadioGroup
@@ -186,10 +188,6 @@ object frmTestCommoutp: TfrmTestCommoutp
     Height = 729
     Align = alClient
     TabOrder = 1
-    ExplicitLeft = 736
-    ExplicitTop = 608
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     object Panel3: TPanel
       Left = 1
       Top = 1
@@ -205,10 +203,6 @@ object frmTestCommoutp: TfrmTestCommoutp
         Align = alClient
         Caption = #20837#21442
         TabOrder = 0
-        ExplicitLeft = 160
-        ExplicitTop = 176
-        ExplicitWidth = 185
-        ExplicitHeight = 105
         object memoInXml: TMemo
           Left = 2
           Top = 15
@@ -227,10 +221,6 @@ object frmTestCommoutp: TfrmTestCommoutp
       Height = 375
       Align = alClient
       TabOrder = 1
-      ExplicitLeft = 320
-      ExplicitTop = 544
-      ExplicitWidth = 185
-      ExplicitHeight = 41
       object GroupBox4: TGroupBox
         Left = 1
         Top = 1
@@ -239,10 +229,6 @@ object frmTestCommoutp: TfrmTestCommoutp
         Align = alClient
         Caption = #20986#21442
         TabOrder = 0
-        ExplicitLeft = 144
-        ExplicitTop = 184
-        ExplicitWidth = 185
-        ExplicitHeight = 105
         object memoOutXml: TMemo
           Left = 2
           Top = 15

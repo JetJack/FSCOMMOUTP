@@ -17,7 +17,6 @@ uses
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  Application.CreateForm(TfrmTestCRW, frmTestCRW);
   Application.CreateForm(TfrmTestCommoutp, frmTestCommoutp);
   Application.Run;
 end.

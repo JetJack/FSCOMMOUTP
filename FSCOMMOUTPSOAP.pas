@@ -125,6 +125,33 @@ type
     function ReadOutXml(OutXml: String):String;
   End;
 
+  TFSCOMMOUTPQueryMedRecordGlobal_InParam = Class(TObject)
+  private
+
+  public
+    ckz543: String;// 医院编号
+    aae011: String;// 经办人
+    sessionid: String;//医院登陆的sessionid
+    aac058: String; // 	证件类别
+    aac002: String; //	证件号码
+    aac001: String; //	医保编号
+    ake007: TDatetime;	//就诊日期
+    ksbm: String; //	卡识别码
+    sbkxlh: String; //	社保卡序列号
+    qqzfc: String; //	请求字符串
+    psamzdh: string; //	PSAM卡终端号
+    gmsfhm: String; //	身份证号
+    ylzd1: String; //	预留字段1
+    ylzd2: String; //	预留字段2
+    ylzd3: String; //	预留字段3
+    /// <summary>产生查询病人在所有医院就诊入参</summary>
+    /// <returns>入参XML串</returns>
+    /// <remarks>
+    /// 产生查询病人在所有医院就诊入参
+    /// </remarks>
+    function GetInXml():string;
+  End;
+
   TFSCOMMOUTPCheckInInXml = Class(TObject)
   private
 
@@ -213,7 +240,7 @@ type
      ylzd6: String; //	预留字段6
    End;
 
-   TFSCOMMOUTPBalance_InParm = Class(TObject)
+   TFSCOMMOUTPBalance_InParam = Class(TObject)
    private
 
    public
@@ -284,6 +311,12 @@ type
      ykc618: String; //	结算业务号
      aae013: string; // 	取消原因
      skjlid: string; //	刷卡记录ID
+     /// <summary>产生普通门诊结算回滚入参</summary>
+    /// <returns>普通门诊结算回滚入参XML串</returns>
+    /// <remarks>
+    /// 产生普通门诊结算回滚入参
+    /// </remarks>
+     function GetInXml(): String;
    end;
 
 implementation
@@ -448,6 +481,7 @@ var _xml : TNativeXML;
 begin
   try
     _xml := TNativeXml.Create(nil);
+    _xml.XmlFormat := xfReadable;
     _xml.ReadFromString('<?xml version="1.0" encoding="UTF-8" standalone="yes">'
     + '<input></input>');
     _xml.Root.WriteString('ckz543', self.ckz543);
@@ -455,7 +489,7 @@ begin
     _xml.Root.WriteString('password', self.password);
     _xml.Root.WriteString('opertype', '2');
     _xml.Root.WriteString('clienttype ', '1');
-    //Result := _xml.WriteToString;                                                                                           n
+    Result := _xml.WriteToString;
   finally
     _xml.Free();
   end;
@@ -495,6 +529,7 @@ var _xml: TNativeXml;
 begin
   try
     _xml := TNativeXml.Create(nil);
+    _xml.XmlFormat := xfReadable;
     _xml.ReadFromString('<?xml version="1.0" encoding="UTF-8" standalone="yes">'
     + '<input></input>');
     _xml.Root.WriteString('ckz543', self.ckz543);
@@ -555,6 +590,7 @@ var _xml: TNativeXml;
 begin
   try
     _xml := TNativeXml.Create(nil);
+    _xml.XmlFormat := xfReadable;
     _xml.ReadFromString('<?xml version="1.0" encoding="UTF-8" standalone="yes">'
     + '<input></input>');
     _xml.Root.WriteString('ckz543', self.ckz543);//医院编号
@@ -628,20 +664,20 @@ end;
 
 { TFSCOMMOUTPBalance_InParm }
 
-constructor TFSCOMMOUTPBalance_InParm.Create;
+constructor TFSCOMMOUTPBalance_InParam.Create;
 begin
   inherited ;
   self.OrderList := TList<TFSCOMMOUTPOrder_send>.create();
 end;
 
-destructor TFSCOMMOUTPBalance_InParm.Destory;
+destructor TFSCOMMOUTPBalance_InParam.Destory;
 begin
   self.OrderList.Clear();
   self.OrderList.Free();
   inherited ;
 end;
 
-function TFSCOMMOUTPBalance_InParm.GetInXml: String;
+function TFSCOMMOUTPBalance_InParam.GetInXml: String;
 /// <summary>产生普通门诊结算入参</summary>
 /// <returns>普通门诊结算入参XML串</returns>
 /// <remarks>
@@ -654,6 +690,7 @@ var _xml: TNativeXml;
 begin
   try
     _xml := TNativeXml.Create(nil);
+    _xml.XmlFormat := xfReadable;
     _xml.ReadFromString('<?xml version="1.0" encoding="UTF-8" standalone="yes">'
       + '<input></input>');
     _xml.Root.WriteString('ckz543', self.ckz543);//医院编号
@@ -735,6 +772,71 @@ begin
   finally
     _xml.Free();
 
+  end;
+end;
+
+{ TFSCOMMOUTPRollback_InParam }
+
+function TFSCOMMOUTPRollback_InParam.GetInXml: String;
+/// <summary>产生普通门诊结算回滚入参</summary>
+/// <returns>普通门诊结算回滚入参XML串</returns>
+/// <remarks>
+/// 产生普通门诊结算回滚入参
+/// </remarks>
+var _xml: TNativeXml;
+begin
+  try
+    _xml := TNativeXml.Create(nil);
+    _xml.XmlFormat := xfReadable;
+    _xml.ReadFromString('<?xml version="1.0" encoding="UTF-8" standalone="yes">'
+      + '<input></input>');
+    _xml.Root.WriteString('ckz543', self.ckz543);//医院编号
+    _xml.Root.WriteString('operid', self.aae011);// 操作员ID
+    _xml.Root.WriteString('sessionid', self.sessionid);//SESSIONID
+    _xml.Root.WriteString('aac001', self.aac001); //	医保编号
+    _xml.Root.WriteString('aaz217', self.aaz217); //	就诊记录号
+    _xml.Root.WriteString('ykc618', self.ykc618); //	结算业务号
+    _xml.Root.WriteString('aae013', self.aae013);  // 	取消原因
+    _xml.Root.WriteString('skjlid', self.skjlid); //	刷卡记录ID
+    Result := _xml.WriteToString();
+  finally
+    _xml.Free();
+  end;
+end;
+
+{ TFSCOMMOUTPQueryMedRecordGlobal_InParam }
+
+function TFSCOMMOUTPQueryMedRecordGlobal_InParam.GetInXml: string;
+/// <summary>产生查询病人在所有医院就诊入参</summary>
+/// <returns>入参XML串</returns>
+/// <remarks>
+/// 产生查询病人在所有医院就诊入参
+/// </remarks>
+var _xml: TNativeXml;
+begin
+  try
+    _xml := TNativeXml.Create(nil);
+    _xml.XmlFormat := xfReadable;
+    _xml.ReadFromString('<?xml version="1.0" encoding="UTF-8" standalone="yes">'
+      + '<input></input>');
+    _xml.Root.WriteString('ckz543', self.ckz543);//医院编号
+    _xml.Root.WriteString('operid', self.aae011);// 操作员ID
+    _xml.Root.WriteString('sessionid', self.sessionid);//SESSIONID
+    _xml.Root.WriteString('aac058', self.aac058);   //证件类别
+    _xml.Root.WriteString('aac002', self.aac002);//	证件号码
+    _xml.Root.WriteString('aac001', self.aac001);//	医保编号
+    _xml.Root.WriteString('ake007', FormatDatetime('yyyy-mm-dd',self.ake007));//	就诊日期
+    _xml.Root.WriteString('ksbm', self.ksbm);//卡识别码
+    _xml.Root.WriteString('sbkxlh', self.sbkxlh); //	社保卡序列号
+    _xml.Root.WriteString('qqzfc', self.qqzfc);//	请求字符串
+    _xml.Root.WriteString('psamzdh', self.psamzdh);//	PSAM卡终端号
+    _xml.Root.WriteString('gmsfhm', self.gmsfhm);//	身份证号
+    _xml.Root.WriteString('ylzd1', self.ylzd1);//	预留字段1
+    _xml.Root.WriteString('ylzd2', self.ylzd1); //	预留字段2
+    _xml.Root.WriteString('ylzd3', self.ylzd1); //	预留字段3
+    Result := _xml.WriteToString();
+  finally
+    _xml.Free();
   end;
 end;
 
