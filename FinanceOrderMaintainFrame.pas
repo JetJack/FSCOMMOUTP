@@ -62,7 +62,6 @@ type
     cdsOrderINTERNATIONAL_CODE: TStringField;
     cdsOrderALIAS_NAME: TWideStringField;
     cdsOrderALIAS_SPELL: TStringField;
-    cdsOrderALIAS_WB: TVarBytesField;
     cdsOrderENGLISH_NAME: TStringField;
     cdsOrderENGLISH_ALIAS: TStringField;
     cdsOrderORDER_UNIT: TWideStringField;
@@ -86,23 +85,18 @@ type
     dsOrder: TDataSource;
     cdsMINFEE: TFDMemTable;
     cdsMINFEECODE: TStringField;
-    cdsMINFEENAME: TStringField;
     cdsOrderFEE_NAME: TStringField;
     cdsInvFee: TFDMemTable;
     cdsInvFeeCODE: TStringField;
-    cdsInvFeeINV_NAME: TStringField;
     cdsOrderINV_NAME: TStringField;
     cdsClassCode: TFDMemTable;
     cdsClassCodeCODE: TStringField;
-    cdsClassCodeNAME: TStringField;
     cdsOrderCLASS_NAME: TStringField;
     cdsApply: TFDMemTable;
     cdsApplyCODE: TStringField;
-    cdsApplyNAME: TStringField;
     cdsOrderAPPLY_AREA: TStringField;
     cdsValid: TFDMemTable;
     cdsValidCODE: TStringField;
-    cdsValidNAME: TStringField;
     cdsOrderVALID_NAME: TStringField;
     cdsOperator: TFDMemTable;
     cdsOrderOPER_NAME: TStringField;
@@ -127,14 +121,12 @@ type
     cxLabel4: TcxLabel;
     cxLabel5: TcxLabel;
     cxDBTextEdit4: TcxDBTextEdit;
-    cxDBLookupComboBox1: TcxDBLookupComboBox;
     cxLabel6: TcxLabel;
     cxDBLookupComboBox2: TcxDBLookupComboBox;
     cxLabel7: TcxLabel;
     cxDBLabel1: TcxDBLabel;
     cdsMinUnit: TFDMemTable;
     cdsMinUnitCODE: TStringField;
-    cdsMinUnitNAME: TStringField;
     cxDBLookupComboBox3: TcxDBLookupComboBox;
     cxLabel8: TcxLabel;
     dsClassCode: TDataSource;
@@ -148,7 +140,6 @@ type
     dsMinUnit: TDataSource;
     cdsDept: TFDMemTable;
     cdsDeptDEPT_CODE: TStringField;
-    cdsDeptDEPT_NAME: TStringField;
     dsDept: TDataSource;
     cxLabel10: TcxLabel;
     cxDBLookupComboBox5: TcxDBLookupComboBox;
@@ -158,9 +149,6 @@ type
     dsGDService: TDataSource;
     cdsGDService: TFDMemTable;
     cdsGDServiceITEM_CODE: TStringField;
-    cdsGDServiceITEM_NAME: TStringField;
-    cdsGDServicePRICE_UNIT: TStringField;
-    cdsGDServicePRICE: TBCDField;
     cxLabel13: TcxLabel;
     cxDBLabel2: TcxDBLabel;
     cxLabel14: TcxLabel;
@@ -202,8 +190,20 @@ type
     cxDBTreeListOrderInsuCOM_OUTP_RATE: TcxDBTreeListColumn;
     cdsOrderItemPRICE: TBCDField;
     cxDBTreeListOrderItemPRICE: TcxDBTreeListColumn;
-    cdsOperatorSALARY_ID: TIntegerField;
-    cdsOperatorEMPL_NAME: TStringField;
+    cdsClassCodeNAME: TWideStringField;
+    cdsApplyNAME: TWideStringField;
+    cdsMINFEENAME: TWideStringField;
+    cdsMinUnitNAME: TWideStringField;
+    cdsInvFeeNAME: TWideStringField;
+    cdsValidNAME: TWideStringField;
+    cdsGDServiceITEM_NAME: TWideStringField;
+    cdsGDServicePRICE_UNIT: TWideStringField;
+    cdsDeptDEPT_NAME: TWideStringField;
+    cdsGDServicePRICE: TWideStringField;
+    cdsOperatorUSER_ID: TIntegerField;
+    cdsOperatorUSER_NAME: TWideStringField;
+    cdsOrderALIAS_WB: TStringField;
+    cxDBLookupComboBox1: TcxDBLookupComboBox;
   private
     { Private declarations }
   public

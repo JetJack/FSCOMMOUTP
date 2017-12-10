@@ -95,7 +95,7 @@ var NewForm: TForm;
     MyTabSheetName :string;
 begin
    //检查窗体是否已经打开
-  MyTabSheetName :=  NewSheetName + 'TForm2' ;
+  MyTabSheetName :=  NewSheetName + FormClass ;
   NewSheet :=  TcxTabSheet(self.FindComponent(MyTabSheetName));
   //不存在就建立新的TABSHEET和窗体
   if not Assigned(NewSheet) then
@@ -109,7 +109,7 @@ begin
       NewSheet.Align := alClient;
       try
         //建立新窗体
-        NewForm := TFormClass(FindClass('TForm2')).Create(self);
+        NewForm := TFormClass(FindClass(FormClass)).Create(self);
         NewForm.BorderStyle := bsNone;
         NewForm.ManualDock(NewSheet);
         NewForm.Align := alClient;

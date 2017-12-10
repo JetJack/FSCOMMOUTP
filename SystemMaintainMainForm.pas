@@ -22,12 +22,13 @@ uses
   dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint,
   dxSkinXmas2008Blue, dxSkinsdxStatusBarPainter, dxSkinscxPCPainter,
   dxBarBuiltInMenu, cxClasses, dxSkinsForm, Vcl.Menus, cxPC, dxStatusBar,
-  Vcl.ExtCtrls, HISServerMethods;
+  Vcl.ExtCtrls, HISServerMethods, FinanceOrderMaintainForm;
 
 type
   TfrmSysMaintainPageControl = class(TfrmBasePageControl)
-    cxTabSheet1: TcxTabSheet;
-    Panel1: TPanel;
+    N1: TMenuItem;
+    N2: TMenuItem;
+    procedure N2Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -40,5 +41,11 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TfrmSysMaintainPageControl.N2Click(Sender: TObject);
+begin
+  inherited;
+  self.OpenForm('TfrmFinanceOrderMaintain');
+end;
 
 end.

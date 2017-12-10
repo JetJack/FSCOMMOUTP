@@ -3,7 +3,8 @@ unit FSCOMMOUTPSOAP;
 interface
 uses
   Classes,  Soap.Rio, Soap.InvokeRegistry, System.JSON, NativeXml,
-  Soap.SOAPHTTPClient, facadeServiceProxyUnit, System.SysUtils, Generics.Collections ;
+  Soap.SOAPHTTPClient, facadeServiceProxyUnit, System.SysUtils, Generics.Collections
+   ;
 
 type
   TFSCOMMOUTPSOAP = class(TObject)
@@ -696,12 +697,12 @@ begin
     _xml.Root.WriteString('ckz543', self.ckz543);//医院编号
     _xml.Root.WriteString('operid', self.aae011);// 操作员ID
     _xml.Root.WriteString('sessionid', self.sessionid);//SESSIONID
-    _xml.Root.WriteString('acc058', self.aac058);//证件类别
+    _xml.Root.WriteString('aac058', self.aac058);//证件类别
     _xml.Root.WriteString('aac002', self.aac002);//证件号码
     _xml.Root.WriteString('YKC010', self.YKC010);//门诊号
     _xml.Root.WriteString('aka130', self.aka130);//就诊类别
     _xml.Root.WriteString('ykc600', self.ykc600);//就诊诊断
-    _xml.Root.WriteString('ake007', FormatDatetime('yyyy-mm-dd hh:mi:ss', self.ake007));//就诊日期
+    _xml.Root.WriteString('ake007', FormatDatetime('yyyy-mm-dd hh:nn:ss', self.ake007));//就诊日期
     _xml.Root.WriteString('YKC011', self.YKC011);//科室名称
     _xml.Root.WriteString('ykc613', self.ykc613);//主治医生代码
     _xml.Root.WriteString('cfts', self.cfts);//处方天数

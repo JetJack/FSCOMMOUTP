@@ -466,7 +466,7 @@ var
             _FT_SMALLINT:
               DataType := ftSmallInt;
             _FT_INTEGER:
-              DataType := ftLargeint;
+              DataType := ftInteger;
             _FT_WORD:
               DataType := ftWord;
             _FT_LARGEINT:
@@ -729,6 +729,7 @@ begin
         if Result then
         begin
           TFDDataSet(ADataSet).CreateDataSet;
+          ADataset.Open();
           Result := _JTDStepRecord;
         end;
       end
@@ -821,7 +822,7 @@ begin
           ftFixedChar:
             nFT := _FT_FIXEDCHAR;
           ftWideString:
-            nFT := _FT_WIDESTRING;
+            nFT := _FT_STRING;
           ftMemo:
             nFT := _FT_MEMO;
           ftFMTMemo:

@@ -154,80 +154,94 @@ end;
 procedure TfrmTestCommoutp.DoBalance;
 var inXml, outXMl: String;
     xml: TNativeXml;
+    RIO: TFSCOMMOUTPSOAP;
 begin
    try
     xml := TNativeXml.Create(nil);
     xml.XmlFormat := xfReadable;
     self.DoLogin();
     inxml := self.GetBalanceInParam();
+    RIO := TFSCOMMOUTPSOAP.Create();
     outXml :=self.SOAP.Balance(inXml);
     xml.ReadFromString(outXml);
   finally
     self.memoOutXml.Lines.Text := xml.WriteToString();
     xml.Free();
+    RIO.Free();
   end;
 end;
 
 procedure TfrmTestCommoutp.DoCheckin;
 var inXml, outXMl: String;
     xml: TNativeXml;
+    RIO: TFSCOMMOUTPSOAP;
 begin
    try
     xml := TNativeXml.Create(nil);
     xml.XmlFormat := xfReadable;
     self.DoLogin();
     inxml := self.GetCheckInInParam();
-    outXml :=self.SOAP.Checkin(inXml);
+    RIO := TFSCOMMOUTPSOAP.Create();
+    outXml :=RIO.Checkin(inXml);
     xml.ReadFromString(outXml);
   finally
     self.memoOutXml.Lines.Text := xml.WriteToString();
     xml.Free();
+    RIO.Free();
   end;
 end;
 
 procedure TfrmTestCommoutp.DoFunction20;
 var inXml, outXMl: String;
     xml: TNativeXml;
+    RIO: TFSCOMMOUTPSOAP;
 begin
    try
     xml := TNativeXml.Create(nil);
     xml.XmlFormat := xfReadable;
     self.DoLogin();
     inxml := self.GetFuntion20InParam();
+    RIO := TFSCOMMOUTPSOAP.Create();
     outXml :=self.SOAP.QueryMedicalRecordLocal(inXml);
     xml.ReadFromString(outXml);
   finally
     self.memoOutXml.Lines.Text := xml.WriteToString();
     xml.Free();
+    RIO.Free();
   end;
 end;
 
 procedure TfrmTestCommoutp.DoFunction21;
 var inXml, outXMl: String;
     xml: TNativeXml;
+    RIO: TFSCOMMOUTPSOAP;
 begin
    try
     xml := TNativeXml.Create(nil);
     xml.XmlFormat := xfReadable;
     self.DoLogin();
     inxml := self.GetFunction21InParam();
+    RIO := TFSCOMMOUTPSOAP.Create();
     outXml :=self.SOAP.QueryMedicalRecordGlobal(inXml);
     xml.ReadFromString(outXml);
   finally
     self.memoOutXml.Lines.Text := xml.WriteToString();
     xml.Free();
+    RIO.Free();
   end;
 end;
 
 procedure TfrmTestCommoutp.DoLogin;
 var inXml, outXMl: String;
     xml: TNativeXml;
+    RIO: TFSCOMMOUTPSOAP;
 begin
   try
+    RIO := TFSCOMMOUTPSOAP.Create();
     xml := TNativeXml.Create(nil);
     xml.XmlFormat := xfReadable;
     inxml := self.GetLoginInParam();
-    outXml :=self.SOAP.Login(inXml);
+    outXml :=RIO.Login(inXml);
     xml.ReadFromString(outXml);
     if xml.Root.FindNode('code').Value = '1' then
     begin
@@ -240,23 +254,27 @@ begin
   finally
     self.memoOutXml.Lines.Text := xml.WriteToString();
     xml.Free();
+    RIO.Free();
   end;
 end;
 
 procedure TfrmTestCommoutp.DoRollback;
 var inXml, outXMl: String;
     xml: TNativeXml;
+    RIO: TFSCOMMOUTPSOAP;
 begin
    try
     xml := TNativeXml.Create(nil);
     xml.XmlFormat := xfReadable;
     self.DoLogin();
     inxml := self.GetRollbackInParam();
+    RIO := TFSCOMMOUTPSOAP.Create();
     outXml :=self.SOAP.Rollback(inXml);
     xml.ReadFromString(outXml);
   finally
     self.memoOutXml.Lines.Text := xml.WriteToString();
     xml.Free();
+    RIO.Free();
   end;
 end;
 
@@ -297,7 +315,7 @@ begin
     begin
       InParam.aac058 := self.CardInfo.CardType ;// 证件类别
       InParam.aac002 := self.CardInfo.CardNumber ;//证件号码
-      InParam.ake007 := StrToDate(FormatDatetime('yyyy-mm-dd', now));//就诊日期
+      InParam.ake007 := now;//就诊日期
       InParam.ksbm := self.CardInfo.CardID ; //卡识别码
       InParam.sbkxlh := self.CardInfo.CardSerial;//社保卡序列号
       InParam.qqzfc := self.CardInfo.ReqString;//请求字符串
@@ -310,7 +328,7 @@ begin
     begin
       InParam.aac058 := '1' ;// 证件类别
       InParam.aac002 := self.eIDENO.Text ;//证件号码
-      InParam.ake007 := StrToDate(FormatDatetime('yyyy-mm-dd', now));//就诊日期
+      InParam.ake007 := now;//就诊日期
       InParam.ksbm := '' ; //卡识别码
       InParam.sbkxlh := '';//社保卡序列号
       InParam.qqzfc := '';//请求字符串
@@ -354,8 +372,8 @@ begin
     AOrder := TFSCOMMOUTPOrder_Send.Create();
     AOrder.akc220 := 'R1';   //处方号
     AOrder.ykc610 := '1';  //项目序号
-    AOrder.aae030 := StrToDate(FormatDatetime('yyyy-mm-dd', now)); //	费用开始日期
-    AOrder.aae031 := StrToDate(FormatDatetime('yyyy-mm-dd', now));//	费用终止日期
+    AOrder.aae030 := trunc(now); //	费用开始日期
+    AOrder.aae031 := trunc(now);//	费用终止日期
     AOrder.aka111 := '3' ;//	大类代码  （结算项目分类）
     AOrder.akc222y := '90030'; //	项目代码
     AOrder.akc223y := '大换药'; //	项目名称
@@ -380,8 +398,8 @@ begin
     AOrder := TFSCOMMOUTPOrder_Send.Create();
     AOrder.akc220 := 'R1';   //处方号
     AOrder.ykc610 := '2';  //项目序号
-    AOrder.aae030 := StrToDate(FormatDatetime('yyyy-mm-dd', now)); //	费用开始日期
-    AOrder.aae031 := StrToDate(FormatDatetime('yyyy-mm-dd', now));//	费用终止日期
+    AOrder.aae030 := trunc(now); //	费用开始日期
+    AOrder.aae031 := trunc(now);//	费用终止日期
     AOrder.aka111 := '8' ;//	大类代码  （结算项目分类）
     AOrder.akc222y := '80055'; //	项目代码
     AOrder.akc223y := '维生素K1';//项目名称
@@ -422,24 +440,24 @@ begin
     begin
       InParam.aac058 := self.CardInfo.CardType ;// 证件类别
       InParam.aac002 := self.CardInfo.CardNumber ;//证件号码
-      Inparam.aac001 := '';
-      InParam.ake007 := StrToDate(FormatDatetime('yyyy-mm-dd', now));//就诊日期
+      Inparam.aac001 := ' ';
+      InParam.ake007 := trunc(now);//就诊日期
       InParam.ksbm := self.CardInfo.CardID ; //卡识别码
       InParam.sbkxlh := self.CardInfo.CardSerial;//社保卡序列号
       InParam.qqzfc := self.CardInfo.ReqString;//请求字符串
-      InParam.psamzdh := '';//PSAM卡终端号
+      InParam.psamzdh := ' ';//PSAM卡终端号
       InParam.gmsfhm := self.CardInfo.IDENo;//身份证号
     end
     else
     begin
       InParam.aac058 := '1' ;// 证件类别
       InParam.aac002 := self.eIDENO.Text ;//证件号码
-      Inparam.aac001 := '';
-      InParam.ake007 := StrToDate(FormatDatetime('yyyy-mm-dd', now));//就诊日期
-      InParam.ksbm := '' ; //卡识别码
-      InParam.sbkxlh := '';//社保卡序列号
-      InParam.qqzfc := '';//请求字符串
-      InParam.psamzdh := '';//PSAM卡终端号
+      Inparam.aac001 := ' ';
+      InParam.ake007 := trunc(now);//就诊日期
+      InParam.ksbm := ' ' ; //卡识别码
+      InParam.sbkxlh := ' ';//社保卡序列号
+      InParam.qqzfc := ' ';//请求字符串
+      InParam.psamzdh := ' ';//PSAM卡终端号
       InParam.gmsfhm := self.CardInfo.IDENo;//身份证号
     end;
     strXml := InParam.GetInXml();
@@ -464,7 +482,7 @@ begin
       InParam.aac058 := self.CardInfo.CardType ;// 证件类别
       InParam.aac002 := self.CardInfo.CardNumber ;//证件号码
       InParam.aac001 := ''; //	医保编号
-      InParam.ake007 := StrToDate(FormatDatetime('yyyy-mm-dd', now));//就诊日期
+      InParam.ake007 := trunc(now);//就诊日期
       InParam.ksbm := self.CardInfo.CardID ; //卡识别码
       InParam.sbkxlh := self.CardInfo.CardSerial;//社保卡序列号
       InParam.qqzfc := self.CardInfo.ReqString;//请求字符串
@@ -479,7 +497,7 @@ begin
       InParam.aac058 := '1' ;// 证件类别
       InParam.aac002 := self.eIDENO.Text ;//证件号码
       InParam.aac001 := ''; //	医保编号
-      InParam.ake007 := StrToDate(FormatDatetime('yyyy-mm-dd', now));//就诊日期
+      InParam.ake007 := trunc(now);//就诊日期
       InParam.ksbm := '' ; //卡识别码
       InParam.sbkxlh := '';//社保卡序列号
       InParam.qqzfc := '';//请求字符串

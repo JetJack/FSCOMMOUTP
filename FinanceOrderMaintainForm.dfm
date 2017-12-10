@@ -2,6 +2,7 @@ inherited frmFinanceOrderMaintain: TfrmFinanceOrderMaintain
   Caption = #25910#36153#39033#30446#32500#25252
   ClientHeight = 581
   ClientWidth = 1316
+  OnShow = FormShow
   ExplicitWidth = 1332
   ExplicitHeight = 620
   PixelsPerInch = 96
@@ -90,7 +91,6 @@ inherited frmFinanceOrderMaintain: TfrmFinanceOrderMaintain
         inherited Panel5: TPanel
           Width = 1312
           Height = 181
-          ExplicitTop = 59
           ExplicitWidth = 1312
           ExplicitHeight = 181
           inherited cxGroupBox2: TcxGroupBox
@@ -101,6 +101,7 @@ inherited frmFinanceOrderMaintain: TfrmFinanceOrderMaintain
             inherited cxDBTreeListOrder: TcxDBTreeList
               Width = 1304
               Height = 155
+              DataController.KeyField = 'ORDER_CODE'
               ExplicitWidth = 1304
               ExplicitHeight = 155
             end
@@ -119,12 +120,6 @@ inherited frmFinanceOrderMaintain: TfrmFinanceOrderMaintain
           ExplicitHeight = 143
           Height = 143
           Width = 1312
-          inherited cxDBCheckBox1: TcxDBCheckBox
-            ExplicitHeight = 19
-          end
-          inherited cxDBCheckBox2: TcxDBCheckBox
-            ExplicitHeight = 19
-          end
         end
       end
       inherited Panel3: TPanel
@@ -132,25 +127,15 @@ inherited frmFinanceOrderMaintain: TfrmFinanceOrderMaintain
         Width = 1314
         ExplicitTop = 386
         ExplicitWidth = 1314
-        inherited Panel6: TPanel
-          ExplicitHeight = 142
-          inherited cxGroupBox4: TcxGroupBox
-            inherited cxDBTreeListOrderItem: TcxDBTreeList
-              ExplicitHeight = 116
-            end
-          end
-        end
         inherited Panel7: TPanel
           Width = 704
           ExplicitWidth = 704
-          ExplicitHeight = 142
           inherited cxGroupBox5: TcxGroupBox
             ExplicitWidth = 702
             Width = 702
             inherited cxDBTreeListOrderInsu: TcxDBTreeList
               Width = 696
               ExplicitWidth = 696
-              ExplicitHeight = 116
             end
           end
         end

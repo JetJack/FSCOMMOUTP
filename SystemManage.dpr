@@ -24,7 +24,5 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TdmHIS, dmHIS);
   Application.CreateForm(TfrmSysMaintainPageControl, frmSysMaintainPageControl);
-  Application.CreateForm(TdmTest, dmTest);
-  Application.CreateForm(TfrmFinanceOrderMaintain, frmFinanceOrderMaintain);
   Application.Run;
 end.

@@ -291,22 +291,6 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
         TabOrder = 8
         Width = 81
       end
-      object cxDBLookupComboBox1: TcxDBLookupComboBox
-        Left = 70
-        Top = 51
-        DataBinding.DataField = 'ORDER_UNIT'
-        DataBinding.DataSource = dsOrder
-        ParentFont = False
-        Properties.KeyFieldNames = 'NAME'
-        Properties.ListColumns = <
-          item
-            FieldName = 'NAME'
-          end>
-        Properties.ListSource = dsMinUnit
-        Style.StyleController = cxEditStyleControllerValue
-        TabOrder = 9
-        Width = 62
-      end
       object cxLabel6: TcxLabel
         Left = 284
         Top = 53
@@ -333,7 +317,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
           end>
         Properties.ListSource = dsMINFEE
         Style.StyleController = cxEditStyleControllerValue
-        TabOrder = 11
+        TabOrder = 10
         Width = 104
       end
       object cxLabel7: TcxLabel
@@ -366,7 +350,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
           end>
         Properties.ListSource = dsClassCode
         Style.StyleController = cxEditStyleControllerValue
-        TabOrder = 14
+        TabOrder = 13
         Width = 121
       end
       object cxLabel8: TcxLabel
@@ -398,7 +382,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
           end>
         Properties.ListSource = dsApply
         Style.StyleController = cxEditStyleControllerValue
-        TabOrder = 17
+        TabOrder = 16
         Width = 121
       end
       object cxDBCheckBox1: TcxDBCheckBox
@@ -412,7 +396,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
         Properties.ValueChecked = '1'
         Properties.ValueUnchecked = '0'
         Style.StyleController = cxEditStyleControllerTitle
-        TabOrder = 18
+        TabOrder = 17
         Width = 105
       end
       object cxDBCheckBox2: TcxDBCheckBox
@@ -426,7 +410,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
         Properties.ValueChecked = '1'
         Properties.ValueUnchecked = '0'
         Style.StyleController = cxEditStyleControllerTitle
-        TabOrder = 19
+        TabOrder = 18
         Width = 105
       end
       object cxLabel10: TcxLabel
@@ -456,7 +440,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
           end>
         Properties.ListSource = dsDept
         Style.StyleController = cxEditStyleControllerValue
-        TabOrder = 21
+        TabOrder = 20
         Width = 121
       end
       object cxLabel11: TcxLabel
@@ -506,7 +490,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
           end>
         Properties.ListSource = dsGDService
         Style.StyleController = cxEditStyleControllerValue
-        TabOrder = 24
+        TabOrder = 23
         Width = 121
       end
       object cxLabel13: TcxLabel
@@ -561,10 +545,24 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
             Value = '0'
           end>
         Style.StyleController = cxEditStyleControllerValue
-        TabOrder = 29
+        TabOrder = 28
         Transparent = True
         Height = 22
         Width = 122
+      end
+      object cxDBLookupComboBox1: TcxDBLookupComboBox
+        Left = 70
+        Top = 51
+        DataBinding.DataField = 'ORDER_UNIT'
+        DataBinding.DataSource = dsOrder
+        Properties.KeyFieldNames = 'CODE'
+        Properties.ListColumns = <
+          item
+            FieldName = 'NAME'
+          end>
+        Properties.ListSource = dsMinUnit
+        TabOrder = 29
+        Width = 81
       end
     end
   end
@@ -886,9 +884,8 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
       Origin = 'ALIAS_SPELL'
       Size = 50
     end
-    object cdsOrderALIAS_WB: TVarBytesField
+    object cdsOrderALIAS_WB: TStringField
       FieldName = 'ALIAS_WB'
-      Origin = 'ALIAS_WB'
       Size = 50
     end
     object cdsOrderENGLISH_NAME: TStringField
@@ -1012,7 +1009,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
       FieldName = 'INV_NAME'
       LookupDataSet = cdsInvFee
       LookupKeyFields = 'CODE'
-      LookupResultField = 'INV_NAME'
+      LookupResultField = 'NAME'
       KeyFields = 'FEE_CODE'
       Size = 50
       Lookup = True
@@ -1050,8 +1047,8 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
       FieldKind = fkLookup
       FieldName = 'OPER_NAME'
       LookupDataSet = cdsOperator
-      LookupKeyFields = 'SALARY_ID'
-      LookupResultField = 'EMPL_NAME'
+      LookupKeyFields = 'USER_ID'
+      LookupResultField = 'USER_NAME'
       KeyFields = 'OPER_ID'
       Size = 50
       Lookup = True
@@ -1063,7 +1060,8 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     Top = 178
   end
   object cdsMINFEE: TFDMemTable
-    Active = True
+    FieldDefs = <>
+    IndexDefs = <>
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]
@@ -1071,18 +1069,20 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
+    StoreDefs = True
     Left = 601
     Top = 402
     object cdsMINFEECODE: TStringField
       FieldName = 'CODE'
     end
-    object cdsMINFEENAME: TStringField
+    object cdsMINFEENAME: TWideStringField
       FieldName = 'NAME'
       Size = 50
     end
   end
   object cdsInvFee: TFDMemTable
-    Active = True
+    FieldDefs = <>
+    IndexDefs = <>
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]
@@ -1090,19 +1090,21 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
+    StoreDefs = True
     Left = 537
     Top = 418
     object cdsInvFeeCODE: TStringField
       FieldName = 'CODE'
       Size = 10
     end
-    object cdsInvFeeINV_NAME: TStringField
-      FieldName = 'INV_NAME'
+    object cdsInvFeeNAME: TWideStringField
+      FieldName = 'NAME'
       Size = 50
     end
   end
   object cdsClassCode: TFDMemTable
-    Active = True
+    FieldDefs = <>
+    IndexDefs = <>
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]
@@ -1110,18 +1112,20 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
+    StoreDefs = True
     Left = 625
     Top = 514
     object cdsClassCodeCODE: TStringField
       FieldName = 'CODE'
     end
-    object cdsClassCodeNAME: TStringField
+    object cdsClassCodeNAME: TWideStringField
       FieldName = 'NAME'
       Size = 50
     end
   end
   object cdsApply: TFDMemTable
-    Active = True
+    FieldDefs = <>
+    IndexDefs = <>
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]
@@ -1129,18 +1133,20 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
+    StoreDefs = True
     Left = 721
     Top = 418
     object cdsApplyCODE: TStringField
       FieldName = 'CODE'
     end
-    object cdsApplyNAME: TStringField
+    object cdsApplyNAME: TWideStringField
       FieldName = 'NAME'
       Size = 50
     end
   end
   object cdsValid: TFDMemTable
-    Active = True
+    FieldDefs = <>
+    IndexDefs = <>
     FetchOptions.AssignedValues = [evMode]
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]
@@ -1148,12 +1154,13 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
+    StoreDefs = True
     Left = 409
     Top = 354
     object cdsValidCODE: TStringField
       FieldName = 'CODE'
     end
-    object cdsValidNAME: TStringField
+    object cdsValidNAME: TWideStringField
       FieldName = 'NAME'
       Size = 50
     end
@@ -1171,11 +1178,12 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     StoreDefs = True
     Left = 1025
     Top = 330
-    object cdsOperatorSALARY_ID: TIntegerField
-      FieldName = 'SALARY_ID'
+    object cdsOperatorUSER_ID: TIntegerField
+      FieldName = 'USER_ID'
     end
-    object cdsOperatorEMPL_NAME: TStringField
-      FieldName = 'EMPL_NAME'
+    object cdsOperatorUSER_NAME: TWideStringField
+      FieldName = 'USER_NAME'
+      Size = 50
     end
   end
   object cdsMinUnit: TFDMemTable
@@ -1191,7 +1199,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     object cdsMinUnitCODE: TStringField
       FieldName = 'CODE'
     end
-    object cdsMinUnitNAME: TStringField
+    object cdsMinUnitNAME: TWideStringField
       FieldName = 'NAME'
       Size = 50
     end
@@ -1235,7 +1243,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
       FieldName = 'DEPT_CODE'
       Size = 10
     end
-    object cdsDeptDEPT_NAME: TStringField
+    object cdsDeptDEPT_NAME: TWideStringField
       FieldName = 'DEPT_NAME'
       Size = 50
     end
@@ -1264,16 +1272,17 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
       FieldName = 'ITEM_CODE'
       Size = 50
     end
-    object cdsGDServiceITEM_NAME: TStringField
+    object cdsGDServiceITEM_NAME: TWideStringField
       FieldName = 'ITEM_NAME'
       Size = 255
     end
-    object cdsGDServicePRICE_UNIT: TStringField
+    object cdsGDServicePRICE_UNIT: TWideStringField
       FieldName = 'PRICE_UNIT'
       Size = 50
     end
-    object cdsGDServicePRICE: TBCDField
+    object cdsGDServicePRICE: TWideStringField
       FieldName = 'PRICE'
+      Size = 50
     end
   end
   object dsOrderItem: TDataSource

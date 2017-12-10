@@ -1,38 +1,19 @@
 inherited frmSysMaintainPageControl: TfrmSysMaintainPageControl
   Caption = 'frmSysMaintainPageControl'
+  ExplicitHeight = 788
   PixelsPerInch = 96
   TextHeight = 13
-  inherited TopPanel: TPanel
-    ExplicitWidth = 1344
-  end
-  inherited StatusBar: TdxStatusBar
-    ExplicitTop = 697
-    ExplicitWidth = 1344
-  end
   inherited MainPanel: TPanel
-    ExplicitWidth = 1344
-    ExplicitHeight = 656
     inherited MainPage: TcxPageControl
-      Properties.ActivePage = cxTabSheet1
-      ExplicitWidth = 1342
-      ExplicitHeight = 654
-      ClientRectTop = 27
-      object cxTabSheet1: TcxTabSheet
-        Caption = 'cxTabSheet1'
-        ImageIndex = 0
-        object Panel1: TPanel
-          Left = 0
-          Top = 0
-          Width = 1332
-          Height = 620
-          Align = alClient
-          Caption = 'Panel1'
-          TabOrder = 0
-          ExplicitLeft = 416
-          ExplicitTop = 320
-          ExplicitWidth = 185
-          ExplicitHeight = 41
-        end
+      Properties.Options = [pcoAlwaysShowGoDialogButton, pcoCloseButton, pcoGradient, pcoGradientClientArea, pcoRedrawOnResize]
+    end
+  end
+  inherited MainMenu: TMainMenu
+    object N1: TMenuItem
+      Caption = #36130#21153#20449#24687#32500#25252
+      object N2: TMenuItem
+        Caption = #25910#36153#39033#30446#32500#25252
+        OnClick = N2Click
       end
     end
   end

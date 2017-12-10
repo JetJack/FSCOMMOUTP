@@ -21,7 +21,7 @@ uses
   dxSkinVisualStudio2013Blue, dxSkinVisualStudio2013Dark,
   dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint,
   dxSkinXmas2008Blue, Vcl.StdCtrls, cxButtons, FinanceOrderMaintainFrame, Data.DB,
-  DSCJSON, System.JSON, HISServerMethods;
+  DSCJSON, System.JSON, HISServerMethods, FireDAC.Comp.Client;
 
 type
   TfrmFinanceOrderMaintain = class(TfrmBase)
@@ -31,10 +31,13 @@ type
     cxButton1: TcxButton;
     procedure framFinanceOrderMaintain1cdsOrderAfterInsert(DataSet: TDataSet);
     procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
     FModeInfo: String;
     procedure GetDictionary();
+    procedure GetOrderInfo();
+    procedure ShowOrderRelateInfo(OrderCode: String);
   public
     { Public declarations }
   end;
@@ -50,6 +53,13 @@ procedure TfrmFinanceOrderMaintain.FormCreate(Sender: TObject);
 begin
   inherited;
   FModeInfo := 'FinanceOrderMaintainForm UserID:' + IntToStr(self.User.OperID);
+  self.GetDictionary();
+end;
+
+procedure TfrmFinanceOrderMaintain.FormShow(Sender: TObject);
+begin
+  inherited;
+  self.GetOrderInfo();
 end;
 
 procedure TfrmFinanceOrderMaintain.framFinanceOrderMaintain1cdsOrderAfterInsert(
@@ -143,9 +153,118 @@ begin
     end
     else
       showmessage(_jo.GetValue('Message').Value);
+
+    //cdsGDService
+    _data := dmHis.SystemMaintainServer.OrderMaintianGetGDServiceItem(FModeInfo);
+    _jo := TJSONObject.ParseJSONValue(_data) as TJSONObject;
+    if (_jo.GetValue('Code').Value = '1') then
+    begin
+      TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, self.framFinanceOrder.cdsGDService);
+      self.framFinanceOrder.cdsGDService.Delta.DataView.Clear();
+    end
+    else
+      showmessage(_jo.GetValue('Message').Value);
+
+    //cdsDept
+     _data := dmHis.SystemMaintainServer.GetDepartmentBase(FModeInfo);
+    _jo := TJSONObject.ParseJSONValue(_data) as TJSONObject;
+    if (_jo.GetValue('Code').Value = '1') then
+    begin
+      TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, self.framFinanceOrder.cdsDept);
+      self.framFinanceOrder.cdsDept.Delta.DataView.Clear();
+    end
+    else
+      showmessage(_jo.GetValue('Message').Value);
+
+    //cdsOperator
+    _data := dmHis.SystemMaintainServer.GetOperatorBase(FModeInfo);
+    _jo := TJSONObject.ParseJSONValue(_data) as TJSONObject;
+    if (_jo.GetValue('Code').Value = '1') then
+    begin
+      TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, self.framFinanceOrder.cdsOperator);
+      self.framFinanceOrder.cdsOperator.Delta.DataView.Clear();
+    end
+    else
+      showmessage(_jo.GetValue('Message').Value);
   finally
     _jo.Free();
   end;
 end;
+
+procedure TfrmFinanceOrderMaintain.GetOrderInfo;
+var _jo: TJSONObject;
+    _data: WideString;
+    _tmp: TFDMemTable;
+    i: Integer;
+begin
+  try
+    _data := dmHis.SystemMaintainServer.GetFinanceOrderInfo(FModeInfo,'');
+    _jo := TJSONObject.ParseJSONValue(_data) as TJSONObject;
+    _tmp := TFDMemTable.Create(nil);
+    if (_jo.GetValue('Code').Value = '1') then
+    begin
+      //TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, self.framFinanceOrder.cdsOrder);
+      TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, _tmp);
+      if not self.framFinanceOrder.cdsOrder.Active then
+        self.framFinanceOrder.cdsOrder.Open();
+      self.framFinanceOrder.cdsOrder.EmptyDataSet();
+      _tmp.First();
+      while not _tmp.Eof do
+      begin
+        self.framFinanceOrder.cdsOrder.Append;
+        for I := 0  to _tmp.Fields.Count -1 do
+        begin
+          self.framFinanceOrder.cdsOrder.FieldByName(_tmp.Fields.Fields[i].FieldName).Value
+            := _tmp.Fields.Fields[i].Value;
+        end;
+       // self.framFinanceOrder.cdsOrder.Post();
+        _tmp.Next();
+      end;
+     // self.framFinanceOrder.cdsOrder.Delta.DataView.Clear();
+    end
+    else
+      showmessage(_jo.GetValue('Message').Value);
+  finally
+    _tmp.Free();
+  end;
+end;
+
+procedure TfrmFinanceOrderMaintain.ShowOrderRelateInfo(OrderCode: String);
+var _jo: TJSONObject;
+    _data: WideString;
+begin
+  try
+    //cdsOrderItem
+    _data := dmHis.SystemMaintainServer.GetFinanceOrderRelateItem(FModeInfo,OrderCode);
+    _jo := TJSONObject.ParseJSONValue(_data) as TJSONObject;
+    if (_jo.GetValue('Code').Value = '1') then
+    begin
+      TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, self.framFinanceOrder.cdsOrderItem);
+      self.framFinanceOrder.cdsOrderItem.Delta.DataView.Clear();
+    end
+    else
+      showmessage(_jo.GetValue('Message').Value);
+
+    //cdsOrderInsu
+    _data := dmHis.SystemMaintainServer.GetFinanceOrderInsuInfo(FModeInfo,OrderCode,'');
+    _jo := TJSONObject.ParseJSONValue(_data) as TJSONObject;
+    if (_jo.GetValue('Code').Value = '1') then
+    begin
+      TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, self.framFinanceOrder.cdsOrderInsu);
+      self.framFinanceOrder.cdsOrderInsu.Delta.DataView.Clear();
+    end
+    else
+      showmessage(_jo.GetValue('Message').Value);
+  finally
+
+  end;
+end;
+
+initialization
+  RegisterClass(TfrmFinanceOrderMaintain);
+
+finalization
+  UnRegisterClass(TfrmFinanceOrderMaintain);
+
 
 end.

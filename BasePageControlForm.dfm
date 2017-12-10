@@ -14,7 +14,6 @@ inherited frmBasePageControl: TfrmBasePageControl
     Height = 41
     Align = alTop
     TabOrder = 0
-    ExplicitWidth = 640
   end
   object StatusBar: TdxStatusBar
     Left = 0
@@ -27,8 +26,6 @@ inherited frmBasePageControl: TfrmBasePageControl
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
-    ExplicitTop = 448
-    ExplicitWidth = 640
   end
   object MainPanel: TPanel
     Left = 0
@@ -37,8 +34,6 @@ inherited frmBasePageControl: TfrmBasePageControl
     Height = 656
     Align = alClient
     TabOrder = 2
-    ExplicitWidth = 640
-    ExplicitHeight = 407
     object MainPage: TcxPageControl
       Left = 1
       Top = 1
@@ -47,10 +42,9 @@ inherited frmBasePageControl: TfrmBasePageControl
       Align = alClient
       TabOrder = 0
       Properties.CustomButtons.Buttons = <>
+      Properties.Options = [pcoAlwaysShowGoDialogButton, pcoCloseButton, pcoGradient, pcoGradientClientArea, pcoRedrawOnResize]
       OnCanClose = MainPageCanClose
       OnMouseDown = MainPageMouseDown
-      ExplicitWidth = 638
-      ExplicitHeight = 405
       ClientRectBottom = 647
       ClientRectLeft = 3
       ClientRectRight = 1335

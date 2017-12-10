@@ -30,6 +30,9 @@ implementation
 procedure TfrmBase.FormCreate(Sender: TObject);
 begin
   DisableAero := True;
+  self.User := TOperator.Create();
+  self.User.OperID := 1;
+  self.User.OperName := 'π‹¿Ì‘±';
 end;
 
 end.

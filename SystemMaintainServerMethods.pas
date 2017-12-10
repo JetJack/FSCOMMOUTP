@@ -172,9 +172,9 @@ begin
     else
     begin
       if OrderCode <> '' then
-       _sSQL := _sSQL + 'WHERE ORDERCODE = ' + QuotedStr(OrderCode)
+       _sSQL := _sSQL + 'WHERE ORDER_CODE = ' + QuotedStr(OrderCode)
       else
-       _sSQL := _sSQL + ' ORDER BY ORDERCODE' ;
+       _sSQL := _sSQL + ' ORDER BY ORDER_CODE' ;
       _sResult := self.DAO.GetAJSONDataSet(ModeInfo + ' call TSysMaintainServer.GetFinanceOrderInfo', _sSQL);
     end;
   finally
@@ -273,7 +273,7 @@ function TSysMaintainServer.GetOperatorBase(ModeInfo: String): WideString;
 var _sSQL: String;
 begin
   try
-    _sSQL := 'SELECT  USER_ID, USERNAME from COM_USER ORDER BY USER_ID';
+    _sSQL := 'SELECT  USER_ID, USER_NAME from COM_USER ORDER BY USER_ID';
   finally
     Result := self.DAO.GetAJSONDataSet(ModeInfo + ' call TSysMaintainServer.GetOperatorBase ', _sSQL);
   end;
