@@ -70,6 +70,8 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
             item
             end>
           DataController.DataSource = dsOrder
+          DataController.ParentField = 'CLASS_CODE'
+          DataController.KeyField = 'ORDER_CODE'
           Navigator.Buttons.CustomButtons = <>
           OptionsData.Editing = False
           OptionsData.Deleting = False
@@ -203,6 +205,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     Height = 148
     Align = alClient
     TabOrder = 1
+    ExplicitTop = 100
     object cxGroupBox3: TcxGroupBox
       Left = 1
       Top = 1
@@ -240,7 +243,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
       object cxDBTextEdit2: TcxDBTextEdit
         Left = 292
         Top = 21
-        DataBinding.DataField = 'OPER_NAME'
+        DataBinding.DataField = 'ORDER_NAME'
         DataBinding.DataSource = dsOrder
         ParentFont = False
         Style.StyleController = cxEditStyleControllerValue
@@ -284,7 +287,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
       object cxDBTextEdit4: TcxDBTextEdit
         Left = 184
         Top = 51
-        DataBinding.DataField = 'ORDER_CODE'
+        DataBinding.DataField = 'ORDER_PRICE'
         DataBinding.DataSource = dsOrder
         ParentFont = False
         Style.StyleController = cxEditStyleControllerValue
@@ -829,9 +832,8 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
-    object cdsOrderORDER_NAME: TWideStringField
+    object cdsOrderORDER_NAME: TStringField
       FieldName = 'ORDER_NAME'
-      Origin = 'ORDER_NAME'
       Size = 100
     end
     object cdsOrderSPECS: TStringField
@@ -874,9 +876,8 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
       Origin = 'INTERNATIONAL_CODE'
       Size = 50
     end
-    object cdsOrderALIAS_NAME: TWideStringField
+    object cdsOrderALIAS_NAME: TStringField
       FieldName = 'ALIAS_NAME'
-      Origin = 'ALIAS_NAME'
       Size = 100
     end
     object cdsOrderALIAS_SPELL: TStringField
@@ -898,9 +899,8 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
       Origin = 'ENGLISH_ALIAS'
       Size = 100
     end
-    object cdsOrderORDER_UNIT: TWideStringField
+    object cdsOrderORDER_UNIT: TStringField
       FieldName = 'ORDER_UNIT'
-      Origin = 'ORDER_UNIT'
       Size = 30
     end
     object cdsOrderORDER_PRICE: TBCDField
@@ -1075,7 +1075,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     object cdsMINFEECODE: TStringField
       FieldName = 'CODE'
     end
-    object cdsMINFEENAME: TWideStringField
+    object cdsMINFEENAME: TStringField
       FieldName = 'NAME'
       Size = 50
     end
@@ -1097,7 +1097,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
       FieldName = 'CODE'
       Size = 10
     end
-    object cdsInvFeeNAME: TWideStringField
+    object cdsInvFeeNAME: TStringField
       FieldName = 'NAME'
       Size = 50
     end
@@ -1118,7 +1118,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     object cdsClassCodeCODE: TStringField
       FieldName = 'CODE'
     end
-    object cdsClassCodeNAME: TWideStringField
+    object cdsClassCodeNAME: TStringField
       FieldName = 'NAME'
       Size = 50
     end
@@ -1139,7 +1139,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     object cdsApplyCODE: TStringField
       FieldName = 'CODE'
     end
-    object cdsApplyNAME: TWideStringField
+    object cdsApplyNAME: TStringField
       FieldName = 'NAME'
       Size = 50
     end
@@ -1160,7 +1160,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     object cdsValidCODE: TStringField
       FieldName = 'CODE'
     end
-    object cdsValidNAME: TWideStringField
+    object cdsValidNAME: TStringField
       FieldName = 'NAME'
       Size = 50
     end
@@ -1181,7 +1181,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     object cdsOperatorUSER_ID: TIntegerField
       FieldName = 'USER_ID'
     end
-    object cdsOperatorUSER_NAME: TWideStringField
+    object cdsOperatorUSER_NAME: TStringField
       FieldName = 'USER_NAME'
       Size = 50
     end
@@ -1199,7 +1199,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     object cdsMinUnitCODE: TStringField
       FieldName = 'CODE'
     end
-    object cdsMinUnitNAME: TWideStringField
+    object cdsMinUnitNAME: TStringField
       FieldName = 'NAME'
       Size = 50
     end
@@ -1243,7 +1243,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
       FieldName = 'DEPT_CODE'
       Size = 10
     end
-    object cdsDeptDEPT_NAME: TWideStringField
+    object cdsDeptDEPT_NAME: TStringField
       FieldName = 'DEPT_NAME'
       Size = 50
     end
@@ -1272,15 +1272,15 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
       FieldName = 'ITEM_CODE'
       Size = 50
     end
-    object cdsGDServiceITEM_NAME: TWideStringField
+    object cdsGDServiceITEM_NAME: TStringField
       FieldName = 'ITEM_NAME'
       Size = 255
     end
-    object cdsGDServicePRICE_UNIT: TWideStringField
+    object cdsGDServicePRICE_UNIT: TStringField
       FieldName = 'PRICE_UNIT'
       Size = 50
     end
-    object cdsGDServicePRICE: TWideStringField
+    object cdsGDServicePRICE: TStringField
       FieldName = 'PRICE'
       Size = 50
     end

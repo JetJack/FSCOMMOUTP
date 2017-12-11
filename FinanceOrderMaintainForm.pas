@@ -76,6 +76,7 @@ var _sFieldList, _sTypeName: string;
     _data: WideString;
 begin
   try
+
     //cdsClassCode
     _sFieldList := 'CODE, NAME';
     _sTypeName := 'CLASSCODE';
@@ -186,6 +187,7 @@ begin
     end
     else
       showmessage(_jo.GetValue('Message').Value);
+
   finally
     _jo.Free();
   end;

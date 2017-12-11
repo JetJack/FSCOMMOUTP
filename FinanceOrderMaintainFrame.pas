@@ -51,7 +51,6 @@ type
     cxDBTreeListOrder: TcxDBTreeList;
     cdsOrder: TFDMemTable;
     cdsOrderORDER_CODE: TStringField;
-    cdsOrderORDER_NAME: TWideStringField;
     cdsOrderSPECS: TStringField;
     cdsOrderCLASS_CODE: TStringField;
     cdsOrderFEE_CODE: TStringField;
@@ -60,11 +59,9 @@ type
     cdsOrderINPUT_CDOE: TStringField;
     cdsOrderGB_CODE: TStringField;
     cdsOrderINTERNATIONAL_CODE: TStringField;
-    cdsOrderALIAS_NAME: TWideStringField;
     cdsOrderALIAS_SPELL: TStringField;
     cdsOrderENGLISH_NAME: TStringField;
     cdsOrderENGLISH_ALIAS: TStringField;
-    cdsOrderORDER_UNIT: TWideStringField;
     cdsOrderORDER_PRICE: TBCDField;
     cdsOrderORDER_PRICE2: TBCDField;
     cdsOrderORDER_PRICE3: TBCDField;
@@ -190,20 +187,23 @@ type
     cxDBTreeListOrderInsuCOM_OUTP_RATE: TcxDBTreeListColumn;
     cdsOrderItemPRICE: TBCDField;
     cxDBTreeListOrderItemPRICE: TcxDBTreeListColumn;
-    cdsClassCodeNAME: TWideStringField;
-    cdsApplyNAME: TWideStringField;
-    cdsMINFEENAME: TWideStringField;
-    cdsMinUnitNAME: TWideStringField;
-    cdsInvFeeNAME: TWideStringField;
-    cdsValidNAME: TWideStringField;
-    cdsGDServiceITEM_NAME: TWideStringField;
-    cdsGDServicePRICE_UNIT: TWideStringField;
-    cdsDeptDEPT_NAME: TWideStringField;
-    cdsGDServicePRICE: TWideStringField;
     cdsOperatorUSER_ID: TIntegerField;
-    cdsOperatorUSER_NAME: TWideStringField;
     cdsOrderALIAS_WB: TStringField;
     cxDBLookupComboBox1: TcxDBLookupComboBox;
+    cdsClassCodeNAME: TStringField;
+    cdsApplyNAME: TStringField;
+    cdsDeptDEPT_NAME: TStringField;
+    cdsGDServiceITEM_NAME: TStringField;
+    cdsGDServicePRICE_UNIT: TStringField;
+    cdsInvFeeNAME: TStringField;
+    cdsMINFEENAME: TStringField;
+    cdsMinUnitNAME: TStringField;
+    cdsOperatorUSER_NAME: TStringField;
+    cdsValidNAME: TStringField;
+    cdsGDServicePRICE: TStringField;
+    cdsOrderORDER_NAME: TStringField;
+    cdsOrderORDER_UNIT: TStringField;
+    cdsOrderALIAS_NAME: TStringField;
   private
     { Private declarations }
   public
