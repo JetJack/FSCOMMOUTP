@@ -205,7 +205,6 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     Height = 148
     Align = alClient
     TabOrder = 1
-    ExplicitTop = 100
     object cxGroupBox3: TcxGroupBox
       Left = 1
       Top = 1
@@ -311,11 +310,6 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
         Properties.KeyFieldNames = 'CODE'
         Properties.ListColumns = <
           item
-            MinWidth = 4
-            FieldName = 'CODE'
-          end
-          item
-            MinWidth = 10
             FieldName = 'NAME'
           end>
         Properties.ListSource = dsMINFEE
@@ -349,6 +343,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
         Properties.KeyFieldNames = 'CODE'
         Properties.ListColumns = <
           item
+            Caption = #31867#21035
             FieldName = 'NAME'
           end>
         Properties.ListSource = dsClassCode
@@ -381,6 +376,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
         Properties.KeyFieldNames = 'CODE'
         Properties.ListColumns = <
           item
+            Caption = #33539#22260
             FieldName = 'NAME'
           end>
         Properties.ListSource = dsApply
@@ -433,12 +429,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
         Properties.KeyFieldNames = 'DEPT_CODE'
         Properties.ListColumns = <
           item
-            Caption = #31185#23460#20195#30721
-            MinWidth = 10
-            FieldName = 'DEPT_CODE'
-          end
-          item
-            Caption = #31185#23460#21517#31216
+            Caption = #31185#23460
             FieldName = 'DEPT_NAME'
           end>
         Properties.ListSource = dsDept
@@ -465,35 +456,44 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
       object cxDBLookupComboBox7: TcxDBLookupComboBox
         Left = 112
         Top = 109
+        AutoSize = False
         DataBinding.DataField = 'INTERNATIONAL_CODE'
         DataBinding.DataSource = dsOrder
         ParentFont = False
+        Properties.DropDownListStyle = lsFixedList
+        Properties.DropDownSizeable = True
+        Properties.DropDownWidth = 400
+        Properties.GridMode = True
         Properties.KeyFieldNames = 'ITEM_CODE'
         Properties.ListColumns = <
           item
             Caption = #20195#30721
-            Width = 20
+            MinWidth = 60
+            Width = 60
             FieldName = 'ITEM_CODE'
           end
           item
             Caption = #21517#31216
-            Width = 20
+            MinWidth = 120
+            Width = 120
             FieldName = 'ITEM_NAME'
           end
           item
             Caption = #21333#20301
-            MinWidth = 10
-            Width = 10
+            MinWidth = 50
+            Width = 50
             FieldName = 'PRICE_UNIT'
           end
           item
             Caption = #21333#20215
-            Width = 20
+            MinWidth = 40
+            Width = 40
             FieldName = 'PRICE'
           end>
         Properties.ListSource = dsGDService
         Style.StyleController = cxEditStyleControllerValue
         TabOrder = 23
+        Height = 21
         Width = 121
       end
       object cxLabel13: TcxLabel
@@ -561,6 +561,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
         Properties.KeyFieldNames = 'CODE'
         Properties.ListColumns = <
           item
+            Caption = #21333#20301
             FieldName = 'NAME'
           end>
         Properties.ListSource = dsMinUnit
@@ -1008,8 +1009,8 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
       FieldKind = fkLookup
       FieldName = 'INV_NAME'
       LookupDataSet = cdsInvFee
-      LookupKeyFields = 'CODE'
-      LookupResultField = 'NAME'
+      LookupKeyFields = 'FEE_CODE'
+      LookupResultField = 'INV_NAME'
       KeyFields = 'FEE_CODE'
       Size = 50
       Lookup = True
@@ -1073,9 +1074,11 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     Left = 601
     Top = 402
     object cdsMINFEECODE: TStringField
+      DisplayLabel = #20195#30721
       FieldName = 'CODE'
     end
     object cdsMINFEENAME: TStringField
+      DisplayLabel = #21517#31216
       FieldName = 'NAME'
       Size = 50
     end
@@ -1093,12 +1096,16 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     StoreDefs = True
     Left = 537
     Top = 418
-    object cdsInvFeeCODE: TStringField
-      FieldName = 'CODE'
+    object cdsInvFeeFEE_CODE: TStringField
+      FieldName = 'FEE_CODE'
       Size = 10
     end
-    object cdsInvFeeNAME: TStringField
-      FieldName = 'NAME'
+    object cdsInvFeeINV_CODE: TStringField
+      FieldName = 'INV_CODE'
+      Size = 10
+    end
+    object cdsInvFeeINV_NAME: TStringField
+      FieldName = 'INV_NAME'
       Size = 50
     end
   end
@@ -1197,9 +1204,11 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     Left = 905
     Top = 330
     object cdsMinUnitCODE: TStringField
+      DisplayLabel = #20195#30721
       FieldName = 'CODE'
     end
     object cdsMinUnitNAME: TStringField
+      DisplayLabel = #21517#31216
       FieldName = 'NAME'
       Size = 50
     end
@@ -1269,18 +1278,22 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     Left = 241
     Top = 401
     object cdsGDServiceITEM_CODE: TStringField
+      DisplayLabel = #20195#30721
       FieldName = 'ITEM_CODE'
       Size = 50
     end
     object cdsGDServiceITEM_NAME: TStringField
+      DisplayLabel = #21517#31216
       FieldName = 'ITEM_NAME'
       Size = 255
     end
     object cdsGDServicePRICE_UNIT: TStringField
+      DisplayLabel = #21333#20301
       FieldName = 'PRICE_UNIT'
       Size = 50
     end
     object cdsGDServicePRICE: TStringField
+      DisplayLabel = #21333#20215
       FieldName = 'PRICE'
       Size = 50
     end
@@ -1308,7 +1321,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     StoreDefs = True
     Left = 194
     Top = 530
-    object cdsOrderItemTRADE_NAME: TWideStringField
+    object cdsOrderItemTRADE_NAME: TStringField
       FieldName = 'TRADE_NAME'
       Size = 120
     end
@@ -1320,18 +1333,18 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
       FieldName = 'GB_CODE'
       Size = 50
     end
-    object cdsOrderItemPRODUCER: TWideStringField
+    object cdsOrderItemPRODUCER: TStringField
       FieldName = 'PRODUCER'
       Size = 50
     end
-    object cdsOrderItemLACK_NAME: TWideStringField
+    object cdsOrderItemLACK_NAME: TStringField
       FieldName = 'LACK_NAME'
       Size = 4
     end
-    object cdsOrderItemPRICE: TBCDField
+    object cdsOrderItemPRICE: TFMTBCDField
       FieldName = 'PRICE'
     end
-    object cdsOrderItemVALID_NAME: TWideStringField
+    object cdsOrderItemVALID_NAME: TStringField
       FieldName = 'VALID_NAME'
       Size = 4
     end
@@ -1353,21 +1366,21 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     object cdsOrderInsuINSU_INTERFACE: TStringField
       FieldName = 'INSU_INTERFACE'
     end
-    object cdsOrderInsuINSU_ITEM_NAME: TWideStringField
-      FieldName = 'INSU_ITEM_NAME'
-      Size = 50
-    end
     object cdsOrderInsuINSU_ITEM_CODE: TStringField
       FieldName = 'INSU_ITEM_CODE'
       Size = 30
     end
-    object cdsOrderInsuBASE_MED_TYPE: TWideStringField
+    object cdsOrderInsuINSU_ITEM_NAME: TStringField
+      FieldName = 'INSU_ITEM_NAME'
+      Size = 50
+    end
+    object cdsOrderInsuBASE_MED_TYPE: TStringField
       FieldName = 'BASE_MED_TYPE'
     end
-    object cdsOrderInsuBASE_MED_RATE: TBCDField
+    object cdsOrderInsuBASE_MED_RATE: TFMTBCDField
       FieldName = 'BASE_MED_RATE'
     end
-    object cdsOrderInsuCOM_OUTP_RATE: TBCDField
+    object cdsOrderInsuCOM_OUTP_RATE: TFMTBCDField
       FieldName = 'COM_OUTP_RATE'
     end
   end

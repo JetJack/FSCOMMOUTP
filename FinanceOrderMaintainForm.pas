@@ -29,15 +29,18 @@ type
     Panel2: TPanel;
     framFinanceOrder: TframFinanceOrderMaintain;
     cxButton1: TcxButton;
+    cxButton2: TcxButton;
     procedure framFinanceOrderMaintain1cdsOrderAfterInsert(DataSet: TDataSet);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure framFinanceOrdercdsOrderAfterScroll(DataSet: TDataSet);
   private
     { Private declarations }
     FModeInfo: String;
     procedure GetDictionary();
     procedure GetOrderInfo();
     procedure ShowOrderRelateInfo(OrderCode: String);
+    procedure SaveOrderInfo();
   public
     { Public declarations }
   end;
@@ -60,6 +63,13 @@ procedure TfrmFinanceOrderMaintain.FormShow(Sender: TObject);
 begin
   inherited;
   self.GetOrderInfo();
+end;
+
+procedure TfrmFinanceOrderMaintain.framFinanceOrdercdsOrderAfterScroll(
+  DataSet: TDataSet);
+begin
+  inherited;
+  self.ShowOrderRelateInfo(self.framFinanceOrder.cdsOrderORDER_CODE.AsString);
 end;
 
 procedure TfrmFinanceOrderMaintain.framFinanceOrderMaintain1cdsOrderAfterInsert(
@@ -130,9 +140,20 @@ begin
       showmessage(_jo.GetValue('Message').Value);
 
     //cdsInvFee
+    {
     _sFieldList := 'CODE, NAME';
     _sTypeName := 'MZINVOICEITEM';
     _data := dmHis.SystemMaintainServer.GetDictionaryValue(FModeInfo, _sFieldList, _sTypeName);
+    _jo :=  TJSONObject.ParseJSONValue(_data) as TJSONObject;
+    if (_jo.GetValue('Code').Value = '1') then
+    begin
+      TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, self.framFinanceOrder.cdsInvFee);
+      self.framFinanceOrder.cdsInvFee.Delta.DataView.Clear();
+    end
+    else
+      showmessage(_jo.GetValue('Message').Value);
+      }
+    _data := dmHis.SystemMaintainServer.GetMINFeeToInvFee(FModeInfo);
     _jo :=  TJSONObject.ParseJSONValue(_data) as TJSONObject;
     if (_jo.GetValue('Code').Value = '1') then
     begin
@@ -203,6 +224,7 @@ begin
     _data := dmHis.SystemMaintainServer.GetFinanceOrderInfo(FModeInfo,'');
     _jo := TJSONObject.ParseJSONValue(_data) as TJSONObject;
     _tmp := TFDMemTable.Create(nil);
+    self.framFinanceOrder.cdsOrder.AfterScroll := nil;
     if (_jo.GetValue('Code').Value = '1') then
     begin
       //TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, self.framFinanceOrder.cdsOrder);
@@ -219,15 +241,42 @@ begin
           self.framFinanceOrder.cdsOrder.FieldByName(_tmp.Fields.Fields[i].FieldName).Value
             := _tmp.Fields.Fields[i].Value;
         end;
-       // self.framFinanceOrder.cdsOrder.Post();
+        self.framFinanceOrder.cdsOrder.Post();
         _tmp.Next();
       end;
-     // self.framFinanceOrder.cdsOrder.Delta.DataView.Clear();
+      self.framFinanceOrder.cdsOrder.Delta.DataView.Clear();
+      if not self.framFinanceOrder.cdsOrder.IsEmpty then
+      begin
+        self.ShowOrderRelateInfo(self.framFinanceOrder.cdsOrderORDER_CODE.AsString);
+      end;
     end
     else
       showmessage(_jo.GetValue('Message').Value);
   finally
     _tmp.Free();
+    self.framFinanceOrder.cdsOrder.AfterScroll := self.framFinanceOrdercdsOrderAfterScroll;
+  end;
+end;
+
+procedure TfrmFinanceOrderMaintain.SaveOrderInfo;
+var _sSQL, _sNoField: string;
+    AJSON: TJSONObject;
+begin
+  try
+    _sNoField := '';
+    _sSQL := TDSCJSONTools.FDMemtableToSQLJSON(self.framFinanceOrder.cdsOrder,
+       'FIN_COM_ORDER','ORDER_CODE', _sNoField);
+    AJSON := TJSONObject.ParseJSONValue(dmHis.SystemMaintainServer.ExecuteSQLSet(FModeInfo, _sSQL)) as TJSONObject;
+    if AJSON.GetValue('Code').Value = '1' then
+    begin
+      self.GetOrderInfo();
+    end
+    else
+    begin
+      showmessage(AJSON.GetValue('Message').Value);
+    end;
+  finally
+    AJSON.Free();
   end;
 end;
 
@@ -258,7 +307,7 @@ begin
     else
       showmessage(_jo.GetValue('Message').Value);
   finally
-
+    _jo.Free();
   end;
 end;
 

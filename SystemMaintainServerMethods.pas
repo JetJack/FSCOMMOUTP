@@ -89,6 +89,13 @@ type
     /// 获取操作员基本信息，操作员ID和操作员名称
     /// </remarks>
     function GetOperatorBase(ModeInfo: String): WideString;
+    /// <summary>获取最小费用的发票分类名称</summary>
+    /// <param name="ModeInfo">调用模块信息</param>
+    /// <returns>最小费用的发票分类名称</returns>
+    /// <remarks>
+    /// 获取最小费用的发票分类名称
+    /// </remarks>
+    function GetMINFeeToInvFee(ModeInfo: String): WideString;
   end;
 
 var
@@ -139,6 +146,7 @@ begin
     if Not TSysMaintainServer.ClassInitFlag then
     begin
       self.LoadSQLLibrary('HHIS', 'FIN');
+      self.LoadSQLLibrary('SystemMaintainServerMethods', 'TSysMaintainServer');
       TSysMaintainServer.ClassInitFlag := true;
     end;
   finally
@@ -212,10 +220,10 @@ begin
     else
     begin
       if OrderCode <> '' then
-       _sSQL := _sSQL + 'AND A.ORDERCODE = ' + QuotedStr(OrderCode) ;
+       _sSQL := _sSQL + ' AND A.ORDER_CODE = ' + QuotedStr(OrderCode) ;
       if InsuInterFace <> '' then
         _sSQL := _sSQL + 'AND A.INTERFACE_TYPE = ' + QuotedStr(InsuInterFace) ;
-      _sSQL := _sSQL + ' ORDER BY A.ORDERCODE' ;
+      _sSQL := _sSQL + ' ORDER BY A.ORDER_CODE' ;
       _sResult := self.DAO.GetAJSONDataSet(ModeInfo + ' call TSysMaintainServer.GetFinanceOrderInsuInfo', _sSQL);
     end;
   finally
@@ -252,10 +260,44 @@ begin
     else
     begin
       if OrderCode <> '' then
-       _sSQL := _sSQL + 'WHERE ORDERCODE = ' + QuotedStr(OrderCode)
+       _sSQL := _sSQL + ' WHERE ORDER_CODE = ' + QuotedStr(OrderCode)
       else
-       _sSQL := _sSQL + ' ORDER BY ORDERCODE' ;
+       _sSQL := _sSQL + ' ORDER BY ORDER_CODE' ;
       _sResult := self.DAO.GetAJSONDataSet(ModeInfo + ' call TSysMaintainServer.GetFinanceOrderRelateItem', _sSQL);
+    end;
+  finally
+     Result := _sResult;
+    _jo.Free();
+  end;
+end;
+
+function TSysMaintainServer.GetMINFeeToInvFee(ModeInfo: String): WideString;
+/// <summary>获取最小费用的发票分类名称</summary>
+/// <param name="ModeInfo">调用模块信息</param>
+/// <returns>最小费用的发票分类名称</returns>
+/// <remarks>
+/// 获取最小费用的发票分类名称
+/// </remarks>
+var _sSQL, _sResult: String;
+    _jo: TJSONObject;
+    _jp:TJSONPair;
+begin
+  try
+    _sSQL := TSysMaintainServer.GetSQLString('SystemMaintainServerMethods.'
+       + 'TSysMaintainServer.GetMINFeeToInvFee.NO1');
+    _jo := TJSONObject.Create();
+    if _sSQL = '' then
+    begin
+      _jp := TJSONPair.Create('Code', '-1');
+      _jo.AddPair(_jp);
+      _jp := TJSONPair.Create('Message', 'SystemMaintainServerMethods.'
+         + 'TSysMaintainServer.GetMINFeeToInvFee.NO1'+'没有找到SQL语句');
+      _jo.AddPair(_jp);
+      _sResult := _Jo.ToString;
+    end
+    else
+    begin
+       _sResult := self.DAO.GetAJSONDataSet(ModeInfo + ' call TSysMaintainServer.GetMINFeeToInvFee', _sSQL);
     end;
   finally
      Result := _sResult;
