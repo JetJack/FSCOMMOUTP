@@ -180,22 +180,13 @@ type
     cdsOperatorUSER_ID: TIntegerField;
     cdsOrderALIAS_WB: TStringField;
     cxDBLookupComboBox1: TcxDBLookupComboBox;
-    cdsClassCodeNAME: TStringField;
-    cdsApplyNAME: TStringField;
     cdsDeptDEPT_NAME: TStringField;
-    cdsGDServiceITEM_NAME: TStringField;
-    cdsGDServicePRICE_UNIT: TStringField;
-    cdsMINFEENAME: TStringField;
-    cdsMinUnitNAME: TStringField;
     cdsOperatorUSER_NAME: TStringField;
-    cdsValidNAME: TStringField;
-    cdsGDServicePRICE: TStringField;
     cdsOrderORDER_NAME: TStringField;
     cdsOrderORDER_UNIT: TStringField;
     cdsOrderALIAS_NAME: TStringField;
     cdsInvFeeFEE_CODE: TStringField;
     cdsInvFeeINV_CODE: TStringField;
-    cdsInvFeeINV_NAME: TStringField;
     cdsOrderInsuINSU_ITEM_NAME: TStringField;
     cdsOrderItemTRADE_NAME: TStringField;
     cdsOrderItemLACK_NAME: TStringField;
@@ -205,6 +196,15 @@ type
     cdsOrderInsuBASE_MED_TYPE: TStringField;
     cdsOrderInsuBASE_MED_RATE: TFMTBCDField;
     cdsOrderInsuCOM_OUTP_RATE: TFMTBCDField;
+    cdsClassCodeNAME: TWideStringField;
+    cdsMINFEENAME: TWideStringField;
+    cdsInvFeeINV_NAME: TWideStringField;
+    cdsApplyNAME: TWideStringField;
+    cdsValidNAME: TWideStringField;
+    cdsMinUnitNAME: TWideStringField;
+    cdsGDServiceITEM_NAME: TWideStringField;
+    cdsGDServicePRICE_UNIT: TWideStringField;
+    cdsGDServicePRICE: TWideStringField;
   private
     { Private declarations }
   public

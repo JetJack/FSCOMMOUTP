@@ -1077,8 +1077,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
       DisplayLabel = #20195#30721
       FieldName = 'CODE'
     end
-    object cdsMINFEENAME: TStringField
-      DisplayLabel = #21517#31216
+    object cdsMINFEENAME: TWideStringField
       FieldName = 'NAME'
       Size = 50
     end
@@ -1104,7 +1103,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
       FieldName = 'INV_CODE'
       Size = 10
     end
-    object cdsInvFeeINV_NAME: TStringField
+    object cdsInvFeeINV_NAME: TWideStringField
       FieldName = 'INV_NAME'
       Size = 50
     end
@@ -1125,7 +1124,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     object cdsClassCodeCODE: TStringField
       FieldName = 'CODE'
     end
-    object cdsClassCodeNAME: TStringField
+    object cdsClassCodeNAME: TWideStringField
       FieldName = 'NAME'
       Size = 50
     end
@@ -1146,7 +1145,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     object cdsApplyCODE: TStringField
       FieldName = 'CODE'
     end
-    object cdsApplyNAME: TStringField
+    object cdsApplyNAME: TWideStringField
       FieldName = 'NAME'
       Size = 50
     end
@@ -1167,7 +1166,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     object cdsValidCODE: TStringField
       FieldName = 'CODE'
     end
-    object cdsValidNAME: TStringField
+    object cdsValidNAME: TWideStringField
       FieldName = 'NAME'
       Size = 50
     end
@@ -1207,8 +1206,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
       DisplayLabel = #20195#30721
       FieldName = 'CODE'
     end
-    object cdsMinUnitNAME: TStringField
-      DisplayLabel = #21517#31216
+    object cdsMinUnitNAME: TWideStringField
       FieldName = 'NAME'
       Size = 50
     end
@@ -1282,18 +1280,15 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
       FieldName = 'ITEM_CODE'
       Size = 50
     end
-    object cdsGDServiceITEM_NAME: TStringField
-      DisplayLabel = #21517#31216
+    object cdsGDServiceITEM_NAME: TWideStringField
       FieldName = 'ITEM_NAME'
       Size = 255
     end
-    object cdsGDServicePRICE_UNIT: TStringField
-      DisplayLabel = #21333#20301
+    object cdsGDServicePRICE_UNIT: TWideStringField
       FieldName = 'PRICE_UNIT'
       Size = 50
     end
-    object cdsGDServicePRICE: TStringField
-      DisplayLabel = #21333#20215
+    object cdsGDServicePRICE: TWideStringField
       FieldName = 'PRICE'
       Size = 50
     end
