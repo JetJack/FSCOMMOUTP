@@ -322,6 +322,7 @@ var
         {$IFDEF QJSON}TQJson{$ENDIF}
         ;
   nConfig: TSevenZIPConfig;
+  _sFieldList: String;
 
   procedure _JTDConfig;
   var
@@ -368,7 +369,7 @@ var
     end;
   end;
 
-  function _JTDStepField: Boolean;
+  function _JTDStepField: String;
   var
     nFName, nFDisplay: String;
     i, nFLength: Integer;
@@ -389,7 +390,7 @@ var
     nJO, nJR: TQJson;
 {$ENDIF}
   begin
-    Result := False;
+    Result := '';
     ADataSet.Close;
 
 {$IFDEF SYSJSON}
@@ -444,17 +445,27 @@ var
         nFLength := nJR.ItemByName('L').AsInteger;
         nFRequired := Boolean(nJR.ItemByName('R').AsInteger);
 {$ENDIF}
+        Result := Result + nFName + '|' ;
         nFD := ADataSet.FieldDefs.AddFieldDef;
         with nFD do
         try
           Name := nFName;
           case nFType of
             _FT_STRING:
+            begin
               DataType := ftString;
+              size := nFLength;
+            end;
             _FT_FIXEDCHAR:
+            begin
               DataType := ftFixedChar;
-             _FT_WIDESTRING:
+              size := nFLength;
+            end;
+            _FT_WIDESTRING:
+             begin
               DataType := ftWideString;
+              size := nFLength;
+             end;
             _FT_MEMO:
               DataType := ftMemo;
             _FT_FMTMEMO:
@@ -512,13 +523,14 @@ var
     finally
       ADataSet.FieldDefs.EndUpdate;
     end;
-    Result := True;
+    //Result := True;
   end;
 
-  function _JTDStepRecord: Boolean;
+  function _JTDStepRecord(FieldList:String): Boolean;
   var
     nFName, nStr: String;
-    i, j: Integer;
+    FList: TStringList;
+    i, j, _iFCount: Integer;
     nField: TField;
     nMSI, nMSO: TMemoryStream;
 {$IFDEF 7ZIP}
@@ -541,6 +553,9 @@ var
 {$ENDIF}
   begin
     Result := False;
+    FList := TStringList.Create;
+    FList.Delimiter := '|';
+    FList.DelimitedText := FieldList;
 {$IFDEF SYSJSON}
     nJA := nJDS.GetValue('R') as TJSONArray;
     if nJA = nil then
@@ -573,10 +588,17 @@ var
                 {$IFDEF JSON_SO}nJA[i].AsArray{$ENDIF}
                 {$IFDEF QJSON}nJO.Items[i]{$ENDIF}
                 ;
+        //获取JSON串字段数量
+        {$IFDEF SYSJSON}_iFCount := nJRA.Size {$ENDIF}
+        {$IFDEF JSON_SO}_iFCount := nJRA.Length {$ENDIF}
+        {$IFDEF QJSON}_iFCount := nJRA.Count {$ENDIF}
+        ;
         ADataSet.Append;
-        for j := 0 to ADataSet.Fields.Count - 1 do
+        //for j := 0 to ADataSet.Fields.Count - 1 do
+        for j := 0 to _iFCount - 1 do
         begin
-          nField := ADataSet.Fields[j];
+          //nField := ADataSet.Fields[j];
+          nField := ADataSet.FieldByName(FList.Strings[j]) ;
           nFName := nField.FieldName;
           if
             {$IFDEF SYSJSON}nJRA.Get(j).Null{$ENDIF}
@@ -661,6 +683,13 @@ var
                 nMSO.Position := 0;
                 TBlobField(nField).LoadFromStream(nMSO);
               end;
+              ftWideString:
+              begin
+                nField.AsWideString := {$IFDEF SYSJSON}TJSONString(nJRA.Get(j)).Value{$ENDIF}
+                              {$IFDEF JSON_SO}nJRA[j].AsString{$ENDIF}
+                              {$IFDEF QJSON}nJRA.Items[j].AsString{$ENDIF}
+                              ;
+              end
             else
               nField.Value := {$IFDEF SYSJSON}TJSONString(nJRA.Get(j)).Value{$ENDIF}
                               {$IFDEF JSON_SO}nJRA[j].AsString{$ENDIF}
@@ -676,6 +705,7 @@ var
       ADataSet.EnableControls;
       nMSO.Free;
       nMSI.Free;
+      FList.Free();
 {$IFDEF 7ZIP}
       nMSC.Free;
 {$ENDIF}
@@ -704,33 +734,34 @@ begin
 
       if ADataSet is TCustomClientDataSet then
       begin
-        Result := _JTDStepField;
-        if Result then
+        _sFieldList := _JTDStepField;
+        if not( _sFieldList = '')  then
         begin
           TCustomClientDataSet(ADataSet).CreateDataSet;
-          Result := _JTDStepRecord;
+          Result := _JTDStepRecord(_sFieldList);
         end;
       end
 {$IFDEF ADO}
       else if ADataSet is TADODataSet then
       begin
-        Result := _JTDStepField;
-        if Result then
+        _sFieldList := _JTDStepField;
+        if not (_sFieldList = '') then
         begin
           TADODataSet(ADataSet).CreateDataSet;
-          Result := _JTDStepRecord;
+          Result := _JTDStepRecord(_sFieldList);
         end;
       end
 {$ENDIF}
 {$IFDEF FIREDAC}
       else if ADataSet is TFDDataSet then
       begin
-        Result := _JTDStepField;
-        if Result then
+        _sFieldList := _JTDStepField;
+        //Result := true;
+        if not (_sFieldList = '') then
         begin
           TFDDataSet(ADataSet).CreateDataSet;
           ADataset.Open();
-          Result := _JTDStepRecord;
+          Result := _JTDStepRecord(_sFieldList);
         end;
       end
 {$ENDIF}
@@ -822,7 +853,7 @@ begin
           ftFixedChar:
             nFT := _FT_FIXEDCHAR;
           ftWideString:
-            nFT := _FT_STRING;
+            nFT := _FT_WIDESTRING;
           ftMemo:
             nFT := _FT_MEMO;
           ftFMTMemo:
