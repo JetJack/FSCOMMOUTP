@@ -522,8 +522,8 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
         Transparent = True
       end
       object cxDBLabel3: TcxDBLabel
-        Left = 534
-        Top = 108
+        Left = 533
+        Top = 111
         DataBinding.DataField = 'OPER_TIME'
         DataBinding.DataSource = dsOrder
         Transparent = True
@@ -558,7 +558,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
         Top = 51
         DataBinding.DataField = 'ORDER_UNIT'
         DataBinding.DataSource = dsOrder
-        Properties.KeyFieldNames = 'CODE'
+        Properties.KeyFieldNames = 'NAME'
         Properties.ListColumns = <
           item
             Caption = #21333#20301
@@ -592,94 +592,57 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
         TabOrder = 0
         Height = 140
         Width = 606
-        object cxDBTreeListOrderItem: TcxDBTreeList
+        object cxGrid1: TcxGrid
           Left = 3
           Top = 15
           Width = 600
           Height = 116
           Align = alClient
-          Bands = <
-            item
-            end>
-          DataController.DataSource = dsOrderItem
-          Font.Charset = ANSI_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -12
-          Font.Name = #23435#20307
-          Font.Style = []
-          Navigator.Buttons.CustomButtons = <>
-          ParentFont = False
-          RootValue = -1
           TabOrder = 0
-          object cxDBTreeListOrderItemTRADE_NAME: TcxDBTreeListColumn
-            Caption.Text = #33647#21697'/'#26448#26009#21517#31216
-            DataBinding.FieldName = 'TRADE_NAME'
-            Width = 157
-            Position.ColIndex = 0
-            Position.RowIndex = 0
-            Position.BandIndex = 0
-            Summary.FooterSummaryItems = <>
-            Summary.GroupFooterSummaryItems = <>
+          object cxGrid1DBTableView1: TcxGridDBTableView
+            Navigator.Buttons.CustomButtons = <>
+            DataController.DataSource = dsOrderItem
+            DataController.Summary.DefaultGroupSummaryItems = <>
+            DataController.Summary.FooterSummaryItems = <>
+            DataController.Summary.SummaryGroups = <>
+            OptionsView.GroupByBox = False
+            object cxGrid1DBTableView1TRADE_NAME: TcxGridDBColumn
+              Caption = #33647#21697'/'#26448#26009#21517#31216
+              DataBinding.FieldName = 'TRADE_NAME'
+              Width = 165
+            end
+            object cxGrid1DBTableView1SPECS: TcxGridDBColumn
+              Caption = #35268#26684
+              DataBinding.FieldName = 'SPECS'
+              Width = 105
+            end
+            object cxGrid1DBTableView1GB_CODE: TcxGridDBColumn
+              Caption = #26412#20301#30721
+              DataBinding.FieldName = 'GB_CODE'
+              Width = 100
+            end
+            object cxGrid1DBTableView1PRODUCER: TcxGridDBColumn
+              Caption = #29983#20135#21830
+              DataBinding.FieldName = 'PRODUCER'
+              Width = 95
+            end
+            object cxGrid1DBTableView1PRICE: TcxGridDBColumn
+              Caption = #21333#20215
+              DataBinding.FieldName = 'PRICE'
+              Width = 47
+            end
+            object cxGrid1DBTableView1LACK_NAME: TcxGridDBColumn
+              Caption = #26377#33647
+              DataBinding.FieldName = 'LACK_NAME'
+              Width = 36
+            end
+            object cxGrid1DBTableView1VALID_NAME: TcxGridDBColumn
+              Caption = #22312#29992
+              DataBinding.FieldName = 'VALID_NAME'
+            end
           end
-          object cxDBTreeListOrderItemSPECS: TcxDBTreeListColumn
-            Caption.Text = #35268#26684
-            DataBinding.FieldName = 'SPECS'
-            Width = 112
-            Position.ColIndex = 1
-            Position.RowIndex = 0
-            Position.BandIndex = 0
-            Summary.FooterSummaryItems = <>
-            Summary.GroupFooterSummaryItems = <>
-          end
-          object cxDBTreeListOrderItemGB_CODE: TcxDBTreeListColumn
-            Caption.Text = #26412#20301#30721
-            DataBinding.FieldName = 'GB_CODE'
-            Width = 120
-            Position.ColIndex = 2
-            Position.RowIndex = 0
-            Position.BandIndex = 0
-            Summary.FooterSummaryItems = <>
-            Summary.GroupFooterSummaryItems = <>
-          end
-          object cxDBTreeListOrderItemPRODUCER: TcxDBTreeListColumn
-            Caption.Text = #29983#20135#21830
-            DataBinding.FieldName = 'PRODUCER'
-            Width = 100
-            Position.ColIndex = 3
-            Position.RowIndex = 0
-            Position.BandIndex = 0
-            Summary.FooterSummaryItems = <>
-            Summary.GroupFooterSummaryItems = <>
-          end
-          object cxDBTreeListOrderItemLACK_NAME: TcxDBTreeListColumn
-            Caption.Text = #26377#33647
-            DataBinding.FieldName = 'LACK_NAME'
-            Width = 51
-            Position.ColIndex = 5
-            Position.RowIndex = 0
-            Position.BandIndex = 0
-            Summary.FooterSummaryItems = <>
-            Summary.GroupFooterSummaryItems = <>
-          end
-          object cxDBTreeListOrderItemVALID_NAME: TcxDBTreeListColumn
-            Caption.Text = #22312#29992
-            DataBinding.FieldName = 'VALID_NAME'
-            Width = 44
-            Position.ColIndex = 6
-            Position.RowIndex = 0
-            Position.BandIndex = 0
-            Summary.FooterSummaryItems = <>
-            Summary.GroupFooterSummaryItems = <>
-          end
-          object cxDBTreeListOrderItemPRICE: TcxDBTreeListColumn
-            Caption.Text = #21333#20215
-            DataBinding.FieldName = 'PRICE'
-            Width = 60
-            Position.ColIndex = 4
-            Position.RowIndex = 0
-            Position.BandIndex = 0
-            Summary.FooterSummaryItems = <>
-            Summary.GroupFooterSummaryItems = <>
+          object cxGrid1Level1: TcxGridLevel
+            GridView = cxGrid1DBTableView1
           end
         end
       end
@@ -699,78 +662,53 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
         TabOrder = 0
         Height = 140
         Width = 688
-        object cxDBTreeListOrderInsu: TcxDBTreeList
+        object cxGrid2: TcxGrid
           Left = 3
           Top = 15
           Width = 682
           Height = 116
           Align = alClient
-          Bands = <
-            item
-            end>
-          DataController.DataSource = dsOrderInsu
-          Navigator.Buttons.CustomButtons = <>
-          RootValue = -1
           TabOrder = 0
-          object cxDBTreeListOrderInsuINSU_INTERFACE: TcxDBTreeListColumn
-            Caption.Text = #31038#20445#25509#21475#21517#31216
-            DataBinding.FieldName = 'INSU_INTERFACE'
-            Width = 81
-            Position.ColIndex = 0
-            Position.RowIndex = 0
-            Position.BandIndex = 0
-            Summary.FooterSummaryItems = <>
-            Summary.GroupFooterSummaryItems = <>
+          object cxGrid2DBTableView1: TcxGridDBTableView
+            Navigator.Buttons.CustomButtons = <>
+            DataController.DataSource = dsOrderInsu
+            DataController.Summary.DefaultGroupSummaryItems = <>
+            DataController.Summary.FooterSummaryItems = <>
+            DataController.Summary.SummaryGroups = <>
+            OptionsView.GroupByBox = False
+            object cxGrid2DBTableView1INSU_INTERFACE: TcxGridDBColumn
+              Caption = #25509#21475#31867#22411
+              DataBinding.FieldName = 'INSU_INTERFACE'
+              Width = 75
+            end
+            object cxGrid2DBTableView1INSU_ITEM_CODE: TcxGridDBColumn
+              Caption = #31038#20445#39033#30446#20195#30721
+              DataBinding.FieldName = 'INSU_ITEM_CODE'
+              Width = 117
+            end
+            object cxGrid2DBTableView1INSU_ITEM_NAME: TcxGridDBColumn
+              Caption = #31038#20445#39033#30446#21517#31216
+              DataBinding.FieldName = 'INSU_ITEM_NAME'
+              Width = 192
+            end
+            object cxGrid2DBTableView1BASE_MED_TYPE: TcxGridDBColumn
+              Caption = #22522#26412#21307#30103#31867#21035
+              DataBinding.FieldName = 'BASE_MED_TYPE'
+              Width = 81
+            end
+            object cxGrid2DBTableView1BASE_MED_RATE: TcxGridDBColumn
+              Caption = #22522#26412#25253#38144#27604#20363
+              DataBinding.FieldName = 'BASE_MED_RATE'
+              Width = 73
+            end
+            object cxGrid2DBTableView1COM_OUTP_RATE: TcxGridDBColumn
+              Caption = #26222#36890#38376#35786#27604#20363
+              DataBinding.FieldName = 'COM_OUTP_RATE'
+              Width = 77
+            end
           end
-          object cxDBTreeListOrderInsuINSU_ITEM_NAME: TcxDBTreeListColumn
-            Caption.Text = #31038#20445#39033#30446#21517
-            DataBinding.FieldName = 'INSU_ITEM_NAME'
-            Width = 164
-            Position.ColIndex = 1
-            Position.RowIndex = 0
-            Position.BandIndex = 0
-            Summary.FooterSummaryItems = <>
-            Summary.GroupFooterSummaryItems = <>
-          end
-          object cxDBTreeListOrderInsuINSU_ITEM_CODE: TcxDBTreeListColumn
-            Caption.Text = #31038#20445#39033#30446#20195#30721
-            DataBinding.FieldName = 'INSU_ITEM_CODE'
-            Width = 100
-            Position.ColIndex = 2
-            Position.RowIndex = 0
-            Position.BandIndex = 0
-            Summary.FooterSummaryItems = <>
-            Summary.GroupFooterSummaryItems = <>
-          end
-          object cxDBTreeListOrderInsuBASE_MED_TYPE: TcxDBTreeListColumn
-            Caption.Text = #31038#20445#31867#22411
-            DataBinding.FieldName = 'BASE_MED_TYPE'
-            Width = 58
-            Position.ColIndex = 3
-            Position.RowIndex = 0
-            Position.BandIndex = 0
-            Summary.FooterSummaryItems = <>
-            Summary.GroupFooterSummaryItems = <>
-          end
-          object cxDBTreeListOrderInsuBASE_MED_RATE: TcxDBTreeListColumn
-            Caption.Text = #22522#26412#21307#30103#25253#38144#27604#20363
-            DataBinding.FieldName = 'BASE_MED_RATE'
-            Width = 110
-            Position.ColIndex = 4
-            Position.RowIndex = 0
-            Position.BandIndex = 0
-            Summary.FooterSummaryItems = <>
-            Summary.GroupFooterSummaryItems = <>
-          end
-          object cxDBTreeListOrderInsuCOM_OUTP_RATE: TcxDBTreeListColumn
-            Caption.Text = #26222#36890#38376#35786#32467#31639#25253#38144#27604#20363
-            DataBinding.FieldName = 'COM_OUTP_RATE'
-            Width = 126
-            Position.ColIndex = 5
-            Position.RowIndex = 0
-            Position.BandIndex = 0
-            Summary.FooterSummaryItems = <>
-            Summary.GroupFooterSummaryItems = <>
+          object cxGrid2Level1: TcxGridLevel
+            GridView = cxGrid2DBTableView1
           end
         end
       end
@@ -833,7 +771,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
-    object cdsOrderORDER_NAME: TStringField
+    object cdsOrderORDER_NAME: TWideStringField
       FieldName = 'ORDER_NAME'
       Size = 100
     end
@@ -877,7 +815,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
       Origin = 'INTERNATIONAL_CODE'
       Size = 50
     end
-    object cdsOrderALIAS_NAME: TStringField
+    object cdsOrderALIAS_NAME: TWideStringField
       FieldName = 'ALIAS_NAME'
       Size = 100
     end
@@ -900,7 +838,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
       Origin = 'ENGLISH_ALIAS'
       Size = 100
     end
-    object cdsOrderORDER_UNIT: TStringField
+    object cdsOrderORDER_UNIT: TWideStringField
       FieldName = 'ORDER_UNIT'
       Size = 30
     end
@@ -1187,7 +1125,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     object cdsOperatorUSER_ID: TIntegerField
       FieldName = 'USER_ID'
     end
-    object cdsOperatorUSER_NAME: TStringField
+    object cdsOperatorUSER_NAME: TWideStringField
       FieldName = 'USER_NAME'
       Size = 50
     end
@@ -1250,7 +1188,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
       FieldName = 'DEPT_CODE'
       Size = 10
     end
-    object cdsDeptDEPT_NAME: TStringField
+    object cdsDeptDEPT_NAME: TWideStringField
       FieldName = 'DEPT_NAME'
       Size = 50
     end
@@ -1310,15 +1248,18 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]
     ResourceOptions.SilentMode = True
-    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.AssignedValues = [uvEDelete, uvEInsert, uvEUpdate, uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.EnableDelete = False
+    UpdateOptions.EnableInsert = False
+    UpdateOptions.EnableUpdate = False
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
     Left = 194
     Top = 530
-    object cdsOrderItemTRADE_NAME: TStringField
+    object cdsOrderItemTRADE_NAME: TWideStringField
       FieldName = 'TRADE_NAME'
-      Size = 120
+      Size = 60
     end
     object cdsOrderItemSPECS: TStringField
       FieldName = 'SPECS'
@@ -1328,7 +1269,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
       FieldName = 'GB_CODE'
       Size = 50
     end
-    object cdsOrderItemPRODUCER: TStringField
+    object cdsOrderItemPRODUCER: TWideStringField
       FieldName = 'PRODUCER'
       Size = 50
     end
@@ -1339,7 +1280,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     object cdsOrderItemPRICE: TFMTBCDField
       FieldName = 'PRICE'
     end
-    object cdsOrderItemVALID_NAME: TStringField
+    object cdsOrderItemVALID_NAME: TWideStringField
       FieldName = 'VALID_NAME'
       Size = 4
     end
@@ -1353,24 +1294,28 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     FetchOptions.Mode = fmAll
     ResourceOptions.AssignedValues = [rvSilentMode]
     ResourceOptions.SilentMode = True
-    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.AssignedValues = [uvEDelete, uvEInsert, uvEUpdate, uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.EnableDelete = False
+    UpdateOptions.EnableInsert = False
+    UpdateOptions.EnableUpdate = False
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     Left = 1058
     Top = 522
-    object cdsOrderInsuINSU_INTERFACE: TStringField
+    object cdsOrderInsuINSU_INTERFACE: TWideStringField
       FieldName = 'INSU_INTERFACE'
     end
     object cdsOrderInsuINSU_ITEM_CODE: TStringField
       FieldName = 'INSU_ITEM_CODE'
       Size = 30
     end
-    object cdsOrderInsuINSU_ITEM_NAME: TStringField
+    object cdsOrderInsuINSU_ITEM_NAME: TWideStringField
       FieldName = 'INSU_ITEM_NAME'
       Size = 50
     end
-    object cdsOrderInsuBASE_MED_TYPE: TStringField
+    object cdsOrderInsuBASE_MED_TYPE: TWideStringField
       FieldName = 'BASE_MED_TYPE'
+      Size = 10
     end
     object cdsOrderInsuBASE_MED_RATE: TFMTBCDField
       FieldName = 'BASE_MED_RATE'

@@ -85,6 +85,7 @@ inherited frmFinanceOrderMaintain: TfrmFinanceOrderMaintain
         F6AC9379188DF20000000049454E44AE426082}
       OptionsImage.Layout = blGlyphTop
       TabOrder = 1
+      OnClick = cxButton2Click
     end
   end
   object Panel2: TPanel
@@ -162,7 +163,7 @@ inherited frmFinanceOrderMaintain: TfrmFinanceOrderMaintain
           inherited cxGroupBox5: TcxGroupBox
             ExplicitWidth = 702
             Width = 702
-            inherited cxDBTreeListOrderInsu: TcxDBTreeList
+            inherited cxGrid2: TcxGrid
               Width = 696
               ExplicitWidth = 696
             end

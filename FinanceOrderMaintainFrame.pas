@@ -27,7 +27,9 @@ uses
   cxTLData, cxDBTL, cxEditRepositoryItems, cxTextEdit, cxClasses, cxLabel,
   cxGroupBox, Vcl.ExtCtrls, TestDataModule, cxMaskEdit, cxDBLookupComboBox,
   cxDBEdit, cxDBLabel, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxCheckBox,
-  cxRadioGroup;
+  cxRadioGroup, dxSkinscxPCPainter, cxFilter, cxData, cxDataStorage,
+  cxNavigator, cxDBData, cxGridCustomTableView, cxGridTableView,
+  cxGridDBTableView, cxGridLevel, cxGridCustomView, cxGrid;
 
 type
   TframFinanceOrderMaintain = class(TFrame)
@@ -158,42 +160,16 @@ type
     cdsOrderItemSPECS: TStringField;
     cdsOrderItemGB_CODE: TStringField;
     cdsOrderItemVALID_STATE: TStringField;
-    cxDBTreeListOrderItem: TcxDBTreeList;
-    cxDBTreeListOrderItemTRADE_NAME: TcxDBTreeListColumn;
-    cxDBTreeListOrderItemSPECS: TcxDBTreeListColumn;
-    cxDBTreeListOrderItemGB_CODE: TcxDBTreeListColumn;
-    cxDBTreeListOrderItemPRODUCER: TcxDBTreeListColumn;
-    cxDBTreeListOrderItemLACK_NAME: TcxDBTreeListColumn;
-    cxDBTreeListOrderItemVALID_NAME: TcxDBTreeListColumn;
     cxGroupBox5: TcxGroupBox;
     cdsOrderInsu: TFDMemTable;
-    cdsOrderInsuINSU_INTERFACE: TStringField;
     cdsOrderInsuINSU_ITEM_CODE: TStringField;
-    cxDBTreeListOrderInsu: TcxDBTreeList;
-    cxDBTreeListOrderInsuINSU_INTERFACE: TcxDBTreeListColumn;
-    cxDBTreeListOrderInsuINSU_ITEM_NAME: TcxDBTreeListColumn;
-    cxDBTreeListOrderInsuINSU_ITEM_CODE: TcxDBTreeListColumn;
-    cxDBTreeListOrderInsuBASE_MED_TYPE: TcxDBTreeListColumn;
-    cxDBTreeListOrderInsuBASE_MED_RATE: TcxDBTreeListColumn;
-    cxDBTreeListOrderInsuCOM_OUTP_RATE: TcxDBTreeListColumn;
-    cxDBTreeListOrderItemPRICE: TcxDBTreeListColumn;
     cdsOperatorUSER_ID: TIntegerField;
     cdsOrderALIAS_WB: TStringField;
     cxDBLookupComboBox1: TcxDBLookupComboBox;
-    cdsDeptDEPT_NAME: TStringField;
-    cdsOperatorUSER_NAME: TStringField;
-    cdsOrderORDER_NAME: TStringField;
-    cdsOrderORDER_UNIT: TStringField;
-    cdsOrderALIAS_NAME: TStringField;
     cdsInvFeeFEE_CODE: TStringField;
     cdsInvFeeINV_CODE: TStringField;
-    cdsOrderInsuINSU_ITEM_NAME: TStringField;
-    cdsOrderItemTRADE_NAME: TStringField;
     cdsOrderItemLACK_NAME: TStringField;
-    cdsOrderItemVALID_NAME: TStringField;
-    cdsOrderItemPRODUCER: TStringField;
     cdsOrderItemPRICE: TFMTBCDField;
-    cdsOrderInsuBASE_MED_TYPE: TStringField;
     cdsOrderInsuBASE_MED_RATE: TFMTBCDField;
     cdsOrderInsuCOM_OUTP_RATE: TFMTBCDField;
     cdsClassCodeNAME: TWideStringField;
@@ -205,6 +181,36 @@ type
     cdsGDServiceITEM_NAME: TWideStringField;
     cdsGDServicePRICE_UNIT: TWideStringField;
     cdsGDServicePRICE: TWideStringField;
+    cdsDeptDEPT_NAME: TWideStringField;
+    cdsOperatorUSER_NAME: TWideStringField;
+    cdsOrderInsuINSU_ITEM_NAME: TWideStringField;
+    cdsOrderInsuBASE_MED_TYPE: TWideStringField;
+    cdsOrderItemTRADE_NAME: TWideStringField;
+    cdsOrderItemVALID_NAME: TWideStringField;
+    cdsOrderORDER_NAME: TWideStringField;
+    cdsOrderALIAS_NAME: TWideStringField;
+    cdsOrderORDER_UNIT: TWideStringField;
+    cdsOrderItemPRODUCER: TWideStringField;
+    cdsOrderInsuINSU_INTERFACE: TWideStringField;
+    cxGrid1DBTableView1: TcxGridDBTableView;
+    cxGrid1Level1: TcxGridLevel;
+    cxGrid1: TcxGrid;
+    cxGrid1DBTableView1TRADE_NAME: TcxGridDBColumn;
+    cxGrid1DBTableView1SPECS: TcxGridDBColumn;
+    cxGrid1DBTableView1GB_CODE: TcxGridDBColumn;
+    cxGrid1DBTableView1PRODUCER: TcxGridDBColumn;
+    cxGrid1DBTableView1LACK_NAME: TcxGridDBColumn;
+    cxGrid1DBTableView1PRICE: TcxGridDBColumn;
+    cxGrid1DBTableView1VALID_NAME: TcxGridDBColumn;
+    cxGrid2DBTableView1: TcxGridDBTableView;
+    cxGrid2Level1: TcxGridLevel;
+    cxGrid2: TcxGrid;
+    cxGrid2DBTableView1INSU_INTERFACE: TcxGridDBColumn;
+    cxGrid2DBTableView1INSU_ITEM_CODE: TcxGridDBColumn;
+    cxGrid2DBTableView1INSU_ITEM_NAME: TcxGridDBColumn;
+    cxGrid2DBTableView1BASE_MED_TYPE: TcxGridDBColumn;
+    cxGrid2DBTableView1BASE_MED_RATE: TcxGridDBColumn;
+    cxGrid2DBTableView1COM_OUTP_RATE: TcxGridDBColumn;
   private
     { Private declarations }
   public

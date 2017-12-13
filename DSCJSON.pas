@@ -204,7 +204,7 @@ begin
           sName:=DB.Fields[J].FieldName;
 
           //排除不需要插入的字段信息
-          if ItemNoField.IndexOf(sName)>-1 then
+          if (ItemNoField.IndexOf(sName)>-1) or (DB.Fields[j].FieldKind <> fkData) then
             Continue;
 
           //判断字段的数据类型
@@ -253,7 +253,7 @@ begin
           sName:=DB.Fields[J].FieldName;
 
           //排除不需要插入的字段信息
-          if ItemNoField.IndexOf(sName)>-1 then
+          if (ItemNoField.IndexOf(sName)>-1) or (DB.Fields[j].FieldKind <> fkData) then
             Continue;
 
           //判断字段的数据类型

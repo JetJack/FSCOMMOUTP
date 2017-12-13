@@ -34,6 +34,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure framFinanceOrdercdsOrderAfterScroll(DataSet: TDataSet);
+    procedure cxButton2Click(Sender: TObject);
   private
     { Private declarations }
     FModeInfo: String;
@@ -51,6 +52,12 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TfrmFinanceOrderMaintain.cxButton2Click(Sender: TObject);
+begin
+  inherited;
+  self.SaveOrderInfo();
+end;
 
 procedure TfrmFinanceOrderMaintain.FormCreate(Sender: TObject);
 begin
@@ -228,7 +235,9 @@ begin
     if (_jo.GetValue('Code').Value = '1') then
     begin
       //TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, self.framFinanceOrder.cdsOrder);
-      TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, _tmp);
+      self.framFinanceOrder.cdsOrder.CachedUpdates := false;
+      TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, self.framFinanceOrder.cdsOrder);
+      {
       if not self.framFinanceOrder.cdsOrder.Active then
         self.framFinanceOrder.cdsOrder.Open();
       self.framFinanceOrder.cdsOrder.EmptyDataSet();
@@ -244,7 +253,9 @@ begin
         self.framFinanceOrder.cdsOrder.Post();
         _tmp.Next();
       end;
+      }
       self.framFinanceOrder.cdsOrder.Delta.DataView.Clear();
+      self.framFinanceOrder.cdsOrder.CachedUpdates := true;
       if not self.framFinanceOrder.cdsOrder.IsEmpty then
       begin
         self.ShowOrderRelateInfo(self.framFinanceOrder.cdsOrderORDER_CODE.AsString);
@@ -269,6 +280,7 @@ begin
     AJSON := TJSONObject.ParseJSONValue(dmHis.SystemMaintainServer.ExecuteSQLSet(FModeInfo, _sSQL)) as TJSONObject;
     if AJSON.GetValue('Code').Value = '1' then
     begin
+      showmessage('数据保存成功！');
       self.GetOrderInfo();
     end
     else
@@ -286,6 +298,7 @@ var _jo: TJSONObject;
 begin
   try
     //cdsOrderItem
+    self.framFinanceOrder.cdsOrderItem.ReadOnly := false;
     _data := dmHis.SystemMaintainServer.GetFinanceOrderRelateItem(FModeInfo,OrderCode);
     _jo := TJSONObject.ParseJSONValue(_data) as TJSONObject;
     if (_jo.GetValue('Code').Value = '1') then
@@ -297,6 +310,7 @@ begin
       showmessage(_jo.GetValue('Message').Value);
 
     //cdsOrderInsu
+    self.framFinanceOrder.cdsOrderInsu.ReadOnly := false;
     _data := dmHis.SystemMaintainServer.GetFinanceOrderInsuInfo(FModeInfo,OrderCode,'');
     _jo := TJSONObject.ParseJSONValue(_data) as TJSONObject;
     if (_jo.GetValue('Code').Value = '1') then
@@ -308,6 +322,8 @@ begin
       showmessage(_jo.GetValue('Message').Value);
   finally
     _jo.Free();
+    self.framFinanceOrder.cdsOrderItem.ReadOnly := true;
+    self.framFinanceOrder.cdsOrderInsu.ReadOnly := true;
   end;
 end;
 
