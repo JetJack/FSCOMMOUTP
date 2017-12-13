@@ -84,7 +84,6 @@ type
     cdsMINFEECODE: TStringField;
     cdsOrderFEE_NAME: TStringField;
     cdsInvFee: TFDMemTable;
-    cdsInvFeeCODE: TStringField;
     cdsOrderINV_NAME: TStringField;
     cdsClassCode: TFDMemTable;
     cdsClassCodeCODE: TStringField;
@@ -156,12 +155,8 @@ type
     dsOrderItem: TDataSource;
     dsOrderInsu: TDataSource;
     cdsOrderItem: TFDMemTable;
-    cdsOrderItemTRADE_NAME: TWideStringField;
     cdsOrderItemSPECS: TStringField;
     cdsOrderItemGB_CODE: TStringField;
-    cdsOrderItemPRODUCER: TWideStringField;
-    cdsOrderItemLACK_NAME: TWideStringField;
-    cdsOrderItemVALID_NAME: TWideStringField;
     cdsOrderItemVALID_STATE: TStringField;
     cxDBTreeListOrderItem: TcxDBTreeList;
     cxDBTreeListOrderItemTRADE_NAME: TcxDBTreeListColumn;
@@ -173,11 +168,7 @@ type
     cxGroupBox5: TcxGroupBox;
     cdsOrderInsu: TFDMemTable;
     cdsOrderInsuINSU_INTERFACE: TStringField;
-    cdsOrderInsuINSU_ITEM_NAME: TWideStringField;
     cdsOrderInsuINSU_ITEM_CODE: TStringField;
-    cdsOrderInsuBASE_MED_TYPE: TWideStringField;
-    cdsOrderInsuBASE_MED_RATE: TBCDField;
-    cdsOrderInsuCOM_OUTP_RATE: TBCDField;
     cxDBTreeListOrderInsu: TcxDBTreeList;
     cxDBTreeListOrderInsuINSU_INTERFACE: TcxDBTreeListColumn;
     cxDBTreeListOrderInsuINSU_ITEM_NAME: TcxDBTreeListColumn;
@@ -185,7 +176,6 @@ type
     cxDBTreeListOrderInsuBASE_MED_TYPE: TcxDBTreeListColumn;
     cxDBTreeListOrderInsuBASE_MED_RATE: TcxDBTreeListColumn;
     cxDBTreeListOrderInsuCOM_OUTP_RATE: TcxDBTreeListColumn;
-    cdsOrderItemPRICE: TBCDField;
     cxDBTreeListOrderItemPRICE: TcxDBTreeListColumn;
     cdsOperatorUSER_ID: TIntegerField;
     cdsOrderALIAS_WB: TStringField;
@@ -195,7 +185,6 @@ type
     cdsDeptDEPT_NAME: TStringField;
     cdsGDServiceITEM_NAME: TStringField;
     cdsGDServicePRICE_UNIT: TStringField;
-    cdsInvFeeNAME: TStringField;
     cdsMINFEENAME: TStringField;
     cdsMinUnitNAME: TStringField;
     cdsOperatorUSER_NAME: TStringField;
@@ -204,6 +193,18 @@ type
     cdsOrderORDER_NAME: TStringField;
     cdsOrderORDER_UNIT: TStringField;
     cdsOrderALIAS_NAME: TStringField;
+    cdsInvFeeFEE_CODE: TStringField;
+    cdsInvFeeINV_CODE: TStringField;
+    cdsInvFeeINV_NAME: TStringField;
+    cdsOrderInsuINSU_ITEM_NAME: TStringField;
+    cdsOrderItemTRADE_NAME: TStringField;
+    cdsOrderItemLACK_NAME: TStringField;
+    cdsOrderItemVALID_NAME: TStringField;
+    cdsOrderItemPRODUCER: TStringField;
+    cdsOrderItemPRICE: TFMTBCDField;
+    cdsOrderInsuBASE_MED_TYPE: TStringField;
+    cdsOrderInsuBASE_MED_RATE: TFMTBCDField;
+    cdsOrderInsuCOM_OUTP_RATE: TFMTBCDField;
   private
     { Private declarations }
   public

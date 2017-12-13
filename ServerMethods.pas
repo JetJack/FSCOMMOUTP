@@ -17,6 +17,9 @@ type
     //procedure LoadASQLLibrary(ModuleInfo, ModuleName, Classname: String);virtual;abstract;
     //procedure LoadSQLLibrarys();virtual;abstract;
     }
+  public
+    { Public declarations }
+    constructor Create(AOwner: TComponent; ADB: TdmDBProvider);overload;
     /// <summary>运行一组SQL语句</summary>
     /// <param name="ModeInfo">需要运行SQL语句的模块信息</param>
     /// <param name="SQLSet">要运行的SQL语句JSON数组（字符串）</param>
@@ -25,9 +28,6 @@ type
     /// 业务模块需要在一次事务中运行多条SQL语句时调用
     /// </remarks>
     function ExecuteSQLSet(ModeInfo:String; SQLSet: WideString):WideString;
-  public
-    { Public declarations }
-    constructor Create(AOwner: TComponent; ADB: TdmDBProvider);overload;
     /// <summary>获取字典值</summary>
     /// <param name="ModeInfo">需要获取字典值的模块信息</param>
     /// <param name="ASQL">要获得的字段列表（字符串）</param>
