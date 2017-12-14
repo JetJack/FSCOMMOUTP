@@ -240,7 +240,9 @@ begin
     if (_jo.GetValue('Code').Value = '1') then
     begin
       //TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, self.framFinanceOrder.cdsOrder);
-      self.framFinanceOrder.cdsOrder.CachedUpdates := false;
+      self.framFinanceOrder.cdsOrder.Open();
+      self.framFinanceOrder.cdsOrder.EmptyDataSet() ;
+      self.framFinanceOrder.cdsOrder.CancelUpdates();
       TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, self.framFinanceOrder.cdsOrder);
       {
       if not self.framFinanceOrder.cdsOrder.Active then
@@ -288,8 +290,6 @@ begin
     if AJSON.GetValue('Code').Value = '1' then
     begin
       showmessage('数据保存成功！');
-      self.framFinanceOrder.cdsOrder.EmptyDataSet() ;
-      self.framFinanceOrder.cdsOrder.CancelUpdates();
       self.GetOrderInfo();
     end
     else

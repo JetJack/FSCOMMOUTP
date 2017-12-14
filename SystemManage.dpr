@@ -15,7 +15,8 @@ uses
   SystemMaintainMainForm in 'SystemMaintainMainForm.pas' {frmSysMaintainPageControl},
   FinanceOrderMaintainFrame in 'FinanceOrderMaintainFrame.pas' {framFinanceOrderMaintain: TFrame},
   TestDataModule in 'TestDataModule.pas' {dmTest: TDataModule},
-  FinanceOrderMaintainForm in 'FinanceOrderMaintainForm.pas' {frmFinanceOrderMaintain};
+  FinanceOrderMaintainForm in 'FinanceOrderMaintainForm.pas' {frmFinanceOrderMaintain},
+  DrugItemMaintainForm in 'DrugItemMaintainForm.pas' {frmDrugItemMaintain};
 
 {$R *.res}
 
