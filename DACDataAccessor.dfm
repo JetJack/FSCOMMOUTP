@@ -40,6 +40,7 @@ object DataAccessor: TDataAccessor
   end
   object FDTransaction: TFDTransaction
     Options.AutoStop = False
+    Connection = conSys
     AfterCommit = FDTransactionAfterCommit
     AfterRollback = FDTransactionAfterRollback
     Left = 56
@@ -49,5 +50,15 @@ object DataAccessor: TDataAccessor
     Transaction = FDTransaction
     Left = 56
     Top = 200
+  end
+  object conSys: TFDConnection
+    Transaction = FDTransaction
+    Left = 48
+    Top = 40
+  end
+  object FDGUIxWaitCursor1: TFDGUIxWaitCursor
+    Provider = 'Forms'
+    Left = 320
+    Top = 32
   end
 end

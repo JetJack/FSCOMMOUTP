@@ -4,7 +4,7 @@ inherited frmFinanceOrderMaintain: TfrmFinanceOrderMaintain
   ClientWidth = 1316
   OnShow = FormShow
   ExplicitWidth = 1332
-  ExplicitHeight = 620
+  ExplicitHeight = 619
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -227,5 +227,13 @@ inherited frmFinanceOrderMaintain: TfrmFinanceOrderMaintain
         Top = 457
       end
     end
+  end
+  object FDStanStorageBinLink1: TFDStanStorageBinLink
+    Left = 752
+    Top = 24
+  end
+  object FDStanStorageJSONLink1: TFDStanStorageJSONLink
+    Left = 840
+    Top = 32
   end
 end

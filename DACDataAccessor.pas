@@ -14,7 +14,8 @@ uses
   FireDAC.Stan.Pool, FireDAC.Stan.Error, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.Phys.Intf,
   FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.Client, Data.DB,
   FireDAC.Comp.DataSet, FireDAC.Stan.StorageJSON, FireDAC.Stan.StorageBin, Data.FireDACJSONReflect,
-   QLog, DSCJSON, System.JSON, EncdDecd, System.Variants;
+   QLog, DSCJSON, System.JSON, EncdDecd, System.Variants, FireDAC.UI.Intf,
+  FireDAC.Stan.Def, FireDAC.Phys, FireDAC.VCLUI.Wait, FireDAC.Comp.UI;
 
 type
   TDataAccessor = class(TDataModule)
@@ -25,6 +26,8 @@ type
     FDMemTable: TFDMemTable;
     FDTransaction: TFDTransaction;
     FDQuery: TFDQuery;
+    conSys: TFDConnection;
+    FDGUIxWaitCursor1: TFDGUIxWaitCursor;
     procedure FDTransactionAfterCommit(Sender: TObject);
     procedure FDTransactionAfterRollback(Sender: TObject);
   private
@@ -82,6 +85,7 @@ type
     /// </remarks>
     function SaveBlob(ModeInfo: String; AJSONBlob: WideString): WideString;
     function RollbackTrans(ModeInfo: String):string; // 回滚事务
+    function ApplyUpdateWithJSON(TableList: String; ADeltas: TFDJSONDeltas):Boolean  ;
     property DB: TdmDBProvider read FDBProvider write FDBProvider;//构造函数
   end;
 
@@ -96,6 +100,45 @@ implementation
 
 { TDataAccessor }
 
+function TDataAccessor.ApplyUpdateWithJSON(TableList: String;
+  ADeltas: TFDJSONDeltas): Boolean;
+var AUpdator: IFDJSONDeltasApplyUpdates;
+    i: Integer;
+    ATableList: TStringList;
+    qry: TFDQuery;
+    TableName: String;
+begin
+  try
+    try
+      ATableList := TStringList.Create();
+      AUpdator := TFDJSONDeltasApplyUpdates.Create(ADeltas);
+      self.conSys := self.DB.GetConnection();
+      self.FDCommand.Connection := self.conSys;
+      ATableList.Delimiter:='|';
+      ATableList.DelimitedText:=TableList;
+      for i := 0 to ATableList.Count - 1 do
+      begin
+        TableName := ATableList.Strings[i];
+        if not (TableName = '') then
+        begin
+          self.FDCommand.Close();
+          self.FDCommand.CommandText.Clear();
+          self.FDCommand.CommandText.Text := 'select * from ' + TableName + ' where 1 = 2';
+          self.FDCommand.Open();
+          AUpdator.ApplyUpdates(TableName, self.FDCommand);
+        end;
+      end;
+      Result := true;
+    except
+      Result := false;
+    end;
+  finally
+    ATableList.Free();
+    self.FDCommand.Close();
+    self.DB.ReleaseConnection(self.conSys);
+  end;
+end;
+
 function TDataAccessor.CommitTrans(ModeInfo: String): string;
 {
   功能：提交一个事务
@@ -104,16 +147,29 @@ function TDataAccessor.CommitTrans(ModeInfo: String): string;
 }
 var _sMsg: String;
 begin
-  if self.FDTransaction.Active  then
-  begin
-    self.FDTransaction.Commit();
-    _sMsg := '事务已提交！';
-  end
-  else
-  begin
-    _sMsg := '事务未启动，不需要提交！';
+  try
+    try
+      if self.FDTransaction.Active  then
+      begin
+        self.FDTransaction.Commit();
+        _sMsg := '事务已提交！';
+      end
+      else
+      begin
+        _sMsg := '事务未启动，不需要提交！';
+      end;
+      Postlog(llMessage, ModeInfo + ' ' + _sMsg);
+    except
+      on E:Exception do
+      begin
+        _sMsg := '事务提交失败！' + E.Message;
+        Postlog(llError, ModeInfo + ' ' + _sMsg);
+      end;
+    end;
+  finally
+    self.DB.ReleaseConnection(self.conSys);
+    Result := _sMsg;
   end;
-  Postlog(llMessage, ModeInfo + ' ' + _sMsg);
 end;
 
 constructor TDataAccessor.Create(AOwner: TComponent; ADBProvider: TdmDBProvider);
@@ -129,18 +185,37 @@ function TDataAccessor.ExcSQL(ModeInfo, ASQL: String): String;
   作者：霍杰
 }
 begin
+  Postlog(llMessage, ModeInfo + 'run SQL: ' + #13 + ASQL);
+  self.conSys.ExecSQL(ASQL);
+{
   if self.FDTransaction.Active then
   begin
     //事务已开始执行SQL
+
     self.FDQuery.Close();
     self.FDQuery.SQL.Clear();
     self.FDQuery.SQL.Text := ASQL;
+
     Postlog(llMessage, ModeInfo + 'run SQL: ' + #13 + ASQL);
-    self.FDQuery.ExecSQL();
+    self.conSys.ExecSQL(ASQL);
+    //self.FDQuery.ExecSQL();
   end
   else
   begin
     //事务未开始单独执行一个事务
+    self.StartTrans(ModeInfo);
+    try
+      self.conSys.ExecSQL(ASQL);
+      self.CommitTrans(ModeInfo);
+    except
+      on E:Exception do
+      begin
+        self.RollbackTrans(ModeInfo);
+        Postlog(llError, ModeInfo + E.Message);
+        Postlog(llError, ModeInfo + ' 事务已回滚');
+      end;
+    end;
+
     self.FDTransaction.Connection := self.DB.GetConnection();
     self.FDQuery.Connection := self.FDTransaction.Connection;
     self.FDTransaction.StartTransaction();
@@ -162,20 +237,28 @@ begin
       end;
     end;
   end;
+  }
 end;
 
 procedure TDataAccessor.FDTransactionAfterCommit(Sender: TObject);
 begin
-  self.DB.ReleaseConnection(TFDConnection(self.FDTransaction.Connection));
-  self.FDTransaction.Connection := nil;
-  self.FDQuery.Connection := nil;
+  //if Assigned(self.conSys) then
+    //  if self.conSys.Connected then
+      //  self.DB.ReleaseConnection(self.conSys);
+  //self.DB.ReleaseConnection(TFDConnection(self.FDTransaction.Connection));
+  //self.FDTransaction.Connection := nil;
+  //self.FDQuery.Connection := nil;
 end;
 
 procedure TDataAccessor.FDTransactionAfterRollback(Sender: TObject);
 begin
-  self.DB.ReleaseConnection(TFDConnection(self.FDTransaction.Connection));
-  self.FDTransaction.Connection := nil;
-  self.FDQuery.Connection := nil;
+  {
+  if Assigned(self.conSys) then
+      if self.conSys.Connected then
+        self.DB.ReleaseConnection(self.conSys);  }
+  //self.DB.ReleaseConnection(TFDConnection(self.FDTransaction.Connection));
+  //self.FDTransaction.Connection := nil;
+  //self.FDQuery.Connection := nil;
 end;
 
 function TDataAccessor.GetADataset(ModeInfo, ASQL: String; AFDMemTable: TFDMemTable): Boolean;
@@ -395,17 +478,31 @@ function TDataAccessor.RollbackTrans(ModeInfo: String): string;
 }
 var _sMsg: String;
 begin
-  Result := _sMsg;
-  if self.FDTransaction.Active  then
-  begin
-    self.FDTransaction.Rollback;
-    _sMsg := '事务已回滚！';
-  end
-  else
-  begin
-    _sMsg := '事务未启动，不需要回滚！';
+  try
+    try
+      Result := _sMsg;
+      if self.FDTransaction.Active  then
+      begin
+        self.FDTransaction.Rollback;
+        _sMsg := '事务已回滚！';
+      end
+      else
+      begin
+        _sMsg := '事务未启动，不需要回滚！';
+      end;
+      Postlog(llMessage, ModeInfo + ' ' + _sMsg);
+
+    except
+      on E:Exception do
+      begin
+        _sMsg := '事务回滚失败！' + E.Message;
+        Postlog(llError, ModeInfo + _sMsg);
+      end;
+    end;
+  finally
+    self.DB.ReleaseConnection(self.conSys);
+    Result := _sMsg;
   end;
-  Postlog(llMessage, ModeInfo + ' ' + _sMsg);
 end;
 
 function TDataAccessor.SaveBlob(ModeInfo: String; AJSONBlob: WideString): WideString;
@@ -499,8 +596,9 @@ begin
     if not self.FDTransaction.Active then
     begin
       //获取一个新连接并启动事务
-      self.FDTransaction.Connection := self.DB.GetConnection();
-      self.FDQuery.Connection := self.FDTransaction.Connection;
+      self.conSys := self.DB.GetConnection();
+      self.FDTransaction.Connection := self.conSys;
+      self.FDQuery.Connection := self.conSys;
       self.FDTransaction.StartTransaction();
       _sMsg := '事务已启动！' ;
       Postlog(llMessage, ModeInfo + ' ' +_sMsg);
@@ -509,7 +607,7 @@ begin
     on E:Exception do
     begin
       //释放数据库连接
-      db.ReleaseConnection(TFDConnection(self.FDTransaction.Connection));
+      db.ReleaseConnection(self.conSys);
       self.FDTransaction.Connection := nil;
       self.FDQuery.Connection := nil;
       _sMsg := '事务启动失败！' + E.Message;

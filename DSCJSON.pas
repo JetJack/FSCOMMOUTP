@@ -210,7 +210,13 @@ begin
           //判断字段的数据类型
           case DB.Fields[J].DataType of
             ftString,ftWideString,ftMemo: sTmp:=VarToStr(ItemsI[i].GetValues(sName)).QuotedString;
-            ftSmallint, ftInteger,ftFloat, ftCurrency, ftBCD: sTmp:=VarToStr(ItemsI[i].GetValues(sName));
+            ftByte, ftShortInt, ftsmallInt, ftInteger, ftWord, ftLargeint, ftLongWord, ftSingle, ftFloat , ftBCD, ftFMTBCD, ftCurrency:
+            begin
+               if VarIsNull(ItemsI[i].GetValues(sName)) then
+                Continue
+              else
+                 sTmp:=VarToStr(ItemsI[i].GetValues(sName));
+            end;
             ftDate, ftTime, ftDateTime, ftTimeStamp: begin
             {
               sTmp:=VarToStr(ItemsI[i].GetValues(sName));
@@ -221,7 +227,7 @@ begin
                 sTmp:=FormatDateTime('yyyy-mm-dd hh:ss:mm',StrToDateTime(sTmp)).QuotedString;
                 }
               if VarIsNull(ItemsI[i].GetValues(sName)) then
-                sTmp := 'Null'
+                sTmp := ''
               else
                 sTmp:=FormatDateTime('yyyy-mm-dd hh:ss:mm:zzz',ItemsI[i].GetValues(sName)).QuotedString;
             end;
@@ -259,7 +265,13 @@ begin
           //判断字段的数据类型
           case DB.Fields[J].DataType of
             ftString,ftWideString,ftMemo: sTmp:=VarToStr(ItemsI[i].GetValues(sName)).QuotedString;
-            ftSmallint, ftInteger,ftFloat, ftCurrency, ftBCD: sTmp:=VarToStr(ItemsI[i].GetValues(sName));
+            ftByte, ftShortInt, ftsmallInt, ftInteger, ftWord, ftLargeint, ftLongWord, ftSingle, ftFloat , ftBCD, ftFMTBCD, ftCurrency:
+            begin
+              if VarIsNull(ItemsI[i].GetValues(sName)) then
+                Continue
+              else
+                 sTmp:=VarToStr(ItemsI[i].GetValues(sName));
+            end;
             ftDate, ftTime, ftDateTime, ftTimeStamp: begin
             {
               sTmp:=VarToStr(ItemsI[i].GetValues(sName));
@@ -269,7 +281,7 @@ begin
                 sTmp:=FormatDateTime('yyyy-mm-dd hh:ss:mm:zzz',StrToDateTime(sTmp)).QuotedString;
                 }
               if VarIsNull(ItemsI[i].GetValues(sName)) then
-                sTmp := 'Null'
+                sTmp := ''
               else
                 sTmp:=FormatDateTime('yyyy-mm-dd hh:ss:mm:zzz',ItemsI[i].GetValues(sName)).QuotedString;
             end;
@@ -287,7 +299,8 @@ begin
 
           //修改数据关键字段，条件值
           if ItemKey.IndexOf(sName)>-1 then
-            sSQL:=sSQL+' And '+ sName+' = '+VarToStr(ItemsI[i].GetData(sName,rvOriginal));
+            //sSQL:=sSQL+' And '+ sName+ ' = '+VarToStr(ItemsI[i].GetData(sName,rvOriginal));
+            sSQL:=sSQL+' And '+ sName+ ' = '+ sTmp  ;
 
         end;
         //拼接成SQL并插入到数组中
@@ -297,9 +310,46 @@ begin
         sSQL:='';
         //删除数据关键字段，条件值
         for J := 0 to ItemKey.Count-1 do begin
-          sValue:=ItemsI[i].GetValues(ItemKey.Strings[j]);
-          if sValue.Trim<>'' then
-            sSQL:=sSQL+' And '+ ItemKey.Strings[j]+' = '+QuotedStr(sValue.Trim);
+          //sValue:=ItemsI[i].GetValues(ItemKey.Strings[j]);
+          if VarIsNull(ItemsI[i].GetValues(ItemKey.Strings[j])) then
+            continue
+          else
+          begin
+            case db.FieldByName(ItemKey.Strings[j]).DataType of
+              ftString,ftWideString,ftMemo: sTmp:=VarToStr(ItemsI[i].GetValues(sName)).QuotedString;
+            ftByte, ftShortInt, ftsmallInt, ftInteger, ftWord, ftLargeint, ftLongWord, ftSingle, ftFloat , ftBCD, ftFMTBCD, ftCurrency:
+            begin
+              if VarIsNull(ItemsI[i].GetValues(sName)) then
+                Continue
+              else
+                 sTmp:=VarToStr(ItemsI[i].GetValues(sName));
+            end;
+            ftDate, ftTime, ftDateTime, ftTimeStamp: begin
+            {
+              sTmp:=VarToStr(ItemsI[i].GetValues(sName));
+              if sTmp='' then
+                sTmp:='Null'
+              else
+                sTmp:=FormatDateTime('yyyy-mm-dd hh:ss:mm:zzz',StrToDateTime(sTmp)).QuotedString;
+                }
+              if VarIsNull(ItemsI[i].GetValues(sName)) then
+                sTmp := ''
+              else
+                sTmp:=FormatDateTime('yyyy-mm-dd hh:ss:mm:zzz',ItemsI[i].GetValues(sName)).QuotedString;
+            end;
+            ftBoolean: begin
+              if ItemsI[i].GetValues(sName)=True then
+                sTmp:='1'
+              else
+                sTmp:='0';
+            end;
+            else
+             sTmp:=VarToStr(ItemsI[i].GetValues(sName)).QuotedString;
+            end;
+            sSQL:=sSQL+' And '+ ItemKey.Strings[j]+' = '+ sTmp;
+          end;
+          //if sValue.Trim<>'' then
+            //sSQL:=sSQL+' And '+ ItemKey.Strings[j]+' = '+QuotedStr(sValue.Trim);
         end;
 
         //拼接成SQL并插入到数组中
@@ -846,6 +896,7 @@ begin
       ADataSet.First;
       for i := 0 to ADataSet.Fields.Count - 1 do
       begin
+        //ftByte, ftShortInt, ftsmallInt, ftInteger, ftWord, ftLargeint, ftLongWord, ftSingle, ftFloat , ftBCD, ftFMTBCD, ftCurrency
         nField := ADataSet.Fields[i];
         case nField.DataType of
           ftString:
@@ -878,7 +929,7 @@ begin
             nFT := _FT_FLOAT;
           ftBCD:
             nFT := _FT_BCD;
-          ftFMTBcd:
+          ftFMTBCD:
             nFT := _FT_FMTBCD;
           ftCurrency:
             nFT := _FT_CURRENCY;

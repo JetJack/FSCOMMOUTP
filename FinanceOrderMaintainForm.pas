@@ -21,7 +21,8 @@ uses
   dxSkinVisualStudio2013Blue, dxSkinVisualStudio2013Dark,
   dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint,
   dxSkinXmas2008Blue, Vcl.StdCtrls, cxButtons, FinanceOrderMaintainFrame, Data.DB,
-  DSCJSON, System.JSON, HISServerMethods, FireDAC.Comp.Client;
+  DSCJSON, System.JSON, HISServerMethods, FireDAC.Comp.Client, Data.FireDACJSONReflect,
+  FireDAC.Stan.StorageJSON, FireDAC.Stan.StorageBin;
 
 type
   TfrmFinanceOrderMaintain = class(TfrmBase)
@@ -30,6 +31,8 @@ type
     framFinanceOrder: TframFinanceOrderMaintain;
     cxButton1: TcxButton;
     cxButton2: TcxButton;
+    FDStanStorageBinLink1: TFDStanStorageBinLink;
+    FDStanStorageJSONLink1: TFDStanStorageJSONLink;
     procedure framFinanceOrderMaintain1cdsOrderAfterInsert(DataSet: TDataSet);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -42,6 +45,7 @@ type
     procedure GetOrderInfo();
     procedure ShowOrderRelateInfo(OrderCode: String);
     procedure SaveOrderInfo();
+    procedure SaveOrderInfoWithJSON();
   public
     { Public declarations }
   end;
@@ -57,6 +61,7 @@ procedure TfrmFinanceOrderMaintain.cxButton2Click(Sender: TObject);
 begin
   inherited;
   self.SaveOrderInfo();
+  //self.SaveOrderInfoWithJSON();
 end;
 
 procedure TfrmFinanceOrderMaintain.FormCreate(Sender: TObject);
@@ -274,13 +279,17 @@ var _sSQL, _sNoField: string;
     AJSON: TJSONObject;
 begin
   try
+    self.framFinanceOrder.cdsOrder.AfterScroll := nil;
     _sNoField := '';
     _sSQL := TDSCJSONTools.FDMemtableToSQLJSON(self.framFinanceOrder.cdsOrder,
        'FIN_COM_ORDER','ORDER_CODE', _sNoField);
     AJSON := TJSONObject.ParseJSONValue(dmHis.SystemMaintainServer.ExecuteSQLSet(FModeInfo, _sSQL)) as TJSONObject;
+    self.framFinanceOrder.cdsOrder.AfterScroll := self.framFinanceOrdercdsOrderAfterScroll;
     if AJSON.GetValue('Code').Value = '1' then
     begin
       showmessage('数据保存成功！');
+      self.framFinanceOrder.cdsOrder.EmptyDataSet() ;
+      self.framFinanceOrder.cdsOrder.CancelUpdates();
       self.GetOrderInfo();
     end
     else
@@ -289,6 +298,21 @@ begin
     end;
   finally
     AJSON.Free();
+  end;
+end;
+
+procedure TfrmFinanceOrderMaintain.SaveOrderInfoWithJSON;
+var ADeltas: TFDJSONDeltas;
+begin
+  try
+    self.framFinanceOrder.cdsOrder.AfterScroll := nil;
+    if self.framFinanceOrder.cdsOrder.State in dsEditModes then
+       self.framFinanceOrder.cdsOrder.Post();
+    ADeltas := TFDJSONDeltas.Create;
+    TFDJSONDeltasWriter.ListAdd(ADeltas, 'FIN_COM_ORDER', self.framFinanceOrder.cdsOrder);
+    dmHis.SystemMaintainServer.ApplyUpdateWithJSON('FIN_COM_ORDER', ADeltas);
+  finally
+    self.framFinanceOrder.cdsOrder.AfterScroll := self.framFinanceOrdercdsOrderAfterScroll;
   end;
 end;
 

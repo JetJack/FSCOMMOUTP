@@ -4,7 +4,8 @@ interface
 
 uses
   System.SysUtils, System.Classes, ServerMethods, System.JSON, System.SyncObjs,
-  Generics.Collections, FireDAC.Comp.Client, Qlog, DBProvider;
+  Generics.Collections, FireDAC.Comp.Client, Qlog, DBProvider,
+  FireDAC.Stan.StorageJSON, FireDAC.Stan.StorageBin;
 
 type
   TSysMaintainServer = class(TBaseServerMethods)

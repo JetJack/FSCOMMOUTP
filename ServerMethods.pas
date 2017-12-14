@@ -4,10 +4,13 @@ interface
 
 uses
   System.SysUtils, System.Classes, System.SyncObjs, DACDataAccessor, DBProvider, DSCJSON,
-  Generics.Collections, FireDAC.Comp.Client, System.JSON, qLog;
+  Generics.Collections, FireDAC.Comp.Client, System.JSON, qLog,
+  FireDAC.Stan.StorageJSON, FireDAC.Stan.StorageBin, Data.FireDACJSONReflect;
 
 type
   TBaseServerMethods = class(TDataModule)
+    FDStanStorageBinLink1: TFDStanStorageBinLink;
+    FDStanStorageJSONLink1: TFDStanStorageJSONLink;
   private
     { Private declarations }
   protected
@@ -46,6 +49,7 @@ type
     /// 运行时把SQL语句记录到日志文件中
     /// </remarks>
     function GetRecordNum(ModeInfo, TableName, WhereStr: String): Integer;
+    function ApplyUpdateWithJSON(TableList: String; ADeltas: TFDJSONDeltas):Boolean  ;
   end;
 
 var
@@ -58,6 +62,12 @@ implementation
 {$R *.dfm}
 
 { TdmBase }
+
+function TBaseServerMethods.ApplyUpdateWithJSON(TableList: String;
+  ADeltas: TFDJSONDeltas): Boolean;
+begin
+  Result := self.DAO.ApplyUpdateWithJSON(TableList, ADeltas);
+end;
 
 constructor TBaseServerMethods.Create(AOwner: TComponent; ADB: TdmDBProvider);
 begin
