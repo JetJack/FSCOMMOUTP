@@ -26,7 +26,7 @@ uses
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, cxGridLevel, cxClasses,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
-  cxGrid, cxDBLookupComboBox, cxCheckBox;
+  cxGrid, cxDBLookupComboBox, cxCheckBox, System.JSON, HISServerMethods, DSCJSON;
 
 type
   TfrmDrugItemMaintain = class(TfrmBase)
@@ -97,8 +97,6 @@ type
     cdsDrugMARK: TWideStringField;
     cdsDrugOPER_ID: TIntegerField;
     cdsDrugOPER_TIME: TSQLTimeStampField;
-    cdsClassCode: TFDMemTable;
-    cdsFeeCode: TFDMemTable;
     cdsItemType: TFDMemTable;
     cdsItemQuality: TFDMemTable;
     cdsPackUnit: TFDMemTable;
@@ -106,10 +104,6 @@ type
     cdsDoseUnit: TFDMemTable;
     cdsOrder: TFDMemTable;
     cdsUser: TFDMemTable;
-    cdsFeeCodeCODE: TStringField;
-    cdsFeeCodeNAME: TWideStringField;
-    cdsClassCodeCODE: TStringField;
-    cdsClassCodeNAME: TWideStringField;
     cdsItemTypeCODE: TStringField;
     cdsItemTypeNAME: TWideStringField;
     cdsItemQualityCODE: TStringField;
@@ -141,8 +135,13 @@ type
     cxGrid1DBTableView1VALID_STATE: TcxGridDBColumn;
     cxGrid1DBTableView1LACK_FLAG: TcxGridDBColumn;
     dsItemType: TDataSource;
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
+    FModeInfo: String;
+    procedure GetDictionary();
+    procedure GetDrugInfo();
+    procedure SaveDrugInfo();
   public
     { Public declarations }
   end;
@@ -154,4 +153,161 @@ implementation
 
 {$R *.dfm}
 
+{ TfrmDrugItemMaintain }
+
+procedure TfrmDrugItemMaintain.FormCreate(Sender: TObject);
+begin
+  inherited;
+  FModeInfo := 'DrugItemMaintainForm UserID:' + IntToStr(self.User.OperID);
+end;
+
+procedure TfrmDrugItemMaintain.GetDictionary;
+var _sFieldList, _sTypeName: string;
+    _jo: TJSONObject;
+    _data: WideString;
+begin
+  //cdsItemType
+  _sFieldList := 'CODE, NAME';
+  _sTypeName := 'ITEMTYPE';
+  _data := dmHis.SystemMaintainServer.GetDictionaryValue(FModeInfo, _sFieldList, _sTypeName);
+  _jo :=  TJSONObject.ParseJSONValue(_data) as TJSONObject;
+  if (_jo.GetValue('Code').Value = '1') then
+  begin
+    TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, self.cdsItemType);
+    self.cdsItemType.Delta.DataView.Clear();
+  end
+  else
+    showmessage(_jo.GetValue('Message').Value);
+
+  //cdsItemQuality
+   _sFieldList := 'CODE, NAME';
+  _sTypeName := 'DRUGQUALITY';
+  _data := dmHis.SystemMaintainServer.GetDictionaryValue(FModeInfo, _sFieldList, _sTypeName);
+  _jo :=  TJSONObject.ParseJSONValue(_data) as TJSONObject;
+  if (_jo.GetValue('Code').Value = '1') then
+  begin
+    TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, self.cdsItemQuality);
+    self.cdsItemQuality.Delta.DataView.Clear();
+  end
+  else
+    showmessage(_jo.GetValue('Message').Value);
+
+  //cdsPackUnit
+  _sFieldList := 'CODE, NAME';
+  _sTypeName := 'PACKUNIT';
+  _data := dmHis.SystemMaintainServer.GetDictionaryValue(FModeInfo, _sFieldList, _sTypeName);
+  _jo :=  TJSONObject.ParseJSONValue(_data) as TJSONObject;
+  if (_jo.GetValue('Code').Value = '1') then
+  begin
+    TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, self.cdsPackUnit);
+    self.cdsPackUnit.Delta.DataView.Clear();
+  end
+  else
+    showmessage(_jo.GetValue('Message').Value);
+
+  //cdsMinUnit
+  _sFieldList := 'CODE, NAME';
+  _sTypeName := 'MINUNIT';
+  _data := dmHis.SystemMaintainServer.GetDictionaryValue(FModeInfo, _sFieldList, _sTypeName);
+  _jo :=  TJSONObject.ParseJSONValue(_data) as TJSONObject;
+  if (_jo.GetValue('Code').Value = '1') then
+  begin
+    TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, self.cdsMinUnit);
+    self.cdsMinUnit.Delta.DataView.Clear();
+  end
+  else
+    showmessage(_jo.GetValue('Message').Value);
+
+  //cdsDoseUnit
+  _sFieldList := 'CODE, NAME';
+  _sTypeName := 'DOSEUNIT';
+  _data := dmHis.SystemMaintainServer.GetDictionaryValue(FModeInfo, _sFieldList, _sTypeName);
+  _jo :=  TJSONObject.ParseJSONValue(_data) as TJSONObject;
+  if (_jo.GetValue('Code').Value = '1') then
+  begin
+    TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, self.cdsDoseUnit);
+    self.cdsDoseUnit.Delta.DataView.Clear();
+  end
+  else
+    showmessage(_jo.GetValue('Message').Value);
+
+  //cdsProduce
+  _data := dmHis.SystemMaintainServer.DrugItemMaintainFormGetProducer(FModeInfo);
+  _jo := TJSONObject.ParseJSONValue(_data) as TJSONObject;
+  if (_jo.GetValue('Code').Value = '1') then
+  begin
+    TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, self.cdsProduce);
+    self.cdsProduce.Delta.DataView.Clear();
+  end
+  else
+    showmessage(_jo.GetValue('Message').Value);
+
+  //cdsUser
+  _data := dmHis.SystemMaintainServer.GetOperatorBase(FModeInfo);
+  _jo := TJSONObject.ParseJSONValue(_data) as TJSONObject;
+  if (_jo.GetValue('Code').Value = '1') then
+  begin
+    TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, self.cdsUser);
+    self.cdsUser.Delta.DataView.Clear();
+  end
+  else
+    showmessage(_jo.GetValue('Message').Value);
+
+  //cdsOrder
+  _data := dmHis.SystemMaintainServer.DrugItemMaintainFormGetOrderList(FModeInfo);
+  _jo := TJSONObject.ParseJSONValue(_data) as TJSONObject;
+  if (_jo.GetValue('Code').Value = '1') then
+  begin
+    TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, self.cdsOrder);
+    self.cdsOrder.Delta.DataView.Clear();
+  end
+  else
+    showmessage(_jo.GetValue('Message').Value);
+end;
+
+procedure TfrmDrugItemMaintain.GetDrugInfo;
+var _jo: TJSONObject;
+    _data: WideString;
+begin
+  try
+    _data := dmHis.SystemMaintainServer.GetDrugItemInfo(FModeInfo, '');
+    if (_jo.GetValue('Code').Value = '1') then
+    begin
+      //TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, self.framFinanceOrder.cdsOrder);
+      self.cdsDrug.Open();
+      self.cdsDrug.EmptyDataSet() ;
+      self.cdsDrug.CancelUpdates();
+      TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, self.cdsDrug);
+      self.cdsDrug.Delta.DataView.Clear();
+      self.cdsDrug.CachedUpdates := true;
+    end
+    else
+      showmessage(_jo.GetValue('Message').Value);
+  finally
+    _jo.Free();
+  end;
+end;
+
+procedure TfrmDrugItemMaintain.SaveDrugInfo;
+var _sSQL, _sNoField: string;
+    AJSON: TJSONObject;
+begin
+  try
+    _sNoField := '';
+    _sSQL := TDSCJSONTools.FDMemtableToSQLJSON(self.cdsDrug,
+       'COM_ITEM','ITEM_CODE', _sNoField);
+    AJSON := TJSONObject.ParseJSONValue(dmHis.SystemMaintainServer.ExecuteSQLSet(FModeInfo, _sSQL)) as TJSONObject;
+    if AJSON.GetValue('Code').Value = '1' then
+    begin
+      showmessage('数据保存成功！');
+      self.GetDrugInfo();
+    end
+    else
+    begin
+      showmessage(AJSON.GetValue('Message').Value);
+    end;
+  finally
+    AJSON.Free();
+  end;
+end;
 end.

@@ -3,9 +3,9 @@ inherited frmFinanceOrderMaintain: TfrmFinanceOrderMaintain
   ClientHeight = 581
   ClientWidth = 1316
   OnShow = FormShow
-  ExplicitWidth = 1332
-  ExplicitHeight = 619
-  PixelsPerInch = 96
+  ExplicitWidth = 1338
+  ExplicitHeight = 636
+  PixelsPerInch = 144
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
@@ -117,6 +117,9 @@ inherited frmFinanceOrderMaintain: TfrmFinanceOrderMaintain
           inherited cxGroupBox1: TcxGroupBox
             ExplicitWidth = 1310
             Width = 1310
+            inherited cxTextEdit1: TcxTextEdit
+              ExplicitHeight = 28
+            end
           end
         end
         inherited Panel5: TPanel
@@ -150,6 +153,36 @@ inherited frmFinanceOrderMaintain: TfrmFinanceOrderMaintain
           ExplicitHeight = 143
           Height = 143
           Width = 1312
+          inherited cxDBTextEdit1: TcxDBTextEdit
+            ExplicitHeight = 28
+          end
+          inherited cxDBTextEdit2: TcxDBTextEdit
+            ExplicitHeight = 28
+          end
+          inherited cxDBTextEdit3: TcxDBTextEdit
+            ExplicitHeight = 28
+          end
+          inherited cxDBTextEdit4: TcxDBTextEdit
+            ExplicitHeight = 28
+          end
+          inherited cxDBLookupComboBox2: TcxDBLookupComboBox
+            ExplicitHeight = 28
+          end
+          inherited cxDBLookupComboBox3: TcxDBLookupComboBox
+            ExplicitHeight = 28
+          end
+          inherited cxDBLookupComboBox4: TcxDBLookupComboBox
+            ExplicitHeight = 28
+          end
+          inherited cxDBCheckBox1: TcxDBCheckBox
+            ExplicitHeight = 19
+          end
+          inherited cxDBCheckBox2: TcxDBCheckBox
+            ExplicitHeight = 19
+          end
+          inherited cxDBLookupComboBox5: TcxDBLookupComboBox
+            ExplicitHeight = 28
+          end
         end
       end
       inherited Panel3: TPanel

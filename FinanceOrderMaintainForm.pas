@@ -273,6 +273,7 @@ begin
   finally
     _tmp.Free();
     self.framFinanceOrder.cdsOrder.AfterScroll := self.framFinanceOrdercdsOrderAfterScroll;
+    _jo.Free();
   end;
 end;
 

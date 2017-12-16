@@ -2,9 +2,9 @@ inherited frmDrugItemMaintain: TfrmDrugItemMaintain
   Caption = #33647#21697'/'#26448#26009#32500#25252
   ClientHeight = 581
   ClientWidth = 1316
-  ExplicitWidth = 1332
-  ExplicitHeight = 620
-  PixelsPerInch = 96
+  ExplicitWidth = 1338
+  ExplicitHeight = 636
+  PixelsPerInch = 144
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
@@ -22,10 +22,6 @@ inherited frmDrugItemMaintain: TfrmDrugItemMaintain
     Height = 532
     Align = alClient
     TabOrder = 1
-    ExplicitLeft = 704
-    ExplicitTop = 416
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     object Panel3: TPanel
       Left = 1
       Top = 1
@@ -46,7 +42,6 @@ inherited frmDrugItemMaintain: TfrmDrugItemMaintain
           Align = alClient
           Caption = #26597#35810#26465#20214
           TabOrder = 0
-          ExplicitHeight = 57
           Height = 62
           Width = 1310
         end
@@ -58,17 +53,12 @@ inherited frmDrugItemMaintain: TfrmDrugItemMaintain
         Height = 198
         Align = alClient
         TabOrder = 1
-        ExplicitHeight = 105
         object cxGroupBox2: TcxGroupBox
           Left = 1
           Top = 1
           Align = alClient
           Caption = #33647#21697#21015#34920
           TabOrder = 0
-          ExplicitLeft = 256
-          ExplicitTop = 72
-          ExplicitWidth = 185
-          ExplicitHeight = 105
           Height = 196
           Width = 1310
           object cxGrid1: TcxGrid
@@ -78,7 +68,6 @@ inherited frmDrugItemMaintain: TfrmDrugItemMaintain
             Height = 172
             Align = alClient
             TabOrder = 0
-            ExplicitTop = 3
             object cxGrid1DBTableView1: TcxGridDBTableView
               Navigator.Buttons.CustomButtons = <>
               DataController.DataSource = dsDrug
@@ -153,10 +142,6 @@ inherited frmDrugItemMaintain: TfrmDrugItemMaintain
       Height = 266
       Align = alClient
       TabOrder = 1
-      ExplicitLeft = 592
-      ExplicitTop = 344
-      ExplicitWidth = 185
-      ExplicitHeight = 41
       object cxPageControl1: TcxPageControl
         Left = 1
         Top = 1
@@ -166,10 +151,6 @@ inherited frmDrugItemMaintain: TfrmDrugItemMaintain
         TabOrder = 0
         Properties.ActivePage = cxTabSheet1
         Properties.CustomButtons.Buttons = <>
-        ExplicitLeft = 344
-        ExplicitTop = 72
-        ExplicitWidth = 289
-        ExplicitHeight = 193
         ClientRectBottom = 257
         ClientRectLeft = 3
         ClientRectRight = 1305
@@ -177,12 +158,18 @@ inherited frmDrugItemMaintain: TfrmDrugItemMaintain
         object cxTabSheet1: TcxTabSheet
           Caption = #33647#21697#22522#26412#20449#24687
           ImageIndex = 0
-          ExplicitHeight = 262
         end
       end
     end
   end
   object cdsDrug: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
     Left = 835
     Top = 244
     object cdsDrugITEM_CODE: TStringField
@@ -470,42 +457,6 @@ inherited frmDrugItemMaintain: TfrmDrugItemMaintain
       KeyFields = 'PRODUCER_CODE'
       Size = 100
       Lookup = True
-    end
-  end
-  object cdsClassCode: TFDMemTable
-    FetchOptions.AssignedValues = [evMode]
-    FetchOptions.Mode = fmAll
-    ResourceOptions.AssignedValues = [rvSilentMode]
-    ResourceOptions.SilentMode = True
-    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
-    UpdateOptions.CheckRequired = False
-    UpdateOptions.AutoCommitUpdates = True
-    Left = 899
-    Top = 244
-    object cdsClassCodeCODE: TStringField
-      FieldName = 'CODE'
-    end
-    object cdsClassCodeNAME: TWideStringField
-      FieldName = 'NAME'
-      Size = 50
-    end
-  end
-  object cdsFeeCode: TFDMemTable
-    FetchOptions.AssignedValues = [evMode]
-    FetchOptions.Mode = fmAll
-    ResourceOptions.AssignedValues = [rvSilentMode]
-    ResourceOptions.SilentMode = True
-    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
-    UpdateOptions.CheckRequired = False
-    UpdateOptions.AutoCommitUpdates = True
-    Left = 971
-    Top = 252
-    object cdsFeeCodeCODE: TStringField
-      FieldName = 'CODE'
-    end
-    object cdsFeeCodeNAME: TWideStringField
-      FieldName = 'NAME'
-      Size = 50
     end
   end
   object cdsItemType: TFDMemTable

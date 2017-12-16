@@ -52,6 +52,14 @@ type
     /// OrderCode为空时返回所有收费项目信息
     /// </remarks>
     function GetFinanceOrderInfo(ModeInfo,OrderCode:String):WideString;
+    /// <summary>获取药品项目信息</summary>
+    /// <param name="ModeInfo">调用模块信息</param>
+    /// <param name="ItemCode">收费代码</param>
+    /// <returns>药品项目信息</returns>
+    /// <remarks>
+    /// ItemCode为空时返回所有收费项目信息
+    /// </remarks>
+    function GetDrugItemInfo(ModeInfo, ItemCode: String): WideString;
     /// <summary>获取收费项目关联的药品/材料信息</summary>
     /// <param name="ModeInfo">调用模块信息</param>
     /// <param name="OrderCode">收费的代码</param>
@@ -69,6 +77,20 @@ type
     /// OrderCode为空时返回所有收费项目的社保信息，InsuInterFace为空时返回所有接口信息
     /// </remarks>
     function GetFinanceOrderInsuInfo(ModeInfo, OrderCode, InsuInterFace: String):WideString;
+    /// <summary>药品项目维护时获取财务收费项目信息</summary>
+    /// <param name="ModeInfo">调用模块信息</param>
+    /// <returns>财务收费项目信息</returns>
+    /// <remarks>
+    /// 药品项目维护界面使用
+    /// </remarks>
+    function DrugItemMaintainFormGetOrderList(ModeInfo: String): WideString;
+     /// <summary>药品项目维护时获取生产厂家信息</summary>
+    /// <param name="ModeInfo">调用模块信息</param>
+    /// <returns>获取生产厂家信息</returns>
+    /// <remarks>
+    /// 药品项目维护界面使用
+    /// </remarks>
+    function DrugItemMaintainFormGetProducer(ModeInfo: String): WideString;
     /// <summary>收费项目维护时获取广东收费项目信息</summary>
     /// <param name="ModeInfo">调用模块信息</param>
     /// <returns>广东收费项目信息</returns>
@@ -97,6 +119,7 @@ type
     /// 获取最小费用的发票分类名称
     /// </remarks>
     function GetMINFeeToInvFee(ModeInfo: String): WideString;
+
   end;
 
 var
@@ -152,6 +175,40 @@ begin
     end;
   finally
     TSysMaintainServer.CriticalSection.Leave();
+  end;
+end;
+
+function TSysMaintainServer.DrugItemMaintainFormGetOrderList(
+  ModeInfo: String): WideString;
+/// <summary>药品项目维护时获取财务收费项目信息</summary>
+/// <param name="ModeInfo">调用模块信息</param>
+/// <returns>财务收费项目信息</returns>
+/// <remarks>
+/// 药品项目维护界面使用
+/// </remarks>
+var _sSQL: String;
+begin
+  try
+    _sSQL := 'SELECT ORDER_CODE, ORDER_NAME, SPECS  FROM FIN_COM_ORDER WHERE VALID_STATE = 1 ORDER BY ORDER_CODE ' ;
+  finally
+    Result := self.DAO.GetAJSONDataSet(ModeInfo + ' call TSysMaintainServer.OrderMaintianGetGDServiceItem ', _sSQL);
+  end;
+end;
+
+function TSysMaintainServer.DrugItemMaintainFormGetProducer(
+  ModeInfo: String): WideString;
+ /// <summary>药品项目维护时获取生产厂家信息</summary>
+/// <param name="ModeInfo">调用模块信息</param>
+/// <returns>获取生产厂家信息</returns>
+/// <remarks>
+/// 药品项目维护界面使用
+/// </remarks>
+var _sSQL: String;
+begin
+  try
+    _sSQL := 'SELECT COMPANY_ID, COMPANY_NAME FROM COM_COMPANY WHERE COMPANY_TYPE = 1 ORDER BY COMPANY_NAME ' ;
+  finally
+    Result := self.DAO.GetAJSONDataSet(ModeInfo + ' call TSysMaintainServer.OrderMaintianGetGDServiceItem ', _sSQL);
   end;
 end;
 
@@ -409,6 +466,19 @@ begin
   finally
     Result := self.DAO.GetAJSONDataSet(ModeInfo + ' call TSysMaintainServer.OrderMaintainGetDepartment ', _sSQL);
   end;
+end;
+
+function TSysMaintainServer.GetDrugItemInfo(ModeInfo,
+  ItemCode: String): WideString;
+ /// <summary>获取药品项目信息</summary>
+/// <param name="ModeInfo">调用模块信息</param>
+/// <param name="ItemCode">收费代码</param>
+/// <returns>药品项目信息</returns>
+/// <remarks>
+/// ItemCode为空时返回所有收费项目信息
+/// </remarks>
+begin
+
 end;
 
 function TSysMaintainServer.OrderMaintianGetGDServiceItem(ModeInfo: String): WideString;
