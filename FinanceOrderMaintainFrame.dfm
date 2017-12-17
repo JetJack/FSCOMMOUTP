@@ -34,11 +34,13 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
           Style.StyleController = cxEditStyleControllerTitle
           Transparent = True
         end
-        object cxTextEdit1: TcxTextEdit
+        object editOrderCode: TcxTextEdit
           Left = 106
           Top = 22
           RepositoryItem = cxEditRepository1TextItemLocate
           ParentFont = False
+          Properties.CharCase = ecUpperCase
+          Properties.OnChange = editOrderCodePropertiesChange
           Style.StyleController = cxEditStyleControllerValue
           TabOrder = 1
           Width = 199

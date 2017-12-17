@@ -38,11 +38,13 @@ type
     procedure FormShow(Sender: TObject);
     procedure framFinanceOrdercdsOrderAfterScroll(DataSet: TDataSet);
     procedure cxButton2Click(Sender: TObject);
+    procedure cxButton1Click(Sender: TObject);
   private
     { Private declarations }
     FModeInfo: String;
     procedure GetDictionary();
     procedure GetOrderInfo();
+    procedure NewOrderItem();
     procedure ShowOrderRelateInfo(OrderCode: String);
     procedure SaveOrderInfo();
     procedure SaveOrderInfoWithJSON();
@@ -56,6 +58,12 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TfrmFinanceOrderMaintain.cxButton1Click(Sender: TObject);
+begin
+  inherited;
+  self.NewOrderItem();
+end;
 
 procedure TfrmFinanceOrderMaintain.cxButton2Click(Sender: TObject);
 begin
@@ -274,6 +282,22 @@ begin
     _tmp.Free();
     self.framFinanceOrder.cdsOrder.AfterScroll := self.framFinanceOrdercdsOrderAfterScroll;
     _jo.Free();
+  end;
+end;
+
+procedure TfrmFinanceOrderMaintain.NewOrderItem;
+begin
+    try
+    if self.framFinanceOrder.cdsOrder.State in dsEditModes then
+      self.framFinanceOrder.cdsOrder.Post();
+    self.framFinanceOrder.cdsOrder.Append();
+    self.framFinanceOrder.cdsOrderOPER_ID.AsInteger := self.User.OperID;
+    self.framFinanceOrder.cdsOrderOPER_TIME.AsDateTime := now()
+  except
+    on E:Exception do
+    begin
+      showmessage(E.Message);
+    end;
   end;
 end;
 

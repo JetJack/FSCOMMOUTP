@@ -26,7 +26,9 @@ uses
   FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, cxGridLevel, cxClasses,
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
-  cxGrid, cxDBLookupComboBox, cxCheckBox, System.JSON, HISServerMethods, DSCJSON;
+  cxGrid, cxDBLookupComboBox, cxCheckBox, System.JSON, HISServerMethods, DSCJSON,
+  cxTextEdit, cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxLabel,
+  cxDBEdit, cxDBLabel, Vcl.Menus, Vcl.StdCtrls, cxButtons;
 
 type
   TfrmDrugItemMaintain = class(TfrmBase)
@@ -67,8 +69,6 @@ type
     cdsDrugENGLISH_NAME: TStringField;
     cdsDrugINTERNATIONAL_CODE: TStringField;
     cdsDrugGB_CODE: TStringField;
-    cdsDrugCLASS_CODE: TStringField;
-    cdsDrugFEE_CODE: TStringField;
     cdsDrugITEM_TYPE: TStringField;
     cdsDrugITEM_QUALITY: TStringField;
     cdsDrugSPECS: TStringField;
@@ -90,7 +90,6 @@ type
     cdsDrugGMP_FLAG: TStringField;
     cdsDrugTEST_FLAG: TStringField;
     cdsDrugLACK_FLAG: TStringField;
-    cdsDrugPRODUCER_CODE: TStringField;
     cdsDrugAPPROVE_INFO: TWideStringField;
     cdsDrugBAR_CODE: TStringField;
     cdsDrugSPLIT_TYPE: TStringField;
@@ -123,7 +122,6 @@ type
     cdsProduce: TFDMemTable;
     cdsProduceCOMPANY_NAME: TWideStringField;
     cdsDrugPRODUCER_NAME: TWideStringField;
-    cdsProduceCOMPANY_CODE: TStringField;
     cxEditStyleControllerTitle: TcxEditStyleController;
     cxEditStyleControllerValue: TcxEditStyleController;
     dsDrug: TDataSource;
@@ -135,13 +133,84 @@ type
     cxGrid1DBTableView1VALID_STATE: TcxGridDBColumn;
     cxGrid1DBTableView1LACK_FLAG: TcxGridDBColumn;
     dsItemType: TDataSource;
+    cdsDrugPRODUCER_ID: TIntegerField;
+    cxLabel1: TcxLabel;
+    cxDBLookupComboBox1: TcxDBLookupComboBox;
+    dsOrder: TDataSource;
+    cdsOrderORDER_UNIT: TWideStringField;
+    cdsOrderORDER_PRICE: TBCDField;
+    cxLabel2: TcxLabel;
+    cxLabel3: TcxLabel;
+    cxLabel4: TcxLabel;
+    cxLabel5: TcxLabel;
+    cxLabel6: TcxLabel;
+    cxLabel7: TcxLabel;
+    cxLabel8: TcxLabel;
+    cxLabel9: TcxLabel;
+    cxLabel10: TcxLabel;
+    cxLabel11: TcxLabel;
+    cxLabel12: TcxLabel;
+    cxLabel13: TcxLabel;
+    cxLabel14: TcxLabel;
+    cxLabel15: TcxLabel;
+    cxLabel16: TcxLabel;
+    cxLabel17: TcxLabel;
+    cxLabel18: TcxLabel;
+    cxLabel19: TcxLabel;
+    cxLabel20: TcxLabel;
+    cxLabel21: TcxLabel;
+    cxDBTextEdit1: TcxDBTextEdit;
+    cxDBTextEdit2: TcxDBTextEdit;
+    cxDBTextEdit3: TcxDBTextEdit;
+    cxDBTextEdit4: TcxDBTextEdit;
+    dsProduce: TDataSource;
+    dsMinUnit: TDataSource;
+    dsDoseUnit: TDataSource;
+    dsPackUnit: TDataSource;
+    dsItemQuality: TDataSource;
+    cxDBLookupComboBox2: TcxDBLookupComboBox;
+    cdsProduceCOMPANY_ID: TIntegerField;
+    cxDBLookupComboBox3: TcxDBLookupComboBox;
+    cxDBLookupComboBox4: TcxDBLookupComboBox;
+    cxDBLookupComboBox5: TcxDBLookupComboBox;
+    cxDBLookupComboBox6: TcxDBLookupComboBox;
+    cxDBLookupComboBox7: TcxDBLookupComboBox;
+    cxDBTextEdit5: TcxDBTextEdit;
+    cxDBTextEdit6: TcxDBTextEdit;
+    cxDBTextEdit7: TcxDBTextEdit;
+    cxDBTextEdit8: TcxDBTextEdit;
+    cxDBTextEdit9: TcxDBTextEdit;
+    cxDBTextEdit10: TcxDBTextEdit;
+    cdsDrugORDER_NAME: TWideStringField;
+    cdsDrugORDER_SPECS: TStringField;
+    cdsDrugORDER_UNIT: TWideStringField;
+    cdsDrugORDER_PRICE: TBCDField;
+    cxDBCheckBox1: TcxDBCheckBox;
+    cxDBCheckBox2: TcxDBCheckBox;
+    cxDBLabel1: TcxDBLabel;
+    cxDBLabel2: TcxDBLabel;
+    cxDBLabel3: TcxDBLabel;
+    cxDBLabel4: TcxDBLabel;
+    cxLabel22: TcxLabel;
+    cxLabel23: TcxLabel;
+    cxDBLabel5: TcxDBLabel;
+    cxDBLabel6: TcxDBLabel;
+    cxButton1: TcxButton;
+    cxButton2: TcxButton;
+    cxLabel24: TcxLabel;
+    editOrderCode: TcxTextEdit;
+    cxLabel25: TcxLabel;
+    cxTextEdit1: TcxTextEdit;
     procedure FormCreate(Sender: TObject);
+    procedure cxButton2Click(Sender: TObject);
+    procedure cxButton1Click(Sender: TObject);
   private
     { Private declarations }
     FModeInfo: String;
     procedure GetDictionary();
     procedure GetDrugInfo();
     procedure SaveDrugInfo();
+    procedure NewItem();
   public
     { Public declarations }
   end;
@@ -154,6 +223,18 @@ implementation
 {$R *.dfm}
 
 { TfrmDrugItemMaintain }
+
+procedure TfrmDrugItemMaintain.cxButton1Click(Sender: TObject);
+begin
+  inherited;
+  self.NewItem();
+end;
+
+procedure TfrmDrugItemMaintain.cxButton2Click(Sender: TObject);
+begin
+  inherited;
+  self.SaveDrugInfo();
+end;
 
 procedure TfrmDrugItemMaintain.FormCreate(Sender: TObject);
 begin
@@ -288,6 +369,23 @@ begin
   end;
 end;
 
+procedure TfrmDrugItemMaintain.NewItem;
+begin
+  try
+    if self.cdsDrug.State in dsEditModes then
+      self.cdsDrug.Post();
+    self.cdsDrug.Append();
+    self.cdsDrugITEM_CODE.AsString := IntToStr(dmHis.SystemMaintainServer.GetNewSeqValue(FModeInfo, 'Seq_DrugItem_ID'));
+    self.cdsDrugOPER_ID.AsInteger := self.User.OperID;
+    self.cdsDrugOPER_TIME.AsDateTime := now()
+  except
+    on E:Exception do
+    begin
+      showmessage(E.Message);
+    end;
+  end;
+end;
+
 procedure TfrmDrugItemMaintain.SaveDrugInfo;
 var _sSQL, _sNoField: string;
     AJSON: TJSONObject;
@@ -310,4 +408,10 @@ begin
     AJSON.Free();
   end;
 end;
+
+initialization
+  RegisterClass(TfrmDrugItemMaintain);
+
+finalization
+  UnRegisterClass(TfrmDrugItemMaintain);
 end.

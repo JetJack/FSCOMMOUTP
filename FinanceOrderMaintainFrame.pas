@@ -41,7 +41,7 @@ type
     cxGroupBox1: TcxGroupBox;
     cxLabel1: TcxLabel;
     cxEditStyleControllerTitle: TcxEditStyleController;
-    cxTextEdit1: TcxTextEdit;
+    editOrderCode: TcxTextEdit;
     cxEditStyleControllerValue: TcxEditStyleController;
     cxEditRepository1: TcxEditRepository;
     cxStyleRepository1: TcxStyleRepository;
@@ -211,6 +211,7 @@ type
     cxGrid2DBTableView1BASE_MED_TYPE: TcxGridDBColumn;
     cxGrid2DBTableView1BASE_MED_RATE: TcxGridDBColumn;
     cxGrid2DBTableView1COM_OUTP_RATE: TcxGridDBColumn;
+    procedure editOrderCodePropertiesChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -220,5 +221,18 @@ type
 implementation
 
 {$R *.dfm}
+
+procedure TframFinanceOrderMaintain.editOrderCodePropertiesChange(
+  Sender: TObject);
+var _sFilter: String;
+begin
+   self.cdsOrder.Filtered := false;
+   _sFilter := 'ORDER_CODE LIKE ' +  quotedStr('%' + self.editOrderCode.Text + '%')
+     + ' OR ORDER_NAME LIKE ' + quotedStr('%' + self.editOrderCode.Text + '%')
+     + ' OR SPELL_CODE LIKE ' + quotedStr('%' + self.editOrderCode.Text + '%')
+     + ' OR WB_CODE LIKE ' + quotedStr('%' + self.editOrderCode.Text + '%');
+   self.cdsOrder.Filter := _sFilter;
+   self.cdsOrder.Filtered := true;
+end;
 
 end.

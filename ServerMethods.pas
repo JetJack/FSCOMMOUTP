@@ -40,6 +40,22 @@ type
     /// 运行时把SQL语句记录到日志文件中
     /// </remarks>
     function GetDictionaryValue(ModeInfo, ASQL, TypeName: String):WideString;
+    /// <summary>获取一个字符串的拼音和五笔首码</summary>
+    /// <param name="ModeInfo">运行TFDQuery的模块信息</param>
+    /// <param name="AString">需要获得首码的字符串</param>
+    /// <returns>拼音和五笔的首码两个首码以"|"分隔<returns>
+    /// <remarks>
+    /// 获取一个字符串的拼音和五笔首码
+    /// </remarks>
+    function GetFirstCode(ModeInfo, AString: String): String;
+    /// <summary>获取一个序列号的新值</summary>
+    /// <param name="ModeInfo">运行TFDQuery的模块信息</param>
+    /// <param name="SeqName">序列号名称</param>
+    /// <returns>序列号的新值<returns>
+    /// <remarks>
+    /// 获取一个序列号的新值
+    /// </remarks>
+    function GetNewSeqValue(ModeInfo: String; SeqName: String): Integer;
     /// <summary>获取记录数</summary>
     /// <param name="ModeInfo">需要获取记录数的模块信息</param>
     /// <param name="TableName">相关表名称列表（字符串）</param>
@@ -49,6 +65,13 @@ type
     /// 运行时把SQL语句记录到日志文件中
     /// </remarks>
     function GetRecordNum(ModeInfo, TableName, WhereStr: String): Integer;
+    /// <summary>使用FDJSON控件更新一组FDMemTable的DElta包</summary>
+    /// <param name="ModeInfo">调用的模块信息</param>
+    /// <param name="ADeltas">一组Delta包</param>
+    /// <returns>是否成功</returns>
+    /// <remarks>
+    /// 运行时把SQL语句记录到日志文件中
+    /// </remarks>
     function ApplyUpdateWithJSON(TableList: String; ADeltas: TFDJSONDeltas):Boolean  ;
   end;
 
@@ -65,6 +88,13 @@ implementation
 
 function TBaseServerMethods.ApplyUpdateWithJSON(TableList: String;
   ADeltas: TFDJSONDeltas): Boolean;
+/// <summary>使用FDJSON控件更新一组FDMemTable的DElta包</summary>
+/// <param name="ModeInfo">调用的模块信息</param>
+/// <param name="ADeltas">一组Delta包</param>
+/// <returns>是否成功</returns>
+/// <remarks>
+/// 运行时把SQL语句记录到日志文件中
+/// </remarks>
 begin
   Result := self.DAO.ApplyUpdateWithJSON(TableList, ADeltas);
 end;
@@ -189,6 +219,40 @@ begin
   finally
 
   end;
+end;
+
+function TBaseServerMethods.GetFirstCode(ModeInfo, AString: String): String;
+/// <summary>获取一个字符串的拼音和五笔首码</summary>
+/// <param name="ModeInfo">运行TFDQuery的模块信息</param>
+/// <param name="AString">需要获得首码的字符串</param>
+/// <returns>拼音和五笔的首码两个首码以"|"分隔<returns>
+/// <remarks>
+/// 获取一个字符串的拼音和五笔首码
+/// </remarks>
+var _sSQL: String;
+    _tmp: TFDMemtable;
+begin
+  try
+    _tmp := TFDMemTable.Create(nil);
+    _sSQL := 'SELECT [dbo].FUN_GET_FIRSTCODE(@P1, 0) as CODE1, [dbo].FUN_GET_FIRSTCODE(@P1, 1) AS CODE2';
+    _sSQL := StringReplace(_sSQL, '@P1',QuotedStr(AString),[rfReplaceAll,rfIgnoreCase]);
+    self.DAO.GetADataset(ModeInfo, _sSQL, _tmp);
+    Result := _tmp.Fields.Fields[0].AsString + '|' + _tmp.Fields.Fields[1].AsString;
+  finally
+    _tmp.Free();
+  end;
+end;
+
+function TBaseServerMethods.GetNewSeqValue(ModeInfo, SeqName: String): Integer;
+/// <summary>获取一个序列号的新值</summary>
+/// <param name="ModeInfo">运行TFDQuery的模块信息</param>
+/// <param name="SeqName">序列号名称</param>
+/// <returns>序列号的新值<returns>
+/// <remarks>
+/// 获取一个序列号的新值
+/// </remarks>
+begin
+  Result := self.DAO.GetNewSeqValue(ModeInfo, SeqName);
 end;
 
 function TBaseServerMethods.GetRecordNum(ModeInfo, TableName, WhereStr: String): Integer;

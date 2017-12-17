@@ -57,6 +57,14 @@ type
     function GetAJSONDataSet(ModeInfo: String; ASQL: String):WideString;
     function GetAJSONDataSets(ModeInfo: String; TableName: String;
       ASQL: String):TFDJSONDataSets;//返回一个JSONDATASets数据集
+    /// <summary>获取一个序列号的新值</summary>
+    /// <param name="ModeInfo">运行TFDQuery的模块信息</param>
+    /// <param name="SeqName">序列号名称</param>
+    /// <returns>序列号的新值<returns>
+    /// <remarks>
+    /// 获取一个序列号的新值
+    /// </remarks>
+    function GetNewSeqValue(ModeInfo: String; SeqName: String): Integer;
     function GetValue(ModeInfo: String; ASQL: String):variant;// 返回一个值
     /// <summary>为一个TFDQuery对象运行一条SQL语句</summary>
     /// <param name="ModeInfo">运行TFDQuery的模块信息</param>
@@ -85,6 +93,13 @@ type
     /// </remarks>
     function SaveBlob(ModeInfo: String; AJSONBlob: WideString): WideString;
     function RollbackTrans(ModeInfo: String):string; // 回滚事务
+    /// <summary>使用FDJSON控件更新一组FDMemTable的DElta包</summary>
+    /// <param name="ModeInfo">调用的模块信息</param>
+    /// <param name="ADeltas">一组Delta包</param>
+    /// <returns>是否成功</returns>
+    /// <remarks>
+    /// 运行时把SQL语句记录到日志文件中
+    /// </remarks>
     function ApplyUpdateWithJSON(TableList: String; ADeltas: TFDJSONDeltas):Boolean  ;
     property DB: TdmDBProvider read FDBProvider write FDBProvider;//构造函数
   end;
@@ -102,6 +117,13 @@ implementation
 
 function TDataAccessor.ApplyUpdateWithJSON(TableList: String;
   ADeltas: TFDJSONDeltas): Boolean;
+/// <summary>使用FDJSON控件更新一组FDMemTable的DElta包</summary>
+/// <param name="ModeInfo">调用的模块信息</param>
+/// <param name="ADeltas">一组Delta包</param>
+/// <returns>是否成功</returns>
+/// <remarks>
+/// 运行时把SQL语句记录到日志文件中
+/// </remarks>
 var AUpdator: IFDJSONDeltasApplyUpdates;
     i: Integer;
     ATableList: TStringList;
@@ -405,6 +427,41 @@ begin
     self.FDCommand.Close();
     self.DB.ReleaseConnection(TFDConnection(self.FDCommand.Connection));
     self.FDCommand.Connection := nil;
+  end;
+end;
+
+function TDataAccessor.GetNewSeqValue(ModeInfo, SeqName: String): Integer;
+/// <summary>获取一个序列号的新值</summary>
+/// <param name="ModeInfo">运行TFDQuery的模块信息</param>
+/// <param name="SeqName">序列号名称</param>
+/// <returns>序列号的新值<returns>
+/// <remarks>
+/// 获取一个序列号的新值
+/// </remarks>
+var AQry: TFDQuery;
+    ACon: TFDConnection;
+begin
+  try
+    try
+      Acon := self.DB.GetConnection();
+      AQry := TFDQuery.Create(nil);
+      AQry.Close();
+      AQry.SQL.Clear();
+      AQry.SQL.Text := 'SELECT next value for  ' + SeqName;
+      Postlog(llDebug, Modeinfo + ' run SQL:' + #13 + AQry.SQL.Text);
+      AQry.Open();
+      Result := AQry.fields.Fields[0].AsInteger;
+    except
+      on E: Exception do
+      begin
+        Result := -1;
+        Postlog(llError, Modeinfo + ' run SQL:' + #13 + AQry.SQL.Text + '  ' + #13
+          + '运行出错：'  + E.Message);
+      end;
+    end;
+  finally
+    Aqry.Free();
+    self.DB.ReleaseConnection(ACon);
   end;
 end;
 

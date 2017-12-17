@@ -189,7 +189,7 @@ function TSysMaintainServer.DrugItemMaintainFormGetOrderList(
 var _sSQL: String;
 begin
   try
-    _sSQL := 'SELECT ORDER_CODE, ORDER_NAME, SPECS  FROM FIN_COM_ORDER WHERE VALID_STATE = 1 ORDER BY ORDER_CODE ' ;
+    _sSQL := 'SELECT ORDER_CODE, ORDER_NAME, SPECS, ORDER_UNIT, ORDER_PRICE  FROM FIN_COM_ORDER WHERE VALID_STATE = 1 ORDER BY ORDER_CODE ' ;
   finally
     Result := self.DAO.GetAJSONDataSet(ModeInfo + ' call TSysMaintainServer.OrderMaintianGetGDServiceItem ', _sSQL);
   end;
