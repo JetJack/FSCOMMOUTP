@@ -24,24 +24,22 @@ object dmTest: TdmTest
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     CommandText.Strings = (
-      'SELECT [ORDER_CODE],[ORDER_NAME],[SPECS],[CLASS_CODE],[FEE_CODE]'
       
-        ',[SPELL_CODE],[WB_CODE],[INPUT_CDOE],[GB_CODE],[INTERNATIONAL_CO' +
-        'DE]'
+        'SELECT D.FIN_TYPE, D.INSU_ITEM_CODE, D.INSU_ITEM_NAME, D.INSU_DO' +
+        'SAGE_FORM, A.ORDER_CODE,'
       
-        ',[ALIAS_NAME],[ALIAS_SPELL],[ALIAS_WB],[ENGLISH_NAME],[ENGLISH_A' +
-        'LIAS]'
+        '       A.ORDER_NAME, A.SPECS, A.ORDER_UNIT, A.ORDER_PRICE2,D.BAS' +
+        'E_MED_TYPE,'
+      #9'   D.BASE_MED_RATE, D.COM_OUTP_RATE, A.VALID_STATE'
+      'FROM FIN_COM_ORDER A'
+      'LEFT JOIN'
+      '(SELECT B.ORDER_CODE, C.*'
+      ' FROM FIN_COM_ORDER_RELATE B, COM_INSU_ITEM C'
+      ' WHERE B.INSU_ITEM_CODE = C.INSU_ITEM_CODE'
       
-        ',[ORDER_UNIT],[ORDER_PRICE],[ORDER_PRICE2],[ORDER_PRICE3],[ORDER' +
-        '_PRICE4]'
-      
-        ',[ORDER_PRICE5],[EXEDEPT_CODE],[VALID_STATE],[APPLY_STATE],[ITEM' +
-        '_FLAG]'
-      
-        ',[COMB_FLAG],[SPECIAL_FLAG1],[SPECIAL_FLAG2],[SPECIAL_FLAG3],[SP' +
-        'ECIAL_FLAG4]'
-      ',[SPECIAL_FLAG5],[OPER_ID],[OPER_TIME]   '
-      'FROM [FIN_COM_ORDER]')
+        '   AND B.INTERFACE_TYPE = '#39'FSSI'#39') D ON D.ORDER_CODE = A.ORDER_CO' +
+        'DE'
+      '   ORDER BY A.ORDER_CODE')
     Left = 232
     Top = 144
   end

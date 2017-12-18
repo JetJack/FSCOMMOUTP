@@ -16,7 +16,8 @@ uses
   FinanceOrderMaintainFrame in 'FinanceOrderMaintainFrame.pas' {framFinanceOrderMaintain: TFrame},
   TestDataModule in 'TestDataModule.pas' {dmTest: TDataModule},
   FinanceOrderMaintainForm in 'FinanceOrderMaintainForm.pas' {frmFinanceOrderMaintain},
-  DrugItemMaintainForm in 'DrugItemMaintainForm.pas' {frmDrugItemMaintain};
+  DrugItemMaintainForm in 'DrugItemMaintainForm.pas' {frmDrugItemMaintain},
+  OrderRelateInsuForm in 'OrderRelateInsuForm.pas' {frmOrderRelateInsu};
 
 {$R *.res}
 
@@ -25,5 +26,6 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TdmHIS, dmHIS);
   Application.CreateForm(TfrmSysMaintainPageControl, frmSysMaintainPageControl);
+  Application.CreateForm(TfrmOrderRelateInsu, frmOrderRelateInsu);
   Application.Run;
 end.

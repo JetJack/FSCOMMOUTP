@@ -91,6 +91,21 @@ type
     /// 药品项目维护界面使用
     /// </remarks>
     function DrugItemMaintainFormGetProducer(ModeInfo: String): WideString;
+    /// <summary>收费社保项目对应窗口获取社保项目信息</summary>
+    /// <param name="ModeInfo">调用模块信息</param>
+    /// <param name="QueryStr">模糊查询条件</param>
+    /// <returns>社保项目信息</returns>
+    /// <remarks>
+    /// 收费社保项目对应窗口使用
+    /// </remarks>
+    function OrderRelateInsuFormGetInsuItem(ModeInfo, QueryStr: String): WideString;
+    /// <summary>收费社保项目对应窗口获取收费与社保项目对应信息</summary>
+    /// <param name="ModeInfo">调用模块信息</param>
+    /// <returns>收费与社保项目对应信息</returns>
+    /// <remarks>
+    /// 收费社保项目对应窗口使用
+    /// </remarks>
+    function OrderRelateInsuFormGetOrdrInsuRelate(): WideString;
     /// <summary>收费项目维护时获取广东收费项目信息</summary>
     /// <param name="ModeInfo">调用模块信息</param>
     /// <returns>广东收费项目信息</returns>
@@ -477,8 +492,32 @@ function TSysMaintainServer.GetDrugItemInfo(ModeInfo,
 /// <remarks>
 /// ItemCode为空时返回所有收费项目信息
 /// </remarks>
+var _sSQL, _sResult: String;
+    _jo: TJSONObject;
+    _jp:TJSONPair;
 begin
-
+  try
+    _sSQL := TSysMaintainServer.GetSQLString('SystemMaintainServerMethods.TSysMaintainServer.GetComItemInfo.No1');
+    _jo := TJSONObject.Create();
+    if _sSQL = '' then
+    begin
+      _jp := TJSONPair.Create('Code', '-1');
+      _jo.AddPair(_jp);
+      _jp := TJSONPair.Create('Message', 'SystemMaintainServerMethods.TSysMaintainServer.GetComItemInfo.No1'+'没有找到SQL语句');
+      _jo.AddPair(_jp);
+      _sResult := _Jo.ToString;
+    end
+    else
+    begin
+      if ItemCode <> '' then
+       _sSQL := _sSQL + 'WHERE ITEM_CODE = ' + QuotedStr(ItemCode) ;
+      _sSQL := _sSQL + ' ORDER BY ITEM_CODE' ;
+      _sResult := self.DAO.GetAJSONDataSet(ModeInfo + ' call TSysMaintainServer.GetFinanceOrderInfo', _sSQL);
+    end;
+  finally
+     Result := _sResult;
+    _jo.Free();
+  end;
 end;
 
 function TSysMaintainServer.OrderMaintianGetGDServiceItem(ModeInfo: String): WideString;
@@ -495,6 +534,42 @@ begin
       + QuotedStr('NA') + ' order by ITEM_CODE' ;
   finally
     Result := self.DAO.GetAJSONDataSet(ModeInfo + ' call TSysMaintainServer.OrderMaintianGetGDServiceItem ', _sSQL);
+  end;
+end;
+
+function TSysMaintainServer.OrderRelateInsuFormGetInsuItem(ModeInfo,
+  QueryStr: String): WideString;
+/// <summary>收费社保项目对应窗口获取社保项目信息</summary>
+/// <param name="ModeInfo">调用模块信息</param>
+/// <param name="QueryStr">模糊查询条件</param>
+/// <returns>社保项目信息</returns>
+/// <remarks>
+/// 收费社保项目对应窗口使用
+/// </remarks>
+var _sSQL, _sResult: string;
+    _jo: TJSONObject;
+    _jp:TJSONPair;
+begin
+  try
+    _sSQL := TSysMaintainServer.GetSQLString('SystemMaintainServerMethods.TSysMaintainServer.OrderRelateInsuFormGetInsuItem.NO1');
+    _jo := TJSONObject.Create();
+    if _sSQL = '' then
+    begin
+      _jp := TJSONPair.Create('Code', '-1');
+      _jo.AddPair(_jp);
+      _jp := TJSONPair.Create('Message', 'SystemMaintainServerMethods.TSysMaintainServer.OrderRelateInsuFormGetInsuItem.NO1'+'没有找到SQL语句');
+      _jo.AddPair(_jp);
+      _sResult := _Jo.ToString;
+    end
+    else
+    begin
+      _sSQL := StringReplace(_sSQL, '@P1',QuotedStr(QueryStr),[rfReplaceAll,rfIgnoreCase]);
+
+      _sResult := self.DAO.GetAJSONDataSet(ModeInfo + ' call TSysMaintainServer.OrderRelateInsuFormGetInsuItem', _sSQL);
+    end;
+  finally
+     Result := _sResult;
+    _jo.Free();
   end;
 end;
 

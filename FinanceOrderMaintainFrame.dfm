@@ -1033,8 +1033,8 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     UpdateOptions.CheckRequired = False
     UpdateOptions.AutoCommitUpdates = True
     StoreDefs = True
-    Left = 537
-    Top = 418
+    Left = 433
+    Top = 170
     object cdsInvFeeFEE_CODE: TStringField
       FieldName = 'FEE_CODE'
       Size = 10

@@ -202,10 +202,17 @@ type
     cxLabel25: TcxLabel;
     cxTextEdit1: TcxTextEdit;
     cxButton3: TcxButton;
+    cdsOrder2: TFDMemTable;
+    StringField1: TStringField;
+    WideStringField1: TWideStringField;
+    StringField2: TStringField;
+    WideStringField2: TWideStringField;
+    BCDField1: TBCDField;
     procedure FormCreate(Sender: TObject);
     procedure cxButton2Click(Sender: TObject);
     procedure cxButton1Click(Sender: TObject);
     procedure cxButton3Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
     FModeInfo: String;
@@ -249,6 +256,13 @@ procedure TfrmDrugItemMaintain.FormCreate(Sender: TObject);
 begin
   inherited;
   FModeInfo := 'DrugItemMaintainForm UserID:' + IntToStr(self.User.OperID);
+  self.GetDictionary();
+end;
+
+procedure TfrmDrugItemMaintain.FormShow(Sender: TObject);
+begin
+  inherited;
+  self.GetDrugInfo();
 end;
 
 procedure TfrmDrugItemMaintain.GetDictionary;
@@ -353,6 +367,10 @@ begin
   end
   else
     showmessage(_jo.GetValue('Message').Value);
+
+  //cdsOrder2
+  self.cdsOrder2.Open();
+  self.cdsOrder2.CopyDataSet(self.cdsOrder,[coAppend]);
 end;
 
 procedure TfrmDrugItemMaintain.GetDrugInfo;
@@ -361,6 +379,7 @@ var _jo: TJSONObject;
 begin
   try
     _data := dmHis.SystemMaintainServer.GetDrugItemInfo(FModeInfo, '');
+    _jo := TJSONObject.ParseJSONValue(_data) as TJSONObject;
     if (_jo.GetValue('Code').Value = '1') then
     begin
       //TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, self.framFinanceOrder.cdsOrder);
@@ -402,6 +421,7 @@ var _jo: TJSONObject;
 begin
   try
     _data := dmHis.SystemMaintainServer.GetDrugItemInfo(FModeInfo, '');
+    _jo := TJSONObject.ParseJSONValue(_data) as TJSONObject;
     if not self.cdsDrug.IsEmpty then
       _sCode := self.cdsDrugITEM_CODE.AsString ;
     if (_jo.GetValue('Code').Value = '1') then
@@ -434,7 +454,7 @@ begin
     if AJSON.GetValue('Code').Value = '1' then
     begin
       showmessage('数据保存成功！');
-      self.GetDrugInfo();
+      self.RefreshItem();
     end
     else
     begin

@@ -2,9 +2,10 @@ inherited frmDrugItemMaintain: TfrmDrugItemMaintain
   Caption = #33647#21697'/'#26448#26009#32500#25252
   ClientHeight = 581
   ClientWidth = 1316
-  ExplicitWidth = 1338
-  ExplicitHeight = 636
-  PixelsPerInch = 144
+  OnShow = FormShow
+  ExplicitWidth = 1332
+  ExplicitHeight = 620
+  PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
@@ -723,7 +724,7 @@ inherited frmDrugItemMaintain: TfrmDrugItemMaintain
           object cxDBLabel1: TcxDBLabel
             Left = 106
             Top = 33
-            DataBinding.DataField = 'OPER_NAME'
+            DataBinding.DataField = 'ORDER_NAME'
             DataBinding.DataSource = dsDrug
             ParentFont = False
             Style.StyleController = cxEditStyleControllerValue
@@ -783,7 +784,7 @@ inherited frmDrugItemMaintain: TfrmDrugItemMaintain
           object cxDBLabel5: TcxDBLabel
             Left = 339
             Top = 170
-            DataBinding.DataField = 'ORDER_NAME'
+            DataBinding.DataField = 'OPER_NAME'
             DataBinding.DataSource = dsDrug
             ParentFont = False
             Style.StyleController = cxEditStyleControllerValue
@@ -1085,7 +1086,7 @@ inherited frmDrugItemMaintain: TfrmDrugItemMaintain
       FieldKind = fkLookup
       FieldName = 'PRODUCER_NAME'
       LookupDataSet = cdsProduce
-      LookupKeyFields = 'COMPANY_CODE'
+      LookupKeyFields = 'COMPANY_ID'
       LookupResultField = 'COMPANY_NAME'
       KeyFields = 'PRODUCER_ID'
       Size = 100
@@ -1094,7 +1095,7 @@ inherited frmDrugItemMaintain: TfrmDrugItemMaintain
     object cdsDrugORDER_NAME: TWideStringField
       FieldKind = fkLookup
       FieldName = 'ORDER_NAME'
-      LookupDataSet = cdsOrder
+      LookupDataSet = cdsOrder2
       LookupKeyFields = 'ORDER_CODE'
       LookupResultField = 'ORDER_NAME'
       KeyFields = 'ORDER_CODE'
@@ -1104,7 +1105,7 @@ inherited frmDrugItemMaintain: TfrmDrugItemMaintain
     object cdsDrugORDER_SPECS: TStringField
       FieldKind = fkLookup
       FieldName = 'ORDER_SPECS'
-      LookupDataSet = cdsOrder
+      LookupDataSet = cdsOrder2
       LookupKeyFields = 'ORDER_CODE'
       LookupResultField = 'SPECS'
       KeyFields = 'ORDER_CODE'
@@ -1114,7 +1115,7 @@ inherited frmDrugItemMaintain: TfrmDrugItemMaintain
     object cdsDrugORDER_UNIT: TWideStringField
       FieldKind = fkLookup
       FieldName = 'ORDER_UNIT'
-      LookupDataSet = cdsOrder
+      LookupDataSet = cdsOrder2
       LookupKeyFields = 'ORDER_CODE'
       LookupResultField = 'ORDER_UNIT'
       KeyFields = 'ORDER_CODE'
@@ -1124,7 +1125,7 @@ inherited frmDrugItemMaintain: TfrmDrugItemMaintain
     object cdsDrugORDER_PRICE: TBCDField
       FieldKind = fkLookup
       FieldName = 'ORDER_PRICE'
-      LookupDataSet = cdsOrder
+      LookupDataSet = cdsOrder2
       LookupKeyFields = 'ORDER_CODE'
       LookupResultField = 'ORDER_PRICE'
       KeyFields = 'ORDER_CODE'
@@ -1348,5 +1349,34 @@ inherited frmDrugItemMaintain: TfrmDrugItemMaintain
     DataSet = cdsItemQuality
     Left = 619
     Top = 204
+  end
+  object cdsOrder2: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 915
+    Top = 236
+    object StringField1: TStringField
+      FieldName = 'ORDER_CODE'
+    end
+    object WideStringField1: TWideStringField
+      FieldName = 'ORDER_NAME'
+      Size = 100
+    end
+    object StringField2: TStringField
+      FieldName = 'SPECS'
+      Size = 50
+    end
+    object WideStringField2: TWideStringField
+      FieldName = 'ORDER_UNIT'
+      Size = 50
+    end
+    object BCDField1: TBCDField
+      FieldName = 'ORDER_PRICE'
+    end
   end
 end
