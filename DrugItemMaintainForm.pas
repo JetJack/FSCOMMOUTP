@@ -201,14 +201,17 @@ type
     editOrderCode: TcxTextEdit;
     cxLabel25: TcxLabel;
     cxTextEdit1: TcxTextEdit;
+    cxButton3: TcxButton;
     procedure FormCreate(Sender: TObject);
     procedure cxButton2Click(Sender: TObject);
     procedure cxButton1Click(Sender: TObject);
+    procedure cxButton3Click(Sender: TObject);
   private
     { Private declarations }
     FModeInfo: String;
     procedure GetDictionary();
     procedure GetDrugInfo();
+    procedure RefreshItem();
     procedure SaveDrugInfo();
     procedure NewItem();
   public
@@ -234,6 +237,12 @@ procedure TfrmDrugItemMaintain.cxButton2Click(Sender: TObject);
 begin
   inherited;
   self.SaveDrugInfo();
+end;
+
+procedure TfrmDrugItemMaintain.cxButton3Click(Sender: TObject);
+begin
+  inherited;
+  self.RefreshItem();
 end;
 
 procedure TfrmDrugItemMaintain.FormCreate(Sender: TObject);
@@ -383,6 +392,33 @@ begin
     begin
       showmessage(E.Message);
     end;
+  end;
+end;
+
+procedure TfrmDrugItemMaintain.RefreshItem;
+var _jo: TJSONObject;
+    _data: WideString;
+    _sCode: String;
+begin
+  try
+    _data := dmHis.SystemMaintainServer.GetDrugItemInfo(FModeInfo, '');
+    if not self.cdsDrug.IsEmpty then
+      _sCode := self.cdsDrugITEM_CODE.AsString ;
+    if (_jo.GetValue('Code').Value = '1') then
+    begin
+      //TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, self.framFinanceOrder.cdsOrder);
+      self.cdsDrug.Open();
+      self.cdsDrug.EmptyDataSet() ;
+      self.cdsDrug.CancelUpdates();
+      TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, self.cdsDrug);
+      self.cdsDrug.Locate('ITEM_CODE', _sCode, []);
+      self.cdsDrug.Delta.DataView.Clear();
+      self.cdsDrug.CachedUpdates := true;
+    end
+    else
+      showmessage(_jo.GetValue('Message').Value);
+  finally
+    _jo.Free();
   end;
 end;
 

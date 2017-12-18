@@ -33,18 +33,21 @@ type
     cxButton2: TcxButton;
     FDStanStorageBinLink1: TFDStanStorageBinLink;
     FDStanStorageJSONLink1: TFDStanStorageJSONLink;
+    cxButton3: TcxButton;
     procedure framFinanceOrderMaintain1cdsOrderAfterInsert(DataSet: TDataSet);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure framFinanceOrdercdsOrderAfterScroll(DataSet: TDataSet);
     procedure cxButton2Click(Sender: TObject);
     procedure cxButton1Click(Sender: TObject);
+    procedure cxButton3Click(Sender: TObject);
   private
     { Private declarations }
     FModeInfo: String;
     procedure GetDictionary();
     procedure GetOrderInfo();
     procedure NewOrderItem();
+    procedure RefreshOrderInfo();
     procedure ShowOrderRelateInfo(OrderCode: String);
     procedure SaveOrderInfo();
     procedure SaveOrderInfoWithJSON();
@@ -70,6 +73,12 @@ begin
   inherited;
   self.SaveOrderInfo();
   //self.SaveOrderInfoWithJSON();
+end;
+
+procedure TfrmFinanceOrderMaintain.cxButton3Click(Sender: TObject);
+begin
+  inherited;
+  self.RefreshOrderInfo();
 end;
 
 procedure TfrmFinanceOrderMaintain.FormCreate(Sender: TObject);
@@ -298,6 +307,41 @@ begin
     begin
       showmessage(E.Message);
     end;
+  end;
+end;
+
+procedure TfrmFinanceOrderMaintain.RefreshOrderInfo;
+var _jo: TJSONObject;
+    _data: WideString;
+    i: Integer;
+    _sCode: String;
+begin
+  try
+    if not self.framFinanceOrder.cdsOrder.IsEmpty then
+       _sCode := self.framFinanceOrder.cdsOrderORDER_CODE.AsString;
+    _data := dmHis.SystemMaintainServer.GetFinanceOrderInfo(FModeInfo,'');
+    _jo := TJSONObject.ParseJSONValue(_data) as TJSONObject;
+    self.framFinanceOrder.cdsOrder.AfterScroll := nil;
+    if (_jo.GetValue('Code').Value = '1') then
+    begin
+      //TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, self.framFinanceOrder.cdsOrder);
+      self.framFinanceOrder.cdsOrder.Open();
+      self.framFinanceOrder.cdsOrder.EmptyDataSet() ;
+      self.framFinanceOrder.cdsOrder.CancelUpdates();
+      TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, self.framFinanceOrder.cdsOrder);
+      self.framFinanceOrder.cdsOrder.Delta.DataView.Clear();
+      self.framFinanceOrder.cdsOrder.CachedUpdates := true;
+      self.framFinanceOrder.cdsOrder.Locate('ORDER_CODE',_sCode,[]);
+      if not self.framFinanceOrder.cdsOrder.IsEmpty then
+      begin
+        self.ShowOrderRelateInfo(self.framFinanceOrder.cdsOrderORDER_CODE.AsString);
+      end;
+    end
+    else
+      showmessage(_jo.GetValue('Message').Value);
+  finally
+    self.framFinanceOrder.cdsOrder.AfterScroll := self.framFinanceOrdercdsOrderAfterScroll;
+    _jo.Free();
   end;
 end;
 

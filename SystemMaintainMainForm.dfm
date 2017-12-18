@@ -1,7 +1,7 @@
 inherited frmSysMaintainPageControl: TfrmSysMaintainPageControl
   Caption = #31995#32479#20449#24687#32500#25252
-  ExplicitHeight = 788
-  PixelsPerInch = 96
+  ExplicitHeight = 814
+  PixelsPerInch = 144
   TextHeight = 13
   inherited MainMenu: TMainMenu
     object N1: TMenuItem
@@ -9,6 +9,10 @@ inherited frmSysMaintainPageControl: TfrmSysMaintainPageControl
       object N2: TMenuItem
         Caption = #25910#36153#39033#30446#32500#25252
         OnClick = N2Click
+      end
+      object N3: TMenuItem
+        Caption = #33647#21697#39033#30446#32500#25252
+        OnClick = N3Click
       end
     end
   end
