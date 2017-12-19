@@ -26,7 +26,8 @@ uses
   FireDAC.Comp.Client, cxStyles, dxSkinscxPCPainter, cxCustomData, cxFilter,
   cxData, cxDataStorage, cxNavigator, cxDBData, cxCheckBox,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGridLevel,
-  cxClasses, cxGridCustomView, cxGrid;
+  cxClasses, cxGridCustomView, cxGrid, DSCJSON, HISServerMethods, System.JSON,
+  cxTextEdit;
 
 type
   TfrmOrderRelateInsu = class(TfrmBase)
@@ -89,7 +90,7 @@ type
     cdsInsuItemBASE_MED_TYPE: TWideStringField;
     dsInsuItem: TDataSource;
     dsOrder: TDataSource;
-    DataSource2: TDataSource;
+    dsOrderInsu: TDataSource;
     cxGroupBox5: TcxGroupBox;
     cxGrid1DBTableView1: TcxGridDBTableView;
     cxGrid1Level1: TcxGridLevel;
@@ -129,9 +130,30 @@ type
     cdsOrderInsuBASE_MED_RATE: TFMTBCDField;
     cdsOrderInsuCOM_OUTP_RATE: TFMTBCDField;
     cdsOrderInsuVALID_STATE: TStringField;
+    cxGrid3DBTableView1: TcxGridDBTableView;
+    cxGrid3Level1: TcxGridLevel;
+    cxGrid3: TcxGrid;
+    cxGrid3DBTableView1FIN_TYPE: TcxGridDBColumn;
+    cxGrid3DBTableView1INSU_ITEM_CODE: TcxGridDBColumn;
+    cxGrid3DBTableView1INSU_ITEM_NAME: TcxGridDBColumn;
+    cxGrid3DBTableView1INSU_DOSAGE_FORM: TcxGridDBColumn;
+    cxGrid3DBTableView1ORDER_CODE: TcxGridDBColumn;
+    cxGrid3DBTableView1ORDER_NAME: TcxGridDBColumn;
+    cxGrid3DBTableView1SPECS: TcxGridDBColumn;
+    cxGrid3DBTableView1ORDER_UNIT: TcxGridDBColumn;
+    cxGrid3DBTableView1ORDER_PRICE2: TcxGridDBColumn;
+    cxGrid3DBTableView1BASE_MED_TYPE: TcxGridDBColumn;
+    cxGrid3DBTableView1BASE_MED_RATE: TcxGridDBColumn;
+    cxGrid3DBTableView1COM_OUTP_RATE: TcxGridDBColumn;
+    cxGrid3DBTableView1VALID_STATE: TcxGridDBColumn;
+    editOrder: TcxTextEdit;
+    editInsu: TcxTextEdit;
+    procedure editOrderPropertiesChange(Sender: TObject);
+    procedure editInsuPropertiesChange(Sender: TObject);
   private
     { Private declarations }
     FModeInfo: String;
+    procedure GetDictionary();
   public
     { Public declarations }
   end;
@@ -142,5 +164,69 @@ var
 implementation
 
 {$R *.dfm}
+
+{ TfrmOrderRelateInsu }
+
+procedure TfrmOrderRelateInsu.editInsuPropertiesChange(Sender: TObject);
+var _data: WideString;
+    _jo: TJSONObject;
+begin
+  try
+    inherited;
+    _data := dmHis.SystemMaintainServer.OrderRelateInsuFormGetInsuItem(FMOdeInfo, self.editInsu.Text);
+    _jo := TJSONObject.ParseJSONValue(_data) as TJSONObject;
+    if (_jo.GetValue('Code').Value = '1') then
+    begin
+      TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value , self.cdsInsuItem);
+      self.cdsInsuItem.Delta.DataView.Clear();
+    end
+    else
+      showmessage(_jo.GetValue('Message').Value);
+  finally
+    _jo.Free();
+  end;
+end;
+
+procedure TfrmOrderRelateInsu.editOrderPropertiesChange(Sender: TObject);
+var _sFilter: String;
+begin
+  inherited;
+  if (self.editOrder.Text = '') then
+  begin
+    self.cdsOrder.Filtered := false;
+    self.cdsOrder.Filter := '';
+  end
+  else
+  begin
+    self.cdsOrder.Filtered := false;
+    _sFilter := 'ORDER_CODE LIKE ' +  quotedStr('%' + self.editOrder.Text + '%')
+     + ' OR ORDER_NAME LIKE ' + quotedStr('%' + self.editOrder.Text + '%')
+     + ' OR SPELL_CODE LIKE ' + quotedStr('%' + self.editOrder.Text + '%')
+     + ' OR WB_CODE LIKE ' + quotedStr('%' + self.editOrder.Text + '%');
+    self.cdsOrder.Filter := _sFilter;
+   self.cdsOrder.Filtered := true;
+  end;
+end;
+
+procedure TfrmOrderRelateInsu.GetDictionary;
+var _sFieldList, _sTypeName: string;
+    _jo: TJSONObject;
+    _data: WideString;
+begin
+  //cdsInvFee
+  try
+    _data := dmHis.SystemMaintainServer.GetMINFeeToInvFee(FModeInfo);
+    _jo :=  TJSONObject.ParseJSONValue(_data) as TJSONObject;
+    if (_jo.GetValue('Code').Value = '1') then
+    begin
+      TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, self.cdsInvFee);
+      self.cdsInvFee.Delta.DataView.Clear();
+    end
+    else
+      showmessage(_jo.GetValue('Message').Value);
+  finally
+    _jo.Free();
+  end;
+end;
 
 end.

@@ -134,6 +134,16 @@ type
     /// 获取最小费用的发票分类名称
     /// </remarks>
     function GetMINFeeToInvFee(ModeInfo: String): WideString;
+    /// <summary>收费代码与社保目录编码进行关联</summary>
+    /// <param name="ModeInfo">调用模块信息</param>
+    /// <param name="InterfaceName">接口名称</param>
+    ///  <param name="OrderCode">收费项目代码</param>
+    ///  <param name="InsuCode">社保目录编码</param>
+    /// <returns>操作结果TJSONObject串</returns>
+    /// <remarks>
+    /// 收费代码与社保目录编码进行关联
+    /// </remarks>
+    function DoOrderInsuRelate(ModeInfo, InterfaceName, OrderCode, InsuCode: String): WideString;
 
   end;
 
@@ -190,6 +200,53 @@ begin
     end;
   finally
     TSysMaintainServer.CriticalSection.Leave();
+  end;
+end;
+
+function TSysMaintainServer.DoOrderInsuRelate(ModeInfo, InterfaceName,
+  OrderCode, InsuCode: String): WideString;
+ /// <summary>收费代码与社保目录编码进行关联</summary>
+/// <param name="ModeInfo">调用模块信息</param>
+/// <param name="InterfaceName">接口名称</param>
+///  <param name="OrderCode">收费项目代码</param>
+///  <param name="InsuCode">社保目录编码</param>
+/// <returns>操作结果TJSONObject串</returns>
+/// <remarks>
+/// 收费代码与社保目录编码进行关联
+/// </remarks>
+var _jo: TJSONObject;
+    _jp: TJSONPair;
+    _sSQL, _sMsg: String;
+begin
+  try
+    _jo := TJSONObject.Create();
+    _sSQL := 'INSERT INTO FIN_COM_ORDER_RELATE (INTERFACE_TYPE, ORDER_CODE, INSU_ITEM_CODE) '
+      + ' VALUES (' + QuotedStr(InterFaceName) + ',' + QuotedStr(OrderCode) + ','
+      + QuotedStr(InsuCode) + ')';
+    self.DAO.StartTrans(ModeInfo);
+    try
+      self.DAO.ExcSQL(ModeInfo, _sSQL);
+      self.DAO.CommitTrans(ModeInfo);
+      _jp := TJSONPair.Create('Code', '1');
+      _jo.AddPair(_jp);
+      _jp := TJSONPair.Create('Message', '社保目录关联成功！');
+      _jo.AddPair(_jp);
+    except
+      on E: Exception do
+      begin
+        self.DAO.RollbackTrans(ModeInfo);
+        _sMsg := '社保目录关联失败！' + E.Message;
+        PostLog(llError, _sMsg + ' SQL: ' + _sSQL);
+        _jp := TJSONPair.Create('Code', '-1');
+        _jo.AddPair(_jp);
+        _jp := TJSONPair.Create('Message', _sMsg);
+        _jo.AddPair(_jp);
+      end;
+    end;
+  finally
+    _sSQL := _jo.ToString;
+    Result := _sSQL;
+    _jo.Free();
   end;
 end;
 
@@ -571,6 +628,17 @@ begin
      Result := _sResult;
     _jo.Free();
   end;
+end;
+
+function TSysMaintainServer.OrderRelateInsuFormGetOrdrInsuRelate: WideString;
+ /// <summary>收费社保项目对应窗口获取收费与社保项目对应信息</summary>
+/// <param name="ModeInfo">调用模块信息</param>
+/// <returns>收费与社保项目对应信息</returns>
+/// <remarks>
+/// 收费社保项目对应窗口使用
+/// </remarks>
+begin
+
 end;
 
 initialization

@@ -1,10 +1,10 @@
 inherited frmOrderRelateInsu: TfrmOrderRelateInsu
-  Caption = 'frmOrderRelateInsu'
+  Caption = #31038#20445#30446#24405#23545#24212
   ClientHeight = 581
   ClientWidth = 1316
-  ExplicitWidth = 1332
-  ExplicitHeight = 620
-  PixelsPerInch = 96
+  ExplicitWidth = 1338
+  ExplicitHeight = 636
+  PixelsPerInch = 144
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
@@ -21,10 +21,6 @@ inherited frmOrderRelateInsu: TfrmOrderRelateInsu
     Height = 532
     Align = alClient
     TabOrder = 1
-    ExplicitLeft = 448
-    ExplicitTop = 376
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     object Panel3: TPanel
       Left = 1
       Top = 1
@@ -47,6 +43,13 @@ inherited frmOrderRelateInsu: TfrmOrderRelateInsu
           TabOrder = 0
           Height = 48
           Width = 646
+          object editOrder: TcxTextEdit
+            Left = 3
+            Top = 15
+            Properties.OnChange = editOrderPropertiesChange
+            TabOrder = 0
+            Width = 190
+          end
         end
         object cxGroupBox2: TcxGroupBox
           Left = 1
@@ -54,8 +57,6 @@ inherited frmOrderRelateInsu: TfrmOrderRelateInsu
           Align = alClient
           Caption = #25910#36153#39033#30446#20449#24687
           TabOrder = 1
-          ExplicitTop = 55
-          ExplicitHeight = 182
           Height = 188
           Width = 646
           object cxGrid1: TcxGrid
@@ -65,10 +66,6 @@ inherited frmOrderRelateInsu: TfrmOrderRelateInsu
             Height = 164
             Align = alClient
             TabOrder = 0
-            ExplicitLeft = 56
-            ExplicitTop = 40
-            ExplicitWidth = 250
-            ExplicitHeight = 200
             object cxGrid1DBTableView1: TcxGridDBTableView
               Navigator.Buttons.CustomButtons = <>
               DataController.DataSource = dsOrder
@@ -137,10 +134,6 @@ inherited frmOrderRelateInsu: TfrmOrderRelateInsu
         Height = 238
         Align = alClient
         TabOrder = 1
-        ExplicitLeft = 768
-        ExplicitTop = 136
-        ExplicitWidth = 185
-        ExplicitHeight = 41
         object cxGroupBox3: TcxGroupBox
           Left = 1
           Top = 1
@@ -149,6 +142,13 @@ inherited frmOrderRelateInsu: TfrmOrderRelateInsu
           TabOrder = 0
           Height = 48
           Width = 662
+          object editInsu: TcxTextEdit
+            Left = 11
+            Top = 15
+            Properties.OnChange = editInsuPropertiesChange
+            TabOrder = 0
+            Width = 190
+          end
         end
         object cxGroupBox4: TcxGroupBox
           Left = 1
@@ -156,10 +156,6 @@ inherited frmOrderRelateInsu: TfrmOrderRelateInsu
           Align = alClient
           Caption = #31038#20445#39033#30446#20449#24687
           TabOrder = 1
-          ExplicitLeft = 40
-          ExplicitTop = 88
-          ExplicitWidth = 185
-          ExplicitHeight = 105
           Height = 188
           Width = 662
           object cxGrid2: TcxGrid
@@ -169,10 +165,6 @@ inherited frmOrderRelateInsu: TfrmOrderRelateInsu
             Height = 164
             Align = alClient
             TabOrder = 0
-            ExplicitLeft = 232
-            ExplicitTop = 80
-            ExplicitWidth = 250
-            ExplicitHeight = 200
             object cxGrid2DBTableView1: TcxGridDBTableView
               Navigator.Buttons.CustomButtons = <>
               DataController.DataSource = dsInsuItem
@@ -234,10 +226,6 @@ inherited frmOrderRelateInsu: TfrmOrderRelateInsu
       Height = 290
       Align = alClient
       TabOrder = 1
-      ExplicitLeft = 384
-      ExplicitTop = 296
-      ExplicitWidth = 185
-      ExplicitHeight = 41
       object cxGroupBox5: TcxGroupBox
         Left = 1
         Top = 1
@@ -246,6 +234,92 @@ inherited frmOrderRelateInsu: TfrmOrderRelateInsu
         TabOrder = 0
         Height = 288
         Width = 1312
+        object cxGrid3: TcxGrid
+          Left = 3
+          Top = 15
+          Width = 1306
+          Height = 264
+          Align = alClient
+          TabOrder = 0
+          ExplicitLeft = 192
+          ExplicitTop = 112
+          ExplicitWidth = 250
+          ExplicitHeight = 200
+          object cxGrid3DBTableView1: TcxGridDBTableView
+            Navigator.Buttons.CustomButtons = <>
+            DataController.DataSource = dsOrderInsu
+            DataController.Summary.DefaultGroupSummaryItems = <>
+            DataController.Summary.FooterSummaryItems = <>
+            DataController.Summary.SummaryGroups = <>
+            OptionsView.GroupByBox = False
+            object cxGrid3DBTableView1FIN_TYPE: TcxGridDBColumn
+              Caption = #31867#22411
+              DataBinding.FieldName = 'FIN_TYPE'
+              Width = 71
+            end
+            object cxGrid3DBTableView1INSU_ITEM_CODE: TcxGridDBColumn
+              Caption = #31038#20445#39033#30446#32534#30721
+              DataBinding.FieldName = 'INSU_ITEM_CODE'
+              Width = 144
+            end
+            object cxGrid3DBTableView1INSU_ITEM_NAME: TcxGridDBColumn
+              Caption = #31038#20445#39033#30446#21517#31216
+              DataBinding.FieldName = 'INSU_ITEM_NAME'
+              Width = 200
+            end
+            object cxGrid3DBTableView1ORDER_CODE: TcxGridDBColumn
+              Caption = #21307#38498#25910#36153#32534#30721
+              DataBinding.FieldName = 'ORDER_CODE'
+            end
+            object cxGrid3DBTableView1ORDER_NAME: TcxGridDBColumn
+              Caption = #21307#38498#39033#30446#21517#31216
+              DataBinding.FieldName = 'ORDER_NAME'
+              Width = 200
+            end
+            object cxGrid3DBTableView1BASE_MED_TYPE: TcxGridDBColumn
+              Caption = #25253#38144#31867#21035
+              DataBinding.FieldName = 'BASE_MED_TYPE'
+            end
+            object cxGrid3DBTableView1BASE_MED_RATE: TcxGridDBColumn
+              Caption = #22522#26412#21307#30103#25253#38144#24133#24230
+              DataBinding.FieldName = 'BASE_MED_RATE'
+            end
+            object cxGrid3DBTableView1COM_OUTP_RATE: TcxGridDBColumn
+              Caption = #26222#36890#38376#35786#25253#38144#24133#24230
+              DataBinding.FieldName = 'COM_OUTP_RATE'
+            end
+            object cxGrid3DBTableView1INSU_DOSAGE_FORM: TcxGridDBColumn
+              Caption = #21058#22411
+              DataBinding.FieldName = 'INSU_DOSAGE_FORM'
+              Width = 80
+            end
+            object cxGrid3DBTableView1SPECS: TcxGridDBColumn
+              Caption = #35268#26684
+              DataBinding.FieldName = 'SPECS'
+              Width = 120
+            end
+            object cxGrid3DBTableView1ORDER_UNIT: TcxGridDBColumn
+              Caption = #21333#20301
+              DataBinding.FieldName = 'ORDER_UNIT'
+              Width = 60
+            end
+            object cxGrid3DBTableView1ORDER_PRICE2: TcxGridDBColumn
+              Caption = #21333#20215
+              DataBinding.FieldName = 'ORDER_PRICE2'
+            end
+            object cxGrid3DBTableView1VALID_STATE: TcxGridDBColumn
+              Caption = #22312#29992
+              DataBinding.FieldName = 'VALID_STATE'
+              PropertiesClassName = 'TcxCheckBoxProperties'
+              Properties.ValueChecked = '1'
+              Properties.ValueUnchecked = '0'
+              Width = 30
+            end
+          end
+          object cxGrid3Level1: TcxGridLevel
+            GridView = cxGrid3DBTableView1
+          end
+        end
       end
     end
   end
@@ -469,6 +543,13 @@ inherited frmOrderRelateInsu: TfrmOrderRelateInsu
     end
   end
   object cdsInsuItem: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
     Left = 731
     Top = 156
     object cdsInsuItemFIN_TYPE: TWideStringField
@@ -527,11 +608,19 @@ inherited frmOrderRelateInsu: TfrmOrderRelateInsu
     Left = 243
     Top = 180
   end
-  object DataSource2: TDataSource
+  object dsOrderInsu: TDataSource
+    DataSet = cdsOrderInsu
     Left = 737
     Top = 482
   end
   object cdsOrderInsu: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
     Left = 834
     Top = 435
     object cdsOrderInsuFIN_TYPE: TWideStringField
