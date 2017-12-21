@@ -227,6 +227,8 @@ procedure TframFinanceOrderMaintain.editOrderCodePropertiesChange(
 var _sFilter: String;
 begin
    self.cdsOrder.Filtered := false;
+   self.cdsOrder.IndexFieldNames := 'ORDER_CODE';
+   self.cdsOrder.IndexFieldNames := 'ORDER_NAME';
    _sFilter := 'ORDER_CODE LIKE ' +  quotedStr('%' + self.editOrderCode.Text + '%')
      + ' OR ORDER_NAME LIKE ' + quotedStr('%' + self.editOrderCode.Text + '%')
      + ' OR SPELL_CODE LIKE ' + quotedStr('%' + self.editOrderCode.Text + '%')

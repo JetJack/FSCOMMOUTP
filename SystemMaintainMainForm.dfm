@@ -14,6 +14,10 @@ inherited frmSysMaintainPageControl: TfrmSysMaintainPageControl
         Caption = #33647#21697#39033#30446#32500#25252
         OnClick = N3Click
       end
+      object N4: TMenuItem
+        Caption = #31038#20445#30446#24405#23545#24212
+        OnClick = N4Click
+      end
     end
   end
 end

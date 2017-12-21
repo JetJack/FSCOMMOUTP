@@ -64,9 +64,9 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
         Width = 1296
         object cxDBTreeListOrder: TcxDBTreeList
           Left = 3
-          Top = 15
+          Top = 21
           Width = 1290
-          Height = 139
+          Height = 133
           Align = alClient
           Bands = <
             item
@@ -398,7 +398,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
         Properties.ValueUnchecked = '0'
         Style.StyleController = cxEditStyleControllerTitle
         TabOrder = 17
-        Width = 105
+        Width = 116
       end
       object cxDBCheckBox2: TcxDBCheckBox
         Left = 345
@@ -412,7 +412,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
         Properties.ValueUnchecked = '0'
         Style.StyleController = cxEditStyleControllerTitle
         TabOrder = 18
-        Width = 105
+        Width = 116
       end
       object cxLabel10: TcxLabel
         Left = 470
@@ -596,9 +596,9 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
         Width = 606
         object cxGrid1: TcxGrid
           Left = 3
-          Top = 15
+          Top = 21
           Width = 600
-          Height = 116
+          Height = 110
           Align = alClient
           TabOrder = 0
           object cxGrid1DBTableView1: TcxGridDBTableView
@@ -666,9 +666,9 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
         Width = 688
         object cxGrid2: TcxGrid
           Left = 3
-          Top = 15
+          Top = 21
           Width = 682
-          Height = 116
+          Height = 110
           Align = alClient
           TabOrder = 0
           object cxGrid2DBTableView1: TcxGridDBTableView
@@ -726,23 +726,23 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
     Style.IsFontAssigned = True
     Left = 770
     Top = 34
-    PixelsPerInch = 96
+    PixelsPerInch = 144
   end
   object cxEditStyleControllerValue: TcxEditStyleController
     Style.Font.Charset = ANSI_CHARSET
     Style.Font.Color = clWindowText
-    Style.Font.Height = -13
+    Style.Font.Height = -20
     Style.Font.Name = #23435#20307
     Style.Font.Style = []
     Style.IsFontAssigned = True
     Left = 857
     Top = 121
-    PixelsPerInch = 96
+    PixelsPerInch = 144
   end
   object cxEditRepository1: TcxEditRepository
     Left = 784
     Top = 177
-    PixelsPerInch = 96
+    PixelsPerInch = 144
     object cxEditRepository1TextItemLocate: TcxEditRepositoryTextItem
       Properties.CharCase = ecUpperCase
     end
@@ -750,7 +750,7 @@ object framFinanceOrderMaintain: TframFinanceOrderMaintain
   object cxStyleRepository1: TcxStyleRepository
     Left = 944
     Top = 177
-    PixelsPerInch = 96
+    PixelsPerInch = 144
     object cxStyle1: TcxStyle
     end
   end

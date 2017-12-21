@@ -27,7 +27,7 @@ uses
   cxData, cxDataStorage, cxNavigator, cxDBData, cxCheckBox,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGridLevel,
   cxClasses, cxGridCustomView, cxGrid, DSCJSON, HISServerMethods, System.JSON,
-  cxTextEdit;
+  cxTextEdit, Vcl.Menus, Vcl.StdCtrls, cxButtons;
 
 type
   TfrmOrderRelateInsu = class(TfrmBase)
@@ -148,12 +148,23 @@ type
     cxGrid3DBTableView1VALID_STATE: TcxGridDBColumn;
     editOrder: TcxTextEdit;
     editInsu: TcxTextEdit;
+    cxButton1: TcxButton;
+    cxButton2: TcxButton;
+    cxButton3: TcxButton;
     procedure editOrderPropertiesChange(Sender: TObject);
     procedure editInsuPropertiesChange(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure cxButton1Click(Sender: TObject);
+    procedure cxButton2Click(Sender: TObject);
+    procedure cxButton3Click(Sender: TObject);
   private
     { Private declarations }
     FModeInfo: String;
     procedure GetDictionary();
+    procedure RefreshOrder();
+    procedure RefreshOrderInsuRelate();
+    procedure DoRelateOrderInsu();
+    procedure DeleteOrderInsuRelate();
   public
     { Public declarations }
   end;
@@ -166,6 +177,76 @@ implementation
 {$R *.dfm}
 
 { TfrmOrderRelateInsu }
+
+procedure TfrmOrderRelateInsu.cxButton1Click(Sender: TObject);
+begin
+  inherited;
+  self.DoRelateOrderInsu();
+end;
+
+procedure TfrmOrderRelateInsu.cxButton2Click(Sender: TObject);
+begin
+  inherited;
+  self.DeleteOrderInsuRelate();
+end;
+
+procedure TfrmOrderRelateInsu.cxButton3Click(Sender: TObject);
+begin
+  inherited;
+  self.GetDictionary();
+  self.RefreshOrder();
+  self.RefreshOrderInsuRelate();
+end;
+
+procedure TfrmOrderRelateInsu.DeleteOrderInsuRelate;
+var _sOrder, _sInsu, _sInterface: string;
+    _jo: TJSONObject;
+begin
+  if not self.cdsOrderInsu.IsEmpty then
+  begin
+    if (Application.MessageBox('你确定要删除此社保对应吗?','操作确认',MB_OKCANCEL + MB_ICONQUESTION) = IDOK) then
+    begin
+      _sOrder := self.cdsOrderInsuORDER_CODE.AsString;
+      _sInsu := self.cdsOrderInsuINSU_ITEM_CODE.AsString;
+      _sInterface := 'FSSI';
+      _jo := TJSONObject.ParseJSONValue(dmHis.SystemMaintainServer.DoDelelteOrderInsuRelate(FModeInfo,
+        _sInterface, _sOrder, _sInsu)) as TJSONObject;
+      if (_jo.GetValue('Code').Value = '1') then
+      begin
+        showmessage(_jo.GetValue('Message').Value);
+        self.cdsOrderInsu.Delete();
+      end
+      else
+        showmessage(_jo.GetValue('Message').Value);
+    end;
+  end;
+end;
+
+procedure TfrmOrderRelateInsu.DoRelateOrderInsu;
+var _sOrder, _sInsu, _sInterface: string;
+    _jo: TJSONObject;
+begin
+  if not (self.cdsOrderORDER_CODE.AsString = '')
+    and (self.cdsInsuItemINSU_ITEM_CODE.AsString = '') then
+  begin
+    if (Application.MessageBox('你确定要关联此社保项目吗?','操作确认',MB_OKCANCEL + MB_ICONQUESTION) = IDOK) then
+    begin
+      _sOrder := self.cdsOrderORDER_CODE.AsString;
+      _sInsu := self.cdsInsuItemINSU_ITEM_CODE.AsString;
+      _sInterface := 'FSSI';
+      _jo := TJSONObject.ParseJSONValue(dmHis.SystemMaintainServer.DoOrderInsuRelate(FModeInfo,
+        _sInterface, _sOrder, _sInsu)) as TJSONObject;
+      if (_jo.GetValue('Code').Value = '1') then
+      begin
+        showmessage(_jo.GetValue('Message').Value);
+        self.RefreshOrderInsuRelate();
+        self.cdsOrderInsu.Locate('ORDER_CODE', _sOrder, []);
+      end
+      else
+        showmessage(_jo.GetValue('Message').Value);
+    end;
+  end;
+end;
 
 procedure TfrmOrderRelateInsu.editInsuPropertiesChange(Sender: TObject);
 var _data: WideString;
@@ -208,6 +289,14 @@ begin
   end;
 end;
 
+procedure TfrmOrderRelateInsu.FormCreate(Sender: TObject);
+begin
+  inherited;
+  self.GetDictionary();
+  self.RefreshOrder();
+  self.RefreshOrderInsuRelate();
+end;
+
 procedure TfrmOrderRelateInsu.GetDictionary;
 var _sFieldList, _sTypeName: string;
     _jo: TJSONObject;
@@ -228,5 +317,50 @@ begin
     _jo.Free();
   end;
 end;
+
+procedure TfrmOrderRelateInsu.RefreshOrder;
+var _data: WideString;
+    _jo: TJSONObject;
+begin
+  try
+    _data := dmHis.SystemMaintainServer.GetFinanceOrderInfo(FModeInfo, '');
+    _jo := TJSONObject.ParseJSONValue(_data) as TJSONObject;
+    if (_jo.GetValue('Code').Value = '1') then
+    begin
+      TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value , self.cdsOrder);
+      self.cdsOrder.Delta.DataView.Clear();
+    end
+    else
+      showmessage(_jo.GetValue('Message').Value);
+  finally
+    _jo.Free();
+  end;
+end;
+
+procedure TfrmOrderRelateInsu.RefreshOrderInsuRelate;
+var _data: WideString;
+    _sOrder: String;
+    _jo: TJSONObject;
+begin
+  try
+    _data := dmHis.SystemMaintainServer.OrderRelateInsuFormGetOrdrInsuRelate(FModeInfo);
+    _jo := TJSONObject.ParseJSONValue(_data) as TJSONObject;
+     if (_jo.GetValue('Code').Value = '1') then
+    begin
+      TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, self.cdsInvFee);
+      self.cdsInvFee.Delta.DataView.Clear();
+    end
+    else
+      showmessage(_jo.GetValue('Message').Value);
+  finally
+    _jo.Free();
+  end;
+end;
+
+initialization
+  RegisterClass(TfrmOrderRelateInsu);
+
+finalization
+  UnRegisterClass(TfrmOrderRelateInsu);
 
 end.

@@ -22,15 +22,18 @@ uses
   dxSkinVisualStudio2013Light, dxSkinVS2010, dxSkinWhiteprint,
   dxSkinXmas2008Blue, dxSkinsdxStatusBarPainter, dxSkinscxPCPainter,
   dxBarBuiltInMenu, cxClasses, dxSkinsForm, Vcl.Menus, cxPC, dxStatusBar,
-  Vcl.ExtCtrls, HISServerMethods, FinanceOrderMaintainForm, DrugItemMaintainForm;
+  Vcl.ExtCtrls, HISServerMethods, FinanceOrderMaintainForm, DrugItemMaintainForm,
+  OrderRelateInsuForm;
 
 type
   TfrmSysMaintainPageControl = class(TfrmBasePageControl)
     N1: TMenuItem;
     N2: TMenuItem;
     N3: TMenuItem;
+    N4: TMenuItem;
     procedure N2Click(Sender: TObject);
     procedure N3Click(Sender: TObject);
+    procedure N4Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -54,6 +57,12 @@ procedure TfrmSysMaintainPageControl.N3Click(Sender: TObject);
 begin
   inherited;
   self.OpenForm('TfrmDrugItemMaintain');
+end;
+
+procedure TfrmSysMaintainPageControl.N4Click(Sender: TObject);
+begin
+  inherited;
+  self.OpenForm('TfrmOrderRelateInsu');
 end;
 
 end.
