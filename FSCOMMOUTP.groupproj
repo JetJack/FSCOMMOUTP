@@ -12,6 +12,9 @@
         <Projects Include="SystemManage.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="OutpCashier.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -47,14 +50,23 @@
     <Target Name="SystemManage:Make">
         <MSBuild Projects="SystemManage.dproj" Targets="Make"/>
     </Target>
+    <Target Name="OutpCashier">
+        <MSBuild Projects="OutpCashier.dproj"/>
+    </Target>
+    <Target Name="OutpCashier:Clean">
+        <MSBuild Projects="OutpCashier.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="OutpCashier:Make">
+        <MSBuild Projects="OutpCashier.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="UnitTest;SQLLibrary;SystemManage"/>
+        <CallTarget Targets="UnitTest;SQLLibrary;SystemManage;OutpCashier"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="UnitTest:Clean;SQLLibrary:Clean;SystemManage:Clean"/>
+        <CallTarget Targets="UnitTest:Clean;SQLLibrary:Clean;SystemManage:Clean;OutpCashier:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="UnitTest:Make;SQLLibrary:Make;SystemManage:Make"/>
+        <CallTarget Targets="UnitTest:Make;SQLLibrary:Make;SystemManage:Make;OutpCashier:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

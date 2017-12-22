@@ -176,6 +176,7 @@ inherited frmDrugItemMaintain: TfrmDrugItemMaintain
             Top = 23
             ParentFont = False
             Properties.CharCase = ecUpperCase
+            Properties.OnChange = editOrderCodePropertiesChange
             Style.StyleController = cxEditStyleControllerValue
             TabOrder = 1
             Width = 199

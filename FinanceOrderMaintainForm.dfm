@@ -162,6 +162,9 @@ inherited frmFinanceOrderMaintain: TfrmFinanceOrderMaintain
           inherited cxGroupBox1: TcxGroupBox
             ExplicitWidth = 1310
             Width = 1310
+            inherited editOrderCode: TcxTextEdit
+              ExplicitHeight = 28
+            end
           end
         end
         inherited Panel5: TPanel
@@ -175,8 +178,10 @@ inherited frmFinanceOrderMaintain: TfrmFinanceOrderMaintain
             Height = 179
             Width = 1310
             inherited cxDBTreeListOrder: TcxDBTreeList
+              Top = 15
               Width = 1304
               Height = 155
+              ExplicitTop = 15
               ExplicitWidth = 1304
               ExplicitHeight = 155
             end
@@ -195,6 +200,40 @@ inherited frmFinanceOrderMaintain: TfrmFinanceOrderMaintain
           ExplicitHeight = 143
           Height = 143
           Width = 1312
+          inherited cxDBTextEdit1: TcxDBTextEdit
+            ExplicitHeight = 28
+          end
+          inherited cxDBTextEdit2: TcxDBTextEdit
+            ExplicitHeight = 28
+          end
+          inherited cxDBTextEdit3: TcxDBTextEdit
+            ExplicitHeight = 28
+          end
+          inherited cxDBTextEdit4: TcxDBTextEdit
+            ExplicitHeight = 28
+          end
+          inherited cxDBLookupComboBox2: TcxDBLookupComboBox
+            ExplicitHeight = 28
+          end
+          inherited cxDBLookupComboBox3: TcxDBLookupComboBox
+            ExplicitHeight = 28
+          end
+          inherited cxDBLookupComboBox4: TcxDBLookupComboBox
+            ExplicitHeight = 28
+          end
+          inherited cxDBCheckBox1: TcxDBCheckBox
+            ExplicitWidth = 105
+            ExplicitHeight = 19
+            Width = 105
+          end
+          inherited cxDBCheckBox2: TcxDBCheckBox
+            ExplicitWidth = 105
+            ExplicitHeight = 19
+            Width = 105
+          end
+          inherited cxDBLookupComboBox5: TcxDBLookupComboBox
+            ExplicitHeight = 28
+          end
         end
       end
       inherited Panel3: TPanel
@@ -202,6 +241,16 @@ inherited frmFinanceOrderMaintain: TfrmFinanceOrderMaintain
         Width = 1314
         ExplicitTop = 386
         ExplicitWidth = 1314
+        inherited Panel6: TPanel
+          inherited cxGroupBox4: TcxGroupBox
+            inherited cxGrid1: TcxGrid
+              Top = 15
+              Height = 116
+              ExplicitTop = 15
+              ExplicitHeight = 116
+            end
+          end
+        end
         inherited Panel7: TPanel
           Width = 704
           ExplicitWidth = 704
@@ -209,14 +258,19 @@ inherited frmFinanceOrderMaintain: TfrmFinanceOrderMaintain
             ExplicitWidth = 702
             Width = 702
             inherited cxGrid2: TcxGrid
+              Top = 15
               Width = 696
+              Height = 116
+              ExplicitTop = 15
               ExplicitWidth = 696
+              ExplicitHeight = 116
             end
           end
         end
       end
       inherited cxEditStyleControllerTitle: TcxEditStyleController
         Style.IsFontAssigned = True
+        Top = 26
         PixelsPerInch = 96
       end
       inherited cxEditStyleControllerValue: TcxEditStyleController
@@ -274,11 +328,11 @@ inherited frmFinanceOrderMaintain: TfrmFinanceOrderMaintain
     end
   end
   object FDStanStorageBinLink1: TFDStanStorageBinLink
-    Left = 752
-    Top = 24
+    Left = 680
+    Top = 48
   end
   object FDStanStorageJSONLink1: TFDStanStorageJSONLink
-    Left = 840
-    Top = 32
+    Left = 888
+    Top = 16
   end
 end

@@ -28,7 +28,7 @@ uses
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
   cxGrid, cxDBLookupComboBox, cxCheckBox, System.JSON, HISServerMethods, DSCJSON,
   cxTextEdit, cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxLabel,
-  cxDBEdit, cxDBLabel, Vcl.Menus, Vcl.StdCtrls, cxButtons;
+  cxDBEdit, cxDBLabel, Vcl.Menus, Vcl.StdCtrls, cxButtons, Data.FireDACJSONReflect;
 
 type
   TfrmDrugItemMaintain = class(TfrmBase)
@@ -213,12 +213,14 @@ type
     procedure cxButton1Click(Sender: TObject);
     procedure cxButton3Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure editOrderCodePropertiesChange(Sender: TObject);
   private
     { Private declarations }
     FModeInfo: String;
     procedure GetDictionary();
     procedure GetDrugInfo();
     procedure RefreshItem();
+    procedure RefreshItemWithJson();
     procedure SaveDrugInfo();
     procedure NewItem();
   public
@@ -250,6 +252,23 @@ procedure TfrmDrugItemMaintain.cxButton3Click(Sender: TObject);
 begin
   inherited;
   self.RefreshItem();
+end;
+
+procedure TfrmDrugItemMaintain.editOrderCodePropertiesChange(Sender: TObject);
+var _sFilter: String;
+begin
+  inherited;
+  if not (self.editOrderCode.Text = '') then
+  begin
+    _sFilter := 'ITEM_CODE LIKE  ' + QuotedStr('%' + self.editOrderCode.Text + '%')
+      + ' OR TRADE_NAME LIKE ' + QuotedStr('%' + self.editOrderCode.Text + '%')
+      + ' OR SPELL_CODE LIKE ' + QuotedStr('%' + self.editOrderCode.Text + '%')
+      + ' OR WB_CODE LIKE ' + QuotedStr('%' + self.editOrderCode.Text + '%');
+    self.cdsDrug.Filter := _sFilter;
+    self.cdsDrug.Filtered := true;
+  end
+  else
+    self.cdsDrug.Filtered := false;
 end;
 
 procedure TfrmDrugItemMaintain.FormCreate(Sender: TObject);
@@ -375,8 +394,11 @@ end;
 
 procedure TfrmDrugItemMaintain.GetDrugInfo;
 var _jo: TJSONObject;
-    _data: WideString;
+    //_data: WideString;
+    _Data: TFDJSONDataSets;
+    _Dataset: TFDDataset;
 begin
+{
   try
     _data := dmHis.SystemMaintainServer.GetDrugItemInfo(FModeInfo, '');
     _jo := TJSONObject.ParseJSONValue(_data) as TJSONObject;
@@ -394,6 +416,23 @@ begin
       showmessage(_jo.GetValue('Message').Value);
   finally
     _jo.Free();
+  end;
+  }
+  try
+   _Data := dmHis.SystemMaintainServer.GetDrugItemInfoWithJSON(FModeInfo, 'COM_ITEM', '');
+   if Assigned(_Data) then
+   begin
+     self.cdsDrug.Close();
+     _Dataset := TFDJSONDataSetsReader.GetListValueByName(_Data,'COM_ITEM') ;
+     _Dataset.Open();
+     self.cdsDrug.AppendData(_Dataset);
+     self.cdsDrug.Open();
+     self.cdsDrug.CachedUpdates := true;
+   end
+   else
+     Showmessage('查询数据出错，请查看运行日志！');
+  finally
+    _Data.Free();
   end;
 end;
 
@@ -428,8 +467,8 @@ begin
     begin
       //TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, self.framFinanceOrder.cdsOrder);
       self.cdsDrug.Open();
-      self.cdsDrug.EmptyDataSet() ;
-      self.cdsDrug.CancelUpdates();
+      //self.cdsDrug.EmptyDataSet() ;
+      //self.cdsDrug.CancelUpdates();
       TDSCJSONTools.JSONToDataSet(_jo.GetValue('DataSet').Value, self.cdsDrug);
       self.cdsDrug.Locate('ITEM_CODE', _sCode, []);
       self.cdsDrug.Delta.DataView.Clear();
@@ -439,6 +478,32 @@ begin
       showmessage(_jo.GetValue('Message').Value);
   finally
     _jo.Free();
+  end;
+end;
+
+procedure TfrmDrugItemMaintain.RefreshItemWithJson;
+var RunList: TFDJSONDataSets;
+    lDATA: TFDDataset;
+    _sCode: String;
+begin
+  try
+   RunList := dmHis.SystemMaintainServer.GetDrugItemInfoWithJSON(FModeInfo, 'COM_ITEM', '');
+   if not self.cdsDrug.IsEmpty then
+      _sCode := self.cdsDrugITEM_CODE.AsString ;
+   if Assigned(RunList) then
+   begin
+     self.cdsDrug.Close();
+     lDATA := TFDJSONDataSetsReader.GetListValueByName(RunList,'COM_ITEM') ;
+     ldata.Open();
+     self.cdsDrug.AppendData(lData);
+     self.cdsDrug.Open();
+     self.cdsDrug.Locate('ITEM_CODE', _sCode, []);
+     self.cdsDrug.CachedUpdates := true;
+   end
+   else
+     Showmessage('查询数据出错，请查看运行日志！');
+  finally
+    Runlist.Free();
   end;
 end;
 
@@ -454,7 +519,8 @@ begin
     if AJSON.GetValue('Code').Value = '1' then
     begin
       showmessage('数据保存成功！');
-      self.RefreshItem();
+      //self.RefreshItem();
+      self.RefreshItemWithJson();
     end
     else
     begin

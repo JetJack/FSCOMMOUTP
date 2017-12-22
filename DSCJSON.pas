@@ -227,7 +227,7 @@ begin
                 sTmp:=FormatDateTime('yyyy-mm-dd hh:ss:mm',StrToDateTime(sTmp)).QuotedString;
                 }
               if VarIsNull(ItemsI[i].GetValues(sName)) then
-                sTmp := ''
+                sTmp := QuotedStr('')
               else
                 sTmp:=FormatDateTime('yyyy-mm-dd hh:ss:mm:zzz',ItemsI[i].GetValues(sName)).QuotedString;
             end;
@@ -281,7 +281,7 @@ begin
                 sTmp:=FormatDateTime('yyyy-mm-dd hh:ss:mm:zzz',StrToDateTime(sTmp)).QuotedString;
                 }
               if VarIsNull(ItemsI[i].GetValues(sName)) then
-                sTmp := ''
+                sTmp := QuotedStr('')
               else
                 sTmp:=FormatDateTime('yyyy-mm-dd hh:ss:mm:zzz',ItemsI[i].GetValues(sName)).QuotedString;
             end;
